@@ -37,3 +37,14 @@ a:visited{
 li{
 	list-style: none;
 }
+
+
+ul.end li a:visited {
+    color: whitesmoke;
+    list-style: none;
+}
+
+footer {
+    border-top: 1px solid #d5d5d5;
+    font-size: .8em;
+}
