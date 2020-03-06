@@ -1,2 +1,5 @@
 name: Joe Sujin | Portfolio
 markdown: kramdown
+
+baseurl: ""
+url: ""
