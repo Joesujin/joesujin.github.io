@@ -30,8 +30,12 @@ a:hover{
 }
 
 a:visited{
-	background: rgb(253, 79, 10);
-	color: #242424;
+	color: whitesmoke;
+	text-decoration: none;
+}
+
+a.blogpost:visited{
+
 }
 
 li{

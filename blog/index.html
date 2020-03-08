@@ -1,0 +1,12 @@
+---
+layout: default
+title: Joesujin blog
+---
+
+<h1>{{page.title}}</h1>
+<u1 class="posts">
+    {% for post in site.posts %}
+    <li><span>{{ post.date | date_to_string }}</span> » <a href="{{ post.url }}"
+            title="{{ post.title }}" class="blogpost">{{ post.title }}</a></li>
+    {% endfor %}
+</u1>
