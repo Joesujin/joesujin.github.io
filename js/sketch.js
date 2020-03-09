@@ -25,7 +25,7 @@ function setup(){
 
 function draw(){
 
-  fill(0);
+  fill(255);
   noStroke();
   rect(0,0,width*2,height*2);
 

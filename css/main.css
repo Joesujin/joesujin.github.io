@@ -1,26 +1,22 @@
 body{
-	background: #242424;
-	font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+	background: #d4d4d4;
+	font-family: 'Roboto', sans-serif;
 	padding-left: 5%;
 	margin: 5%;
 }
 
 h1,h2,h3{
-	color:whitesmoke;
+	color:#242424;
 }
 
-a.back:link{
-	margin:90%;
-	color: yellow;
-	text-decoration: underline;
-}
+
 
 a.exlink:visited{
-	color: whitesmoke;
+	color: #242424;
 }
 
 a:link{
-	color: whitesmoke;
+	color: #242424;
 	text-decoration: none;
 }
 
@@ -30,25 +26,32 @@ a:hover{
 }
 
 a:visited{
-	color: whitesmoke;
+	color: rgb(253, 79, 10);
 	text-decoration: none;
 }
 
 a.blogpost:visited{
-
+	color: #242424;
+	text-decoration: none;
 }
+
 
 li{
 	list-style: none;
 }
 
+ul.end li a{
+	text-decoration: none;
+	list-style: none;
+}
 
 ul.end li a:visited {
-    color: whitesmoke;
-    list-style: none;
+    color: #242424;
+	list-style: none;
 }
 
 footer {
-    border-top: 1px solid #d5d5d5;
+
+    border-top: 1px solid #242424;
     font-size: .8em;
 }
