@@ -1,9 +1,7 @@
 body{
 	background: white;
-	font-family: 'Roboto', sans-serif;
-	padding-left: 5%;
-	margin: 5%;
-}
+	font-family: 'Josefin Sans', sans-serif;
+	}
 
 h1,h2,h3{
 	color:#242424;
@@ -51,7 +49,6 @@ ul.end li a:visited {
 }
 
 footer {
-
-    border-top: 1px solid #242424;
+	border-top: 3px solid #242424;
     font-size: .8em;
 }
