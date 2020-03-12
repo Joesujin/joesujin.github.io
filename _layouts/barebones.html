@@ -30,14 +30,18 @@
 
 <body>
     <div class="container">
-        {{content}}
+        <div class="row justify-content-center">
+            <div class="col-8 col-sm-10 col-xs-10">
+                {{ content }}
+            </div>
+        </div>
     </div>
 
     <footer>
-        <ul class="end">
-            <li><a href="/index.html">home</a> </li>
-            <li><a href="mailto:joesujin@nid.edu">email</a></li>
-            <li><a href="https://github.com/Joesujin">github.com/Joesujin</a></li>
+        <ul class="row justify-content-around">
+            <li class="col-2"><a href="/index.html">home</a> </li>
+            <li class="col-2"><a href="mailto:joesujin@nid.edu">email</a></li>
+            <li class="col-2"><a href="https://github.com/Joesujin">github</a></li>
         </ul>
     </footer>
 </body>
