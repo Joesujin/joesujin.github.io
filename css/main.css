@@ -21,11 +21,11 @@ a:link{
 
 a:hover{
 	background: black;
-	color: rgb(253, 79, 10);
+	color: rgb(124, 124, 124);
 }
 
 a:visited{
-	color: rgb(253, 79, 10);
+	color: rgb(124, 124, 124);
 	text-decoration: none;
 }
 
@@ -35,17 +35,4 @@ a.blogpost:visited{
 }
 
 
-li{
-	list-style: none;
-}
-
-ul.end li a{
-	text-decoration: none;
-	list-style: none;
-}
-
-ul.end li a:visited {
-    color: #242424;
-	list-style: none;
-}
 
