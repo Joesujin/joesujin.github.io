@@ -15,7 +15,7 @@ function setup(){
   xStart = random(10);
   yStart = random(10);
   rectMode(CENTER);
-  colorMode(HSB);
+  colorMode(HSB,360,255,255,255);
   xstartNoise = random(20);
   ystartNoise = random(20);
   lastx = 0;
@@ -73,7 +73,9 @@ function drawPointRotate( x,  y,  Noise,  Size)
   noFill();
   translate(x, y);
   rotate(Noise*radians(360*1.15));
-  stroke(Noise*255+150, Noise*255+50, 255);
+  let lineColor = color(Noise*255+150, Noise*255+50, 255);
+  lineColor.setAlpha(70);
+  stroke(lineColor);
   strokeWeight(Noise*20);
   line(0, 0, Noise*(Size+50), 0);
   stroke(130, 70, Noise*255, 12);
