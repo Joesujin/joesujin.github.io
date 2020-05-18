@@ -43,5 +43,8 @@ a.blogpost:visited{
 	text-decoration: none;
 }
 
-
+.joe-bg{
+	position: fixed !important;
+	z-index: -1;
+}
 
