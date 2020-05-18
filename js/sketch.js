@@ -83,3 +83,7 @@ function drawPointRotate( x,  y,  Noise,  Size)
   //ellipse(0,0,Noise*(Size),Noise*(Size));
   pop();
 }
+
+function windowResized() {
+  resizeCanvas(windowWidth, windowHeight);
+}
