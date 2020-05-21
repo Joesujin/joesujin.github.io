@@ -16,11 +16,11 @@ function draw() {
     translate(width/2, height/2);
 
     
-    var circleResolution = map(mouseY,0,height,2,15);
+    var circleResolution = map(mouseY,0,height,3,8);
     var radius = mouseX - width / 2 +0.5;
 
     var angle = TWO_PI/circleResolution;
-    strokeWeight(mouseY/20);
+    strokeWeight(mouseY/100);
 
     stroke(mouseX,width,100);
 
