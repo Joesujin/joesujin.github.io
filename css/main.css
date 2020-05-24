@@ -1,7 +1,7 @@
 body{
 	margin-top: 5%;
 	background: white;
-	font-family: 'Roboto', sans-serif;
+	font-family: 'Helvetica Neue', sans-serif;
 	}
 
 h1,h2,h3{
@@ -19,6 +19,7 @@ h1,h2,h3{
 	background-color:rgb(255, 215, 13);
 }
 
+/*
 a.exlink:visited{
 	color: #242424;
 }
@@ -37,6 +38,7 @@ a:visited{
 	color: #232323;
 	text-decoration: none;
 }
+*/
 
 a.blogpost:visited{
 	color: #242424;
