@@ -3,3 +3,6 @@ markdown: kramdown
 
 baseurl: ""
 url: ""
+
+# Google Analytics
+google_analytics: UA-151968629-1
