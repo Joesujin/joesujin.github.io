@@ -1,7 +1,7 @@
 var stepX;
 var stepY;
 
-var canvas
+var canvas;
 
 function setup() {
     canvas = createCanvas(windowWidth, windowHeight);
