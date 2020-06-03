@@ -5,7 +5,7 @@ var mouseVal;
 var canvas;
 
 function setup() {
-    canvas = createCanvas(windowWidth, windowWidth,P2D);
+    canvas = createCanvas(windowWidth, windowHeight,P2D);
     canvas.position(0, 0);
     canvas.class('joe-bg');
     frameRate(60);
