@@ -11,30 +11,33 @@ function setup() {
 
 function draw() {
 
-    translate(mouseX, mouseY);
-    strokeWeight(2);
+    if (mouseIsPressed) {
 
-    stroke(random(255), 20, 50);
-    noFill();
-    beginShape();
-    for (let theta = 0; theta <= 2 * PI; theta += 0.01) {
-        var rad = r(theta,
-            floor(map(mouseX, 0, width, 2, 15)), //a
-            floor(map(mouseX, 0, width, 2, 15)), //b
-            floor(map(mouseY, 0, height, 2, 25)), //m
-            2, //n1
-            sin(t) * 0.5 + 0.5, //n2
-            cos(t) * 0.5 + 0.5, //n3
-        );
-        var x = rad * cos(theta) * 50;
-        var y = rad * sin(theta) * 50;
+        translate(mouseX, mouseY);
+        strokeWeight(2);
 
-        vertex(x, y);
+        stroke(random(255), 20, 50);
+        noFill();
+        beginShape();
+        for (let theta = 0; theta <= 2 * PI; theta += 0.01) {
+            var rad = r(theta,
+                floor(map(mouseX, 0, width, 2, 15)), //a
+                floor(map(mouseX, 0, height, 2, 15)), //b
+                floor(map(mouseY, 0, height, 2, 25)), //m
+                2, //n1
+                sin(t) * 0.5 + 0.5, //n2
+                cos(t) * 0.5 + 0.5, //n3
+            );
+            var x = rad * cos(theta) * 50;
+            var y = rad * sin(theta) * 50;
+
+            vertex(x, y);
+        }
+
+
+        endShape(CLOSE);
+
     }
-
-
-    endShape(CLOSE);
-
     t += 0.07;
 }
 
@@ -43,7 +46,7 @@ function r(theta, a, b, m, n1, n2, n3) {
 }
 
 function mousePressed() {
-    background(0);
+
 }
 
 function windowResized() {
