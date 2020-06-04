@@ -1,27 +1,51 @@
-var xoff = 0;
-var yoff = 100;
+var canvas;
+
+let mover
 
 function setup() {
     canvas = createCanvas(windowWidth, windowHeight);
     canvas.position(0, 0);
-    canvas.style('z-index', '-1');
-    colorMode(HSB, 360, 255, 255, 255);
+    canvas.class('joe-bg');
+    mover = new Mover(width / 2, height / 2);
+
 }
 
+
 function draw() {
-    fill(255,1);
-    noStroke();
-    rect(0, 0, width, height);
-    //var x= random(200);
+    background(0);
+
+    mover.update();
+    mover.show();
+}
 
 
+// Class Mover------------------------------------------------------------------------
 
-    var x = map(noise(xoff), 0, 1, 0, mouseX);
-    var y = map(noise(yoff), 0, 1, 0, mouseY);
-    var xcol = map(noise(xoff),0, 1, 0,360);
-    xoff += 0.01;
-    yoff += 0.01;
-    fill(xcol,200,255,100);
-    ellipse(x, y, 10, 10);
+class Mover {
+    constructor(x, y) {
+        this.pos = createVector(x, y);
+        this.vel = p5.Vector.random2D();
+        this.vel.mult(random(3));
+        this.acc = createVector();
+        
+    }
+
+    update() {
+        let mouse = createVector(mouseX, mouseY);
+        this.acc = p5.Vector.sub(mouse, this.pos);
+        this.acc.setMag(1);
+
+        this.vel.add(this.acc);
+        this.vel.limit(5);
+
+        this.pos.add(this.vel);
+    }
+
+    show() {
+        stroke(255);
+        strokeWeight(2);
+        fill(255, 100);
+        ellipse(this.pos.x, this.pos.y, 32);
+    }
 
 }
