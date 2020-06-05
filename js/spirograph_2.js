@@ -17,7 +17,7 @@ function setup() {
 
 function draw() {
     //background(0);
-    fill(0,1);
+    fill(0,5);
     noStroke();
     rect(0,0,width,height);
 
@@ -36,11 +36,11 @@ function draw() {
     translate(width/2,height/2);
     for(let i=0; i<=100; i++){
         //stroke(i);
-        strokeWeight(i/8);
+        strokeWeight(i/16);
 
         //line(x1(val+i),y1(val+i),x2(val+i),y2(val+i));
-        // line(x1(val+i,a,b),y1(val+i,a,b),x1(val+i-5,a,b),y1(val+i-5,a,b));
-        point(x1(val+i,a,b),y1(val+i,a,b));
+        line(x1(val+i,a,b),y1(val+i,a,b),x1(val+i-5,a,b),y1(val+i-5,a,b));
+        // point(x1(val+i,a,b),y1(val+i,a,b));
     }
     pop();
 
