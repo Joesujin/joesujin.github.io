@@ -27,14 +27,14 @@ function draw() {
     background(18, 15, 38);
     //translate(width/2, height/2);
     noFill();
-    stroke(10);
 
+    
     randomSeed(actRandomSeed);
     for (var gridY = 0; gridY < tileCount; gridY++) {
         for (var gridX = 0; gridX < tileCount; gridX++) {
             var posX = (xWidth) * gridX;
             var posY = (yHeight) * gridY;
-            strokeWeight(10);
+            strokeWeight(xWidth/4);
             var toggle = int(random(0, 4));
 
             if (toggle == 0) {
@@ -87,7 +87,7 @@ function draw() {
             */
         }
     }
-    console.log(map(mouseX,0,width,-2,2),map(mouseY,0,height,-2,2))
+    console.log(xWidth)
 }
 
 
