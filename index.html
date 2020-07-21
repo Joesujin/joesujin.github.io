@@ -1,67 +1,131 @@
 ---
-layout: default
+layout: default copy
 title: Joesujin | Portfolio
 ---
 <!--p5.js sketch for this page-->
-<script src="../js/sketch.js"></script>
 
-<div class="header">
-    <h1 class="display-3">Joe Sujin</h1>
-    <p class="font-weight-light"> Game Designer - Narrative Designer - Storyteller</p>
-</div>
+<script src="../js/sketch.js" class="joe-bg"></script>
 
-<div class="row py-3">
-    <div class="col-lg-8">
-        <p class="lead">I am a Game Design student at National Institute of Design. <br> I create weird off-beat experiences to share stories in digital games and other interactive platforms. Here is my <a href="docs/Resume_15072020.pdf" title="Resume" target="_blank" class="badge badge-light ">Resume</a> and some of my works.</p>
-            
+
+<div class="container-fluid frontPage">
+    <div class="nameBlock">
+        <h1>Joe Sujin</h1>
+        <p> Game Designer - Narrative Designer - Storyteller</p>
+    </div>
+    <div class="textblock">        
+            <p > Hi there! I am a Game Design student at National Institute of Design. I create weird off-beat
+                experiences to share stories in digital games and other interactive platforms. Here are
+                some of my works.</p>        
     </div>
 </div>
 
-<div class="pb-4">
-    <h3 class="text-secondary">
+
+
+
+<div class="container-fluid fp_blocks" id="fp_games">
+    <h3 class="text-secondary py-2">
         Games
     </h3>
-    <ul class="list-unstyled">
-        <li><a class="badge badge-danger" href="games/drawingsimulator" title="Drawing Simulator">Drawing
-                Simulator</a></li>
-        <li><a class="badge badge-warning" href="games/sellyourhead" title="Sell your head">Sell Your Head</a>
-        </li>
-    </ul>
+    <div class="container-fluid games_block">
+        <div class="game_card">
+        <a href="games/drawingsimulator" title="Drawing Simulator">
+                <img src="img/ds_logo_banner.png" alt="ds_Logo">
+                <h5>Drawing simulator</h5>
+            </a>
+            <p>Full documentation of the game. Gameplay, Mechanics and narrative design details.</p>
+        </div>
+
+        <div class="game_card">
+            <a href="games/sellyourhead" title="Sell your head">
+                <img src="img/syh_logo_banner.png" alt="syh_logo">
+                <h5>Sell Your Head</h5>
+            </a>
+            <p>Full documentation of the game. Gameplay, Mechanics and narrative design details.</p>
+        </div>
+    </div>
 </div>
 
-<div class="pb-4">
 
+<div class="container fp_blocks" id="fp_stories">
     <h3 class="text-secondary">Stories</h3>
-    <ul class="list-unstyled">
-        <li><a class="badge badge-dark btn-sm" href="stories/agree_to_disagree.html"
-                title="For we are an Artificial intelligence."> Agree to
-                disagree</a></li>
-        <li><a class="badge badge-dark btn-sm" href="stories/its_just_another_ball.html"
-                title="And this is where you live."> It's just another
-                ball</a></li>
-        <li><a class="badge badge-dark btn-sm" href="stories/hey_its_yesterday_again.html"
-                title="I feel younger already"> Hey, it’s
-                Yesterday again</a></li>
-        <li><a class="badge badge-dark btn-sm" href="stories/a_copy_of_the_end.html" title="Not a happy one"> A Copy of
-                the End</a></li>
-        <li><a class="badge badge-dark btn-sm" href="stories/project_publish.html" title="Changes dictated">Project
-                Publish</a></li>
-    </ul>
+    
+    <div class="container-fluid stories-box">
+        <div class="story-card">
+            <a href="stories/agree_to_disagree.html">
+                <img src="img/writing/agreetodisagree.png" alt="img">
+                <h5>Agree to disagree</h5>
+            </a>
+            <p>For we are an Artificial intelligence.</p>
+        </div>
+        <div class="story-card">
+            <a href="stories/its_just_another_ball.html">
+                <img src="img/writing/anotherball.png" alt="img">
+                <h5>It's just another
+                    ball</h5>
+            </a>
+            <p>And this is where you live.</p>
+        </div>
+        <div class="story-card">
+            <a href="stories/hey_its_yesterday_again.html">
+                <img src="img/writing/yesterday.png" alt="img">
+                <h5>Hey, it’s
+                    Yesterday again</h5>
+            </a>
+            <p>I feel younger already</p>
+        </div>
+        <div class="story-card">
+            <a href="stories/agree_to_disagree.html">
+                <img src="img/writing/yesterday.png" alt="img">
+                <h5>Hey, it’s
+                    Yesterday again</h5>
+            </a>
+            <p>I feel younger already</p>
+        </div>
+        <div class="story-card">
+            <a href="stories/a_copy_of_the_end.html">
+                <img src="img/writing/copyoftheend.png" alt="img">
+                <h5>A Copy of
+                    the End</h5>
+            </a>
+            <p>Not a happy one</p>
+        </div>
+        <div class="story-card">
+            <a href="stories/project_publish.html">
+                <img src="img/ds_cover.png" alt="img">
+                <h5>Project
+                    Publish</h5>
+            </a>
+            <p>Changes dictated</p>
+        </div>
+    </div>
 </div>
 
 
-
-<div class="pb-4">
+<div class="container fp_blocks " id="fp_others">
     <h3 class="text-secondary">Others</h3>
-    <ul class="list-unstyled">
-        <li><a class="badge badge-light"
-                href="p5/p5_page.html"
-                target="_blank">Processing and p5</a><span class="badge badge-danger badge-pill mx-1">New Sketch!</span></li>
-        <li><a class="badge badge-light btn-sm"
+    <div class="other-items">
+        <div class="other-card">   
+            <a href="p5/p5_page.html" target="_blank">
+                <img src="img/p5_icon.png" alt="img">
+                <h5>Processing and p5</h5>
+            </a>
+            <p>Sketch library</p>
+        </div>        
+        <div class="other-card">   
+            <a
                 href="https://play.google.com/store/apps/details?id=com.joesujin.CirclegoesSquarefollows&hl=en_IN"
-                target="_blank">Circle_goes_Square_follows</a></li>
-    </ul>
-</div>
+                target="_blank">
+                
+                <img src="img/c_g_s_f.png" alt="img">
 
+                <h5>Circle_goes_Square_ follows</h5>
+            </a>
+            <p>A live art wallpaper </p>
+        </div>        
+    </div>
+        
+           
+        
+        
 
 <!-- /.container -->

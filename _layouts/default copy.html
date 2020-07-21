@@ -30,21 +30,35 @@
 </head>
 
 <body>
-    <div class="container">
-
-        <div class="row justify-content-center">
-            <div class="col-10">
-                {{ content }}
+    
+    <div class="container-fluid">
+        <div class="topShelf">
+            <div class="topShelf_stuff">
+                <a href="/index.html">
+                    <button >
+                        home
+                    </button>
+                </a>
+            </div>
+            <div class="topShelf_stuff">
+                <a href="docs/Resume_15072020.pdf" title="Resume" target="_blank">
+                    <button >
+                        resume
+                    </button>
+                </a>
+            </div>
+            <div class="topShelf_stuff">
+                <a  href="mailto:joe_s@nid.edu">
+                    <button>
+                        email
+                    </button>
+                </a>
             </div>
         </div>
+    </div>
 
-        <div class="mt-5 mb-3 btn-toolbar justify-content-around" role="toolbar">
-            <div class="btn-group" role="group">
-                <a class="btn btn-light btn-sm" href="mailto:joe_s@nid.edu"> email</a>
-                <a class="btn btn-light btn-sm" href="/index.html">home</a>
-                <a class="btn btn-light btn-sm" href="https://github.com/Joesujin"> github</a>
-            </div>
-        </div>
+    <div class="container main-container">
+        {{ content }}
     </div>
 </body>
 

@@ -1,58 +1,341 @@
-body{
-	margin-top: 5%;
-	background: white;
-	font-family: 'Roboto', sans-serif;
-	}
-
-h1,h2,h3{
-	color:#242424;
+:root{
+	--border-color: #242424
 }
 
-.jumbotron_img{
+body {
+	background: white;
+	font-family: 'Roboto', sans-serif;
+}
+
+h1,
+h2,
+h3 {
+	color: #242424;
+}
+
+.jumbotron_img {
 	background-image: url(../img/syh_Banner_Bg.png);
 	background-repeat: no-repeat;
 	background-size: 75rem;
 	background-position: center;
 }
 
-.yellowside{
-	background-color:rgb(255, 215, 13);
+.yellowside {
+	background-color: rgb(255, 215, 13);
 }
 
-p.a{
+p.a {
 	text-indent: 50px;
 }
 
 
+/* NAV BAR */
+
+
+
+.topShelf {
+	display: flex;
+	justify-content: flex-end;
+	margin-top: 0.5rem;
+	height: 100%;
+	
+}
+
+.topShelf_stuff {
+	align-self: flex-start;
+	padding-left: 0.5rem;
+	
+}
+
+button {
+	margin: 10px;
+	padding: 5px;
+	border: 0px solid white;
+	border-radius: 5px;
+	background-color: white;
+	transition: 0.5s;
+	transition-timing-function: cubic-bezier(.01, 0, .03, .98);
+}
+
+button:hover {
+	color: #edf2f4;
+	text-decoration: none;
+	background-color: #2b2d42;
+	margin: 10px;
+	padding: 5px;
+	border: 0px solid #2b2d42;
+	border-radius: 5px;
+}
+
+button a {
+	color: #2b2d42;
+}
+
+
+
+
+
 
 /*
-a.exlink:visited{
+*/
+a.exlink:visited {
 	color: #242424;
 }
 
-a:link{
+a:link {
 	color: #242424;
 	text-decoration: none;
 }
 
-a:hover{
+a:hover {
 	text-decoration: underline;
 	color: rgb(124, 124, 124);
 }
 
-a:visited{
+a:visited {
 	color: #232323;
 	text-decoration: none;
 }
-*/
 
-a.blogpost:visited{
+a.blogpost:visited {
 	color: #242424;
 	text-decoration: none;
 }
 
-.joe-bg{
+.joe-bg {
 	position: fixed !important;
 	z-index: -1;
 }
 
+
+
+/* MAIN BLOCK */
+.mp_mainblock {
+	width: 100vw;
+	height: 100vh;
+	padding-top: 6%;
+	padding-bottom: 10%;
+	background-image: url("../img/svg/mainPage_frontboard.svg");
+	background-repeat: no-repeat;
+	background-position: right;
+	background-size: 50%;
+}
+
+.mp_titleblock_text {
+	position: relative;
+}
+
+.mp_Sketchboard {
+	position: relative;
+	background-color: red;
+	border: #242424;
+}
+
+.g_block {
+	width: 100vw;
+	display: flex;
+	flex-direction: column;
+}
+
+.g_block_row {
+	min-height: 2em;
+	display: flex;
+}
+
+.g_podium {
+	flex-grow: 5;
+	width: 200px;
+	height: 300px;
+}
+
+#GameTiles {
+	flex-wrap: wrap;
+}
+
+/* sketches */
+
+#algaeDance {
+	position: (0, 0);
+	z-index: -1;
+}
+
+/*  keyframes */
+
+@keyframes movecheck {
+	0% {
+		top: 0px;
+	}
+
+	25% {
+		top: 200px;
+	}
+
+	50% {
+		top: 100px;
+	}
+
+	75% {
+		top: 200px;
+	}
+
+	100% {
+		top: 0px;
+	}
+}
+
+
+
+/**********************************************************************/
+/*with bootstrap classes*/
+
+.main-container{
+	padding: 0em 2em 0em 2em;
+}
+
+.frontPage{
+	padding: 0%;
+	display: flex;
+	flex-direction: column;
+}
+
+.frontPage h1 {
+	font-size: 7rem;
+	font-style: bold;	
+}
+
+.frontPage p{
+	font-size: 1.2rem;
+}
+
+.textblock{
+	max-width: 70rem;
+}
+
+.textblock p{
+	font-size: 1.5rem;
+
+}
+
+.nameBlock {
+	display: block;
+	min-height: 12em;
+	flex-direction: column;
+	padding: 10% 0 0 0;
+}
+
+.textblock {
+	padding: 2em 0em 0em 0em;
+}
+
+.fp_blocks {
+	padding: 0 !important;
+	min-height: 50vh;
+	margin-top: 5em;
+	flex-wrap: wrap;
+}
+
+.fp_blocks h3 {
+	color: #242424 !important;
+	font-size: 3rem;
+}
+
+.games_block {
+	display: flex;
+	padding: 0;
+	flex-wrap: wrap;
+}
+
+.games_block a {
+	height: 100% !important;
+	
+}
+
+.game_card {
+	border: 2px var(--border-color);
+	border-radius: 5px;
+	height: 100% !important;
+	margin-right: 1em;
+	padding: 0.5em;
+	width: min-content;
+	background-color: white;
+}
+
+.game_card img {
+	max-width: 250px;
+	border-radius: 5px;
+}
+
+.game_card h5{
+	margin-top: 1em;
+}
+
+.games_card p{
+	text-align: left;
+	margin: initial;
+}
+
+
+.stories-box {
+	display: flex;
+	padding: 1em 0em 0em 0em;
+	flex-wrap: wrap;
+}
+
+.stories-box a{
+	
+}
+
+.story-card{
+	border: 2px  var(--border-color);
+	border-radius: 5px;
+	width: min-content;
+	padding: 0.5em;
+	background-color: white;
+	margin-right: 1em;
+	margin-bottom: 1em;
+}
+
+.story-card img{
+	max-width: 150px;
+	border-radius: 5px;
+}
+
+.story-card h5{
+	padding-top: 0.5em;
+}
+
+
+.other-items{
+	display: flex;
+	flex-wrap: wrap;
+}
+
+.other-card{
+	width: min-content;
+	border: 2px var(--border-color);
+	border-radius: 5px;
+	padding: 0.5em;
+	background-color: white;
+	margin-right: 1em;
+}
+
+.other-card p{
+	text-align: left;
+	width: initial;
+}
+
+.other-card img{
+	width: 200px;
+	border-radius: 5px;
+
+}
+
+
+
+
+
+
+
+
+
+/**********************************************************************/
