@@ -257,7 +257,7 @@ a.blogpost:visited {
 	margin-right: 1em;
 	padding: 0.5em;
 	width: min-content;
-	background-color: white;
+	
 }
 
 .game_card img {
@@ -290,7 +290,6 @@ a.blogpost:visited {
 	border-radius: 5px;
 	width: min-content;
 	padding: 0.5em;
-	background-color: white;
 	margin-right: 1em;
 	margin-bottom: 1em;
 }
@@ -316,7 +315,6 @@ a.blogpost:visited {
 	border-radius: 5px;
 	padding: 0.5em;
 	margin-top: 0.5em;
-	background-color: white;
 	margin-right: 1em;
 }
 
@@ -331,6 +329,35 @@ a.blogpost:visited {
 
 }
 
+
+/**********************************************************/
+/******************* DRAWING SIMULATOR ********************/
+/**********************************************************/
+
+.ds-header{
+	display: flex;
+	flex-direction: column;
+	padding: 0;
+}
+
+.ds-blurb{
+	margin-top: 2rem;
+}
+
+.ds-blurb p{
+	font-size: 1.2rem;
+}
+
+.ds-blurb a{
+	width: 2rem;
+	border-radius: 5px;
+	margin-top: 1rem;
+	background-color: #242424;
+}
+
+.link-cards{
+	margin-top: 2rem;
+}
 
 
 
