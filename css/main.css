@@ -385,6 +385,10 @@ a.blogpost:visited {
 }
 
 
+.ds-gameloop-img{
+	display: flex;
+	justify-content: center;
+}
 
 
 .ds-link-cardrack {
@@ -611,7 +615,10 @@ a.blogpost:visited {
 	background-color: #242424;
 }
 
-
+.syh-gameloop-img{
+	display: flex;
+	justify-content: center;
+}
 
 
 .syh-link-cardrack {
