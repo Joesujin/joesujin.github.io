@@ -620,6 +620,8 @@ a.blogpost:visited {
 	min-height: 50vh;
 
 	flex-wrap: wrap;
+	justify-content: space-around;
+	margin-top: 3rem;
 
 }
 
@@ -652,7 +654,8 @@ a.blogpost:visited {
 	flex-direction: column;
 	max-width: min-content;
 	margin-right: 3rem;
-    margin-top: 1rem;
+	margin-top: 3rem;
+	justify-content: space-around;
 }
 
 .syh-link-cards img {
