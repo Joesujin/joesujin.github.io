@@ -24,9 +24,7 @@ h3 {
 	background-color: rgb(255, 215, 13);
 }
 
-p.a {
-	text-indent: 50px;
-}
+
 
 
 /* NAV BAR */
@@ -205,6 +203,25 @@ a.blogpost:visited {
 	flex-wrap: wrap;
 }
 
+.fp_blocks a:link {
+	color: #242424;
+	text-decoration: none;
+}
+
+.fp_blocks a:hover {
+	border-radius: 5px;
+	text-decoration: underline;
+	text-underline-offset: 0.1rem;
+	text-decoration-color: tomato;
+	text-decoration-thickness: 0.3rem;
+	color: #242424;
+}
+
+.fp_blocks a:visited {
+	color: #232323;
+	text-decoration: none;
+}
+
 .fp_blocks h3 {
 	color: #242424 !important;
 	font-size: 3rem;
@@ -230,6 +247,8 @@ a.blogpost:visited {
 	width: min-content;
 
 }
+
+
 
 .game_card img {
 	max-width: 250px;
@@ -420,6 +439,8 @@ a.blogpost:visited {
 	font-size: 1.2rem;
 }
 
-
+.stories-block{
+	margin-top: 10rem;
+}
 
 /*********************************************************************/
