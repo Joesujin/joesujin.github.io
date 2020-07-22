@@ -33,7 +33,7 @@ h3 {
 .topShelf {
 	display: flex;
 	justify-content: flex-end;
-	margin-top: 0.5rem;
+	margin: 1.5rem 0 0 -1.5rem;
 	height: 100%;
 
 }
@@ -41,7 +41,7 @@ h3 {
 .topShelf_stuff {
 	align-self: flex-start;
 	padding-left: 0.5rem;
-
+	margin: 1rem;
 }
 
 a:link {
@@ -342,7 +342,7 @@ a.blogpost:visited {
 
 
 .ds-blurb h3 {
-	font-size: 5rem;
+	font-size: 4rem;
 }
 
 .ds-blurb iframe {
@@ -393,7 +393,7 @@ a.blogpost:visited {
 	min-height: 50vh;
 	margin-top: 5rem;
 	flex-wrap: wrap;
-	justify-content: start;
+	justify-content: space-around;
 }
 
 .ds-link-cardrack a:link {
@@ -569,7 +569,7 @@ a.blogpost:visited {
 }
 
 .syh-blurb h3 {
-	font-size: 5rem;
+	font-size: 4rem;
 }
 
 .syh-blurb iframe {
@@ -668,4 +668,6 @@ a.blogpost:visited {
 }
 
 
+/*********************************************************************/
+/*********************************************************************/
 /*********************************************************************/
