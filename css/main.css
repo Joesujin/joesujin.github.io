@@ -1,4 +1,4 @@
-:root{
+:root {
 	--border-color: #242424
 }
 
@@ -38,48 +38,13 @@ p.a {
 	justify-content: flex-end;
 	margin-top: 0.5rem;
 	height: 100%;
-	
+
 }
 
 .topShelf_stuff {
 	align-self: flex-start;
 	padding-left: 0.5rem;
-	
-}
 
-button {
-	margin: 10px;
-	padding: 5px;
-	border: 0px solid white;
-	border-radius: 5px;
-	background-color: white;
-	transition: 0.5s;
-	transition-timing-function: cubic-bezier(.01, 0, .03, .98);
-}
-
-button:hover {
-	color: #edf2f4;
-	text-decoration: none;
-	background-color: #2b2d42;
-	margin: 10px;
-	padding: 5px;
-	border: 0px solid #2b2d42;
-	border-radius: 5px;
-}
-
-button a {
-	color: #2b2d42;
-}
-
-
-
-
-
-
-/*
-*/
-a.exlink:visited {
-	color: #242424;
 }
 
 a:link {
@@ -88,8 +53,12 @@ a:link {
 }
 
 a:hover {
+	border-radius: 5px;
 	text-decoration: underline;
-	color: rgb(124, 124, 124);
+	text-underline-offset: 0.3rem;
+	text-decoration-color: tomato;
+	text-decoration-thickness: 0.5rem;
+	color: #242424;
 }
 
 a:visited {
@@ -97,10 +66,12 @@ a:visited {
 	text-decoration: none;
 }
 
+/*
 a.blogpost:visited {
 	color: #242424;
 	text-decoration: none;
 }
+*/
 
 .joe-bg {
 	position: fixed !important;
@@ -188,11 +159,11 @@ a.blogpost:visited {
 /**********************************************************************/
 /*with bootstrap classes*/
 
-.main-container{
+.main-container {
 	padding: 0em 2em 0em 2em;
 }
 
-.frontPage{
+.frontPage {
 	padding: 0%;
 	display: flex;
 	flex-direction: column;
@@ -200,18 +171,18 @@ a.blogpost:visited {
 
 .frontPage h1 {
 	font-size: 7rem;
-	font-style: bold;	
+	font-style: bold;
 }
 
-.frontPage p{
+.frontPage p {
 	font-size: 1.2rem;
 }
 
-.textblock{
+.textblock {
 	max-width: 70rem;
 }
 
-.textblock p{
+.textblock p {
 	font-size: 1.5rem;
 
 }
@@ -247,7 +218,7 @@ a.blogpost:visited {
 
 .games_block a {
 	height: 100% !important;
-	
+
 }
 
 .game_card {
@@ -257,7 +228,7 @@ a.blogpost:visited {
 	margin-right: 1em;
 	padding: 0.5em;
 	width: min-content;
-	
+
 }
 
 .game_card img {
@@ -265,11 +236,11 @@ a.blogpost:visited {
 	border-radius: 5px;
 }
 
-.game_card h5{
+.game_card h5 {
 	margin-top: 1em;
 }
 
-.games_card p{
+.games_card p {
 	text-align: left;
 	margin: initial;
 }
@@ -281,12 +252,8 @@ a.blogpost:visited {
 	flex-wrap: wrap;
 }
 
-.stories-box a{
-	
-}
-
-.story-card{
-	border: 2px  var(--border-color);
+.story-card {
+	border: 2px var(--border-color);
 	border-radius: 5px;
 	width: min-content;
 	padding: 0.5em;
@@ -294,22 +261,22 @@ a.blogpost:visited {
 	margin-bottom: 1em;
 }
 
-.story-card img{
+.story-card img {
 	max-width: 150px;
 	border-radius: 5px;
 }
 
-.story-card h5{
+.story-card h5 {
 	padding-top: 0.5em;
 }
 
 
-.other-items{
+.other-items {
 	display: flex;
 	flex-wrap: wrap;
 }
 
-.other-card{
+.other-card {
 	width: min-content;
 	border: 2px var(--border-color);
 	border-radius: 5px;
@@ -318,12 +285,12 @@ a.blogpost:visited {
 	margin-right: 1em;
 }
 
-.other-card p{
+.other-card p {
 	text-align: left;
 	width: initial;
 }
 
-.other-card img{
+.other-card img {
 	width: 200px;
 	border-radius: 5px;
 
@@ -334,36 +301,125 @@ a.blogpost:visited {
 /******************* DRAWING SIMULATOR ********************/
 /**********************************************************/
 
-.ds-header{
+.ds-header {
 	display: flex;
 	flex-direction: column;
 	padding: 0;
 }
 
-.ds-blurb{
+.ds-blurb {
 	margin-top: 2rem;
 }
 
-.ds-blurb p{
+.ds-blurb p {
 	font-size: 1.2rem;
 }
 
-.ds-blurb a{
+.ds-blurb a {
 	width: 2rem;
 	border-radius: 5px;
 	margin-top: 1rem;
 	background-color: #242424;
 }
 
-.link-cards{
+.link-cards {
 	margin-top: 2rem;
 }
 
 
 
+/***************************************************/
+/******************* [P5 PAGE] ********************/
+/*************************************************/
+
+.sketchs-series {
+	display: flex;
+	flex-direction: column;
+	padding-top: 3rem;
+
+}
+
+.sketchs-series-header {
+	border: 3px dotted;
+	color: #242424;
+	max-width: 20rem;
+	border-radius: 5px;
+	padding: 1rem;
+}
+
+.sketchs-series-header h3 {
+	font-size: 2rem;
+	color: #242424;
+
+}
+
+.sketchs-series-header p {
+	font-size: 1.2rem;
+}
+
+.sketchs-gallery {
+	display: flex;
+	flex-direction: column;
+	margin-top: 5rem;
+}
+
+.sketchs-header {
+	display: flex;
+	flex-direction: column;
+	width: 30rem;
+}
+
+
+.sketchs-header h3 {
+	font-size: 2rem;
+
+}
+
+.sketchs-header p {
+	font-size: 1.5rem;
+
+}
+
+.sketchs-show {
+	display: flex;
+	padding: 0;
+	flex-wrap: wrap;
+}
+
+.sketch-card {
+	height: 100%;
+	margin-right: 1rem;
+	margin-top: 1rem;
+	border: 0px solid;
+	border-radius: 5px;
+	padding: 0.6rem;
+	max-width: min-content;
+}
+
+.sketch-card img {
+	border-radius: 5px;
+	max-width: 12rem;
+	
+
+}
+
+.sketch-card a {
+	border-radius: 5px;
+
+}
+
+.sketch-card h5 {
+	margin-top: 0.5rem;
+	width: min-content;
+	background-color: #fdfdfd;
+	color: #242424;
+	border-radius: 5px;
+}
+
+.sketch-card p {
+	font-size: 1.2rem;
+}
 
 
 
-
-
-/**********************************************************************/
+/*********************************************************************/
