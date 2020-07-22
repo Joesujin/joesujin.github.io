@@ -26,7 +26,6 @@ h3 {
 
 
 
-
 /* NAV BAR */
 
 
@@ -158,7 +157,7 @@ a.blogpost:visited {
 /*with bootstrap classes*/
 
 .main-container {
-	padding: 0em 2em 0em 2em;
+	padding: 0em 3em 0em 3em;
 }
 
 .frontPage {
@@ -180,6 +179,8 @@ a.blogpost:visited {
 	max-width: 70rem;
 }
 
+
+
 .textblock p {
 	font-size: 1.5rem;
 
@@ -199,7 +200,7 @@ a.blogpost:visited {
 .fp_blocks {
 	padding: 0 !important;
 	min-height: 50vh;
-	margin-top: 5em;
+	margin: 5rem 0rem 0rem 0rem;
 	flex-wrap: wrap;
 }
 
@@ -320,6 +321,11 @@ a.blogpost:visited {
 /******************* DRAWING SIMULATOR ********************/
 /**********************************************************/
 
+.ds-main-container {
+	padding: 0em 3em 0em 3em;
+
+}
+
 .ds-header {
 	display: flex;
 	flex-direction: column;
@@ -327,11 +333,48 @@ a.blogpost:visited {
 }
 
 .ds-blurb {
+	display: flex;
+	flex-direction: column;
+	height: 40rem;
+	
+
+}
+
+
+.ds-blurb h3 {
+	font-size: 5rem;
+}
+
+.ds-blurb iframe {
 	margin-top: 2rem;
 }
 
+.ds-blurb a:link {
+	color: #242424;
+	text-decoration: none;
+}
+
+.ds-blurb a:hover {
+	border-radius: 5px;
+	text-decoration: underline;
+	text-underline-offset: 0.1rem;
+	text-decoration-color: tomato;
+	text-decoration-thickness: 0.3rem;
+	color: #242424;
+}
+
+.ds-blurb a:visited {
+	color: #232323;
+	text-decoration: none;
+}
+
+.ds-blurb img {
+	max-width: 300px;
+
+}
+
 .ds-blurb p {
-	font-size: 1.2rem;
+	font-size: 1.3rem;
 }
 
 .ds-blurb a {
@@ -341,9 +384,59 @@ a.blogpost:visited {
 	background-color: #242424;
 }
 
-.link-cards {
-	margin-top: 2rem;
+
+
+
+.ds-link-cardrack {
+	display: flex;
+	padding: 0 !important;
+	min-height: 50vh;
+	margin-top: 5rem;
+	flex-wrap: wrap;
+	justify-content: start;
 }
+
+.ds-link-cardrack a:link {
+	color: #242424;
+	text-decoration: none;
+}
+
+.ds-link-cardrack a:hover {
+	border-radius: 5px;
+	text-decoration: underline;
+	text-underline-offset: 0.1rem;
+	text-decoration-color: tomato;
+	text-decoration-thickness: 0.3rem;
+	color: #242424;
+}
+
+.ds-link-cardrack a:visited {
+	color: #232323;
+	text-decoration: none;
+}
+
+.ds-link-cardrack h3 {
+	color: #242424 !important;
+	font-size: 3rem;
+}
+
+.ds-link-cards {
+	display: flex;
+	flex-direction: column;
+	max-width: min-content;
+	margin-right: 3rem;
+    margin-top: 1rem;
+}
+
+.ds-link-cards img {
+	max-width: 20rem;
+	border-radius: 5px;
+}
+
+.ds-link-cards h5 {
+	padding-top: 0.5em;
+}
+
 
 
 
@@ -418,7 +511,7 @@ a.blogpost:visited {
 .sketch-card img {
 	border-radius: 5px;
 	max-width: 12rem;
-	
+
 
 }
 
@@ -439,8 +532,137 @@ a.blogpost:visited {
 	font-size: 1.2rem;
 }
 
-.stories-block{
+.stories-block {
 	margin-top: 10rem;
 }
+
+
+
+/**********************************************************/
+/******************* [SELL YOUR HEAD] ********************/
+/********************************************************/
+
+
+.syh-main-container {
+	padding: 0em 3em 0em 3em;
+
+}
+
+.syh-header {
+	display: flex;
+	flex-direction: column;
+	padding: 0;
+}
+
+.syh-blurb {
+	display: flex;
+	flex-direction: column;
+	height: 40rem;
+
+
+}
+
+.syh-blurb img {
+	max-width: 230px;
+	margin-top: 5rem;
+
+}
+
+.syh-blurb h3 {
+	font-size: 5rem;
+}
+
+.syh-blurb iframe {
+	margin-top: 2rem;
+}
+
+.syh-blurb a:link {
+	color: #242424;
+	text-decoration: none;
+}
+
+.syh-blurb a:hover {
+	border-radius: 5px;
+	text-decoration: underline;
+	text-underline-offset: 0.1rem;
+	text-decoration-color: tomato;
+	text-decoration-thickness: 0.3rem;
+	color: #242424;
+}
+
+.syh-blurb a:visited {
+	color: #232323;
+	text-decoration: none;
+}
+
+.syh-blurb img {
+	max-width: 300px;
+
+}
+
+.syh-blurb p {
+	font-size: 1.3rem;
+}
+
+.syh-blurb a {
+	width: 2rem;
+	border-radius: 5px;
+	margin-top: 1rem;
+	background-color: #242424;
+}
+
+
+
+
+.syh-link-cardrack {
+	display: flex;
+	padding: 0 !important;
+	min-height: 50vh;
+
+	flex-wrap: wrap;
+
+}
+
+.syh-link-cardrack a:link {
+	color: #242424;
+	text-decoration: none;
+}
+
+.syh-link-cardrack a:hover {
+	border-radius: 5px;
+	text-decoration: underline;
+	text-underline-offset: 0.1rem;
+	text-decoration-color: tomato;
+	text-decoration-thickness: 0.3rem;
+	color: #242424;
+}
+
+.syh-link-cardrack a:visited {
+	color: #232323;
+	text-decoration: none;
+}
+
+.syh-link-cardrack h3 {
+	color: #242424 !important;
+	font-size: 3rem;
+}
+
+.syh-link-cards {
+	display: flex;
+	flex-direction: column;
+	max-width: min-content;
+	margin-right: 3rem;
+    margin-top: 1rem;
+}
+
+.syh-link-cards img {
+	max-width: 20rem;
+	border-radius: 5px;
+}
+
+.syh-link-cards h5 {
+	padding-top: 0.5em;
+}
+
 
 /*********************************************************************/
