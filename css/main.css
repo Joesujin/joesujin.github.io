@@ -389,6 +389,10 @@ a.blogpost:visited {
 	display: flex;
 	justify-content: center;
 }
+			
+.ds-gameloop-img img{
+	width: 100%;
+}
 
 
 .ds-link-cardrack {
@@ -620,6 +624,9 @@ a.blogpost:visited {
 	justify-content: center;
 }
 
+.syh-gameloop-img{
+	width: 100%;
+}
 
 .syh-link-cardrack {
 	display: flex;
