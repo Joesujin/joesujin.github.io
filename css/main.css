@@ -160,10 +160,17 @@ a.blogpost:visited {
 	padding: 0em 3em 0em 3em;
 }
 
+#highlight-text{
+	text-align: center;
+	background-color: white;
+	border-radius: 3em;
+}
+
 .frontPage {
 	padding: 0%;
 	display: flex;
 	flex-direction: column;
+	
 }
 
 .frontPage h1 {
@@ -683,5 +690,58 @@ a.blogpost:visited {
 
 
 /*********************************************************************/
+/****************************[DJ LOOPMAN]*****************************/
 /*********************************************************************/
-/*********************************************************************/
+
+
+.djl-main-container{
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
+}
+
+.djl-blurb{
+	display: flex;
+	flex-direction: column;
+	margin-top: 3rem;
+}
+
+.djl-blurb p {
+	font-size: 1.3rem;
+
+}
+
+
+.djl-imgs{
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: flex-start;
+	flex-flow: wrap;
+	margin-top: 5rem;
+}
+
+.djl-imgs img{
+	max-height: 250px;
+}
+
+.djl-gameplay-vid-list{
+	display: flex;
+	padding: 0 !important;
+	min-height: 50vh;
+	margin-top: 5rem;
+	flex-wrap: wrap;
+	justify-content: space-around;
+}
+
+.djl-gameplay-vid{
+	flex-direction: column;
+	max-width: min-content;
+	margin-right: 3rem;
+	margin-top: 1rem;
+	text-align: center;
+}
+
+.djl-gameplay-vid iframe{
+	border-radius: 1em;
+}

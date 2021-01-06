@@ -84,6 +84,8 @@ function drawPointRotate( x,  y,  Noise,  Size)
   pop();
 }
 
+
+/*
 function windowResized() {
   resizeCanvas(windowWidth, windowHeight);
-}
+} */
