@@ -745,3 +745,66 @@ a.blogpost:visited {
 .djl-gameplay-vid iframe{
 	border-radius: 1em;
 }
+
+/*********************************************************************/
+/****************************[DR HANDFUL]*****************************/
+/*********************************************************************/
+
+
+.dhf-main-container{
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
+}
+
+.dhf-blurb{
+	display: flex;
+	flex-direction: column;
+	margin-top: 3rem;
+}
+
+.dhf-blurb p {
+	font-size: 1.3rem;
+
+}
+
+
+
+
+.dhf-blurb img{
+	max-width: 300px;
+	margin: 0em 0em 2em 0em;
+    border-radius: 5px;
+}
+
+
+.dhf-gameplay-vid-list{
+	display: flex;
+	padding: 0 !important;
+	min-height: 50vh;
+	margin-top: 5rem;
+	flex-wrap: wrap;
+	justify-content: space-around;
+}
+
+.dhf-gameplay-vid{
+	flex-direction: column;
+	margin-right: 3rem;
+	margin-top: 1rem;
+	text-align: center;
+	position: relative;
+  overflow: hidden;
+  width: 100%;
+  padding-top: 56.25%; /* 16:9 Aspect Ratio (divide 9 by 16 = 0.5625) */
+}
+
+.dhf-gameplay-vid iframe{
+	border-radius: 1em;
+	position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+}
