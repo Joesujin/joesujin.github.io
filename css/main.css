@@ -265,6 +265,9 @@ a.blogpost:visited {
 
 .game_card h5 {
 	margin-top: 1em;
+	font-weight: 700;
+	
+	/*text-shadow: 2px -2px rgba(63, 63, 63, 0.281);*/
 }
 
 .games_card p {
