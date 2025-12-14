@@ -266,10 +266,12 @@ h6 {
 .story-card img,
 .other-card img {
 	width: 100%;
-	aspect-ratio: 16/9;
-	object-fit: cover;
+	height: auto;
+	/* Allow natural height */
 	border-radius: 4px;
+	/* Optional: smooth corners */
 	margin-bottom: 1rem;
+	display: block;
 }
 
 .game_card h5,
