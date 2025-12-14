@@ -1,14 +1,42 @@
 :root {
 	--text-color: #242424;
+	/* Reverted to dark text */
 	--bg-color: #ffffff;
+	/* Reverted to white background */
+	--card-bg: #ffffff;
+	--card-text: #000000;
 	--accent-color: #ff6347;
 	/* tomato */
-	--accent-color-hover: #d94e36;
+	--accent-color-hover: #b82e16;
 	--gold: #fed710;
 	--border-color: #242424;
+	/* Reverted border color */
 	--font-main: 'Roboto', sans-serif;
 	--font-display: 'Bebas Neue', sans-serif;
 	/* Example if used */
+}
+
+/* Dark Mode Override (For Home Page only) */
+.dark-mode {
+	--text-color: #eeeeee;
+	--bg-color: transparent;
+	--border-color: #eeeeee;
+	color: #eeeeee !important;
+}
+
+/* Force all text inside dark mode to be white */
+.dark-mode h1,
+.dark-mode h2,
+.dark-mode h3,
+.dark-mode h4,
+.dark-mode h5,
+.dark-mode h6,
+.dark-mode p,
+.dark-mode span,
+.dark-mode div,
+.dark-mode i,
+.dark-mode a {
+	color: #eeeeee !important;
 }
 
 /* Reset & Base */
@@ -66,6 +94,16 @@ a:hover {
 	font-weight: 500;
 	text-transform: uppercase;
 	font-size: 0.9rem;
+	color: var(--text-color);
+}
+
+.dark-mode-header .topShelf_stuff a {
+	color: #eeeeee !important;
+}
+
+/* Force icons to be white on Home Page, overriding inline styles */
+.dark-mode-header .topShelf_stuff i {
+	color: #eeeeee !important;
 }
 
 h1,
@@ -139,21 +177,89 @@ h6 {
 /* Cards Shared Styles */
 .game_card,
 .story-card,
-.other-card {
-	border: 2px solid var(--border-color);
+.other-card,
+.sketch-card {
+	border: 0px solid rgba(255, 255, 255, 0.3);
+	/* Subtle white border */
 	border-radius: 8px;
 	padding: 1rem;
-	background: rgba(255, 255, 255, 0.9);
-	transition: transform 0.2s ease, box-shadow 0.2s ease;
+	background: transparent;
+	/* Invisible by default */
+	color: #eeeeee;
+	/* White text */
+	transition: all 0.3s ease;
 	display: flex;
 	flex-direction: column;
 }
 
 .game_card:hover,
 .story-card:hover,
+.other-card:hover,
+.sketch-card:hover {
+	background: #ffffff;
+	/* White on hover */
+	color: #000000;
+	/* Black text on hover */
+	transform: translateY(-5px);
+	/* Colored drop shadow - Stronger glow for visibility */
+	box-shadow: 0 0 25px 5px #d50808;
+	border-color: #ffffff;
+}
+
+/* Ensure headings inherit the color change */
+/* Ensure headings and all text inherit the color change */
+.game_card h5,
+.story-card h5,
+.other-card h5,
+.sketch-card h5 {
+	color: inherit !important;
+	/* Follow parent color */
+	font-weight: 700;
+	margin: 0.5rem 0;
+	transition: color 0.3s ease;
+}
+
+/* Force all child elements to be black on hover */
+.game_card:hover *,
+.story-card:hover *,
+.other-card:hover *,
+.sketch-card:hover * {
+	color: #000000 !important;
+	border-color: #000000;
+}
+
+.game_card:hover,
+.story-card:hover,
 .other-card:hover {
 	transform: translateY(-5px);
-	box-shadow: 4px 4px 0px var(--border-color);
+	box-shadow: 4px 4px 0px #d50808;
+}
+
+
+/* Make the whole card clickable via stretched link on the main <a> */
+.stretched-link::after {
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	z-index: 1;
+	content: "";
+}
+
+/* Ensure container is relative for stretched link to work */
+.game_card,
+.story-card,
+.other-card,
+.sketch-card {
+	position: relative;
+	/* Existing styles continue... */
+}
+
+/* Ensure nested links (like Co-creator) are clickable above the stretched link */
+.game_card p a {
+	position: relative;
+	z-index: 2;
 }
 
 .game_card img,

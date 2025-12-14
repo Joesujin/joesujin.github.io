@@ -2,7 +2,7 @@
 layout: default copy
 title: Joesujin | Portfolio
 ---
-<div class="container main-container">
+<div class="container main-container dark-mode">
 
 
     <!--p5.js sketch for this page-->
@@ -30,7 +30,7 @@ title: Joesujin | Portfolio
         <div class="cards_grid games_block">
             {% for game in site.data.games %}
             <div class="game_card">
-                <a href="{{ game.url }}" title="{{ game.title }}">
+                <a href="{{ game.url }}" title="{{ game.title }}" class="stretched-link">
                     <img src="{{ game.image }}" alt="{{ game.title }} Logo">
                     <h5>{{ game.title }}
                         {% if game.platform_icons %}
@@ -65,7 +65,7 @@ title: Joesujin | Portfolio
         <div class="cards_grid stories-box">
             {% for story in site.data.stories %}
             <div class="story-card">
-                <a href="{{ story.url }}">
+                <a href="{{ story.url }}" class="stretched-link">
                     <img src="{{ story.image }}" alt="{{ story.title }}">
                     <h5>{{ story.title }}</h5>
                 </a>
@@ -78,23 +78,15 @@ title: Joesujin | Portfolio
     <section class="fp_blocks" id="fp_others">
         <h3>Misc.</h3>
         <div class="cards_grid other-items">
+            {% for item in site.data.misc %}
             <div class="other-card">
-                <a href="p5/p5_page.html" target="_blank">
-                    <img src="img/p5_icon.png" alt="img">
-                    <h5>Poems Alive</h5>
+                <a href="{{ item.url }}" target="_blank" class="stretched-link">
+                    <img src="{{ item.image }}" alt="{{ item.title }}">
+                    <h5>{{ item.title }}</h5>
                 </a>
-                <p>p5 Sketch library</p>
+                <p>{{ item.description }}</p>
             </div>
-            <div class="other-card">
-                <a href="https://play.google.com/store/apps/details?id=com.joesujin.CirclegoesSquarefollows&hl=en_IN"
-                    target="_blank">
-
-                    <img src="img/c_g_s_f.png" alt="img">
-
-                    <h5>Circle_goes_Square_ follows</h5>
-                </a>
-                <p>A live art wallpaper </p>
-            </div>
+            {% endfor %}
         </div>
     </section>
 
