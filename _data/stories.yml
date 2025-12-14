@@ -1,0 +1,24 @@
+- title: "Agree to disagree"
+  url: "stories/agree_to_disagree.html"
+  image: "img/writing/agreetodisagree.png"
+  description: "For we are an Artificial intelligence."
+
+- title: "It's just another ball"
+  url: "stories/its_just_another_ball.html"
+  image: "img/writing/anotherball.png"
+  description: "And this is where you live."
+
+- title: "Hey, it’s Yesterday again"
+  url: "stories/hey_its_yesterday_again.html"
+  image: "img/writing/yesterday.png"
+  description: "I feel younger already"
+
+- title: "A Copy of the End"
+  url: "stories/a_copy_of_the_end.html"
+  image: "img/writing/copyoftheend.png"
+  description: "Not a happy one"
+
+- title: "Project Publish"
+  url: "stories/project_publish.html"
+  image: "img/ds_cover.png"
+  description: "Changes dictated"

@@ -7,124 +7,77 @@ title: Joesujin | Portfolio
 
     <!--p5.js sketch for this page-->
 
-    <script src="../js/sketch.js" class="joe-bg"></script>
+    <script src="js/sketch.js" class="joe-bg"></script>
 
 
-    <div class="container-fluid frontPage">
+    <div class="frontPage">
         <div class="nameBlock">
             <h1>Hi There!</h1>
             <!--
             <p> Game Designer - Narrative Designer - Storyteller</p>-->
         </div>
         <div class="textblock">
-            <p> My name is <b>Joe Sujin <i class="far fa-smile"></i></b> I am a design graduate in <b>Digital Games</b> from the <b>National Institute of Design, India.</b> I make weird,
+            <p> My name is <b>Joe Sujin <i class="far fa-smile"></i></b> I am a design graduate in <b>Digital Games</b>
+                from the <b>National Institute of Design, India.</b> I make weird,
                 off-beat
                 experiences to share stories through provocative game mechanics across interactive medium. <em>Here are
-                some of my works.</em></p>
+                    some of my works.</em></p>
         </div>
     </div>
 
-    <div class="container-fluid fp_blocks" id="fp_games">
-        <h3 class="text-secondary py-2">
-            Games
-        </h3>
-        <div class="container-fluid games_block">
+    <section class="fp_blocks" id="fp_games">
+        <h3>Games</h3>
+        <div class="cards_grid games_block">
+            {% for game in site.data.games %}
             <div class="game_card">
-                <a href="games/djloopman" title="DJ Loopman">
-                <img src="img/DjloopmanLogo.png" alt="ds_Logo">
-                <h5>DJ LoopMan<span style="color: #242424; padding: 1rem;"><i class="fab fa-windows"></i></span></h5>
+                <a href="{{ game.url }}" title="{{ game.title }}">
+                    <img src="{{ game.image }}" alt="{{ game.title }} Logo">
+                    <h5>{{ game.title }}
+                        {% if game.platform_icons %}
+                        <span class="platform-icons">
+                            {% for icon in game.platform_icons %}
+                            <i class="{{ icon }}"></i>
+                            {% endfor %}
+                        </span>
+                        {% elsif game.platform_icon %}
+                        <span class="platform-icons"><i class="{{ game.platform_icon }}"></i></span>
+                        {% endif %}
+                    </h5>
                 </a>
-                <i class="fas fa-award" style="color: #fed710;"></i><span class="" style="font-size: 80%;
-                font-weight: 700; "> IGDC - Student Game of the Year 2020</span>
-                <p>Wholesome Music Production Beat'em up
-                </p>
-                <p>Co-creator : <a href="https://www.amarravi.com/" target="_blank">Amar Ravi</a></p>
-                
+                {% if game.award %}
+                <div class="award-block">
+                    <i class="{{ game.award_icon }}"></i>
+                    <span>{{ game.award }}</span>
+                </div>
+                {% endif %}
+                <p>{{ game.description }}</p>
+                {% if game.co_creator %}
+                <p>Co-creator : <a href="{{ game.co_creator_url }}" target="_blank">{{ game.co_creator }}</a></p>
+                {% endif %}
             </div>
-            
-            <div class="game_card">
-                <a href="games/dr_Handful.html" title="Dr Handful">
-                <img src="img/Handfullposter.jpeg" alt="ds_Logo">
-                <h5>Dr. Handfull<span style="color: #242424;  padding: 1rem;"><i class="fas fa-vr-cardboard"></i></span></h5>
-                </a>
-                <p>VR, Puzzle, An experiment on multiple hands.
-                </p>
-                <p>Co-creator : <a href="https://www.amarravi.com/" target="_blank">Amar Ravi</a></p>
-
-             </div>
-
-            <div class="game_card">
-                <a href="games/drawingsimulator" title="Drawing Simulator">
-                <img src="img/ds_logo_banner.png" alt="ds_Logo">
-                <h5>Drawing simulator<span style="color: #242424;  padding: 1rem;"><i class="fab fa-google-play">  <i class="fab fa-windows"></i></i></span></h5>
-                </a>
-                <p>Narrative, Puzzle, A take on story driven mobile games.
-                </p>
-                
-                 </div>
-
-            <div class="game_card">
-                <a href="games/sellyourhead" title="Sell your head">
-                    <img src="img/syh_logo_banner.png" alt="syh_logo">
-                    <h5>Sell Your Head<span style="color: #242424;  padding: 1rem;"><i class="fas fa-dice"></i></span></h5>
-                </a>
-                <p>Cards, Table top game, A game based on Game theory.</p>
-                
-            </div>
+            {% endfor %}
         </div>
-    </div>
+    </section>
 
+    <section class="fp_blocks" id="fp_stories">
+        <h3>Stories</h3>
 
-    <div class="container fp_blocks" id="fp_stories">
-        <h3 class="text-secondary">Stories</h3>
-
-        <div class="container-fluid stories-box">
+        <div class="cards_grid stories-box">
+            {% for story in site.data.stories %}
             <div class="story-card">
-                <a href="stories/agree_to_disagree.html">
-                    <img src="img/writing/agreetodisagree.png" alt="img">
-                    <h5>Agree to disagree</h5>
+                <a href="{{ story.url }}">
+                    <img src="{{ story.image }}" alt="{{ story.title }}">
+                    <h5>{{ story.title }}</h5>
                 </a>
-                <p>For we are an Artificial intelligence.</p>
+                <p>{{ story.description }}</p>
             </div>
-            <div class="story-card">
-                <a href="stories/its_just_another_ball.html">
-                    <img src="img/writing/anotherball.png" alt="img">
-                    <h5>It's just another
-                        ball</h5>
-                </a>
-                <p>And this is where you live.</p>
-            </div>
-            <div class="story-card">
-                <a href="stories/hey_its_yesterday_again.html">
-                    <img src="img/writing/yesterday.png" alt="img">
-                    <h5>Hey, it’s
-                        Yesterday again</h5>
-                </a>
-                <p>I feel younger already</p>
-            </div>
-            <div class="story-card">
-                <a href="stories/a_copy_of_the_end.html">
-                    <img src="img/writing/copyoftheend.png" alt="img">
-                    <h5>A Copy of
-                        the End</h5>
-                </a>
-                <p>Not a happy one</p>
-            </div>
-            <div class="story-card">
-                <a href="stories/project_publish.html">
-                    <img src="img/ds_cover.png" alt="img">
-                    <h5>Project
-                        Publish</h5>
-                </a>
-                <p>Changes dictated</p>
-            </div>
+            {% endfor %}
         </div>
-    </div>
+    </section>
 
-
-    <div class="container fp_blocks " id="fp_others">
-        <h3 class="text-secondary">Misc.</h3>
-        <div class="other-items">
+    <section class="fp_blocks" id="fp_others">
+        <h3>Misc.</h3>
+        <div class="cards_grid other-items">
             <div class="other-card">
                 <a href="p5/p5_page.html" target="_blank">
                     <img src="img/p5_icon.png" alt="img">
@@ -143,7 +96,7 @@ title: Joesujin | Portfolio
                 <p>A live art wallpaper </p>
             </div>
         </div>
-    </div>
+    </section>
 
 
 
