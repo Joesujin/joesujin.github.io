@@ -155,22 +155,52 @@ h6 {
 	max-width: 70ch;
 }
 
+.skill-tag {
+	padding: 1px 15px;
+	border: 1px solid currentColor;
+	/* Inherits text color (White in dark mode) */
+	border-radius: 50px;
+	font-size: 0.7rem;
+	font-weight: 500;
+	text-transform: lowercase;
+	letter-spacing: 0.5px;
+	opacity: 0.8;
+}
+
 /* Sections */
 .fp_blocks {
 	margin: 4rem 0;
+	padding-bottom: 4rem;
+	border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.fp_blocks:last-of-type {
+	border-bottom: none;
 }
 
 .fp_blocks h3 {
 	font-size: 3rem;
-	margin-bottom: 2rem;
+	margin-bottom: 0.5rem;
+	/* Reduced bottom margin to sit closer to blurb */
 	font-weight: 900;
 	/* Removed border-bottom */
 }
 
+.section-blurb {
+	font-size: 1.2rem;
+	margin-bottom: 2rem;
+	opacity: 0.8;
+	max-width: 60ch;
+	font-weight: 300;
+}
+
 /* Grid System */
+/* Grid System - Switched to Flexbox as requested */
 .cards_grid {
-	display: grid;
-	grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+	display: flex;
+	flex-wrap: wrap;
+	align-items: flex-start;
+	/* Align top, allow uneven heights */
 	gap: 2rem;
 }
 
@@ -190,12 +220,29 @@ h6 {
 	transition: all 0.3s ease;
 	display: flex;
 	flex-direction: column;
+
+	/* Flex sizing */
+	flex: 1 1 300px;
+	/* Grow, Shrink, Basis */
+	max-width: 450px;
+	/* Prevent single cards from becoming excessively wide */
+}
+
+/* Reduce size for Stories and Misc cards as requested */
+.story-card,
+.other-card {
+	flex: 1 1 200px;
+	max-width: 300px;
 }
 
 .game_card:hover,
+.game_card.mobile-active,
 .story-card:hover,
+.story-card.mobile-active,
 .other-card:hover,
-.sketch-card:hover {
+.other-card.mobile-active,
+.sketch-card:hover,
+.sketch-card.mobile-active {
 	background: #ffffff;
 	/* White on hover */
 	color: #000000;
@@ -221,16 +268,23 @@ h6 {
 
 /* Force all child elements to be black on hover */
 .game_card:hover *,
+.game_card.mobile-active *,
 .story-card:hover *,
+.story-card.mobile-active *,
 .other-card:hover *,
-.sketch-card:hover * {
+.other-card.mobile-active *,
+.sketch-card:hover *,
+.sketch-card.mobile-active * {
 	color: #000000 !important;
 	border-color: #000000;
 }
 
 .game_card:hover,
+.game_card.mobile-active,
 .story-card:hover,
-.other-card:hover {
+.story-card.mobile-active,
+.other-card:hover,
+.other-card.mobile-active {
 	transform: translateY(-5px);
 	box-shadow: 4px 4px 0px #d50808;
 }
@@ -266,10 +320,12 @@ h6 {
 .story-card img,
 .other-card img {
 	width: 100%;
-	aspect-ratio: 16/9;
-	object-fit: cover;
+	height: auto;
+	/* Allow natural height */
 	border-radius: 4px;
+	/* Optional: smooth corners */
 	margin-bottom: 1rem;
+	display: block;
 }
 
 .game_card h5,
