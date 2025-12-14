@@ -12,21 +12,51 @@ title: Joesujin | Portfolio
 
     <div class="frontPage">
         <div class="nameBlock">
-            <h1>Hi There!</h1>
-            <!--
-            <p> Game Designer - Narrative Designer - Storyteller</p>-->
+            <h1>Joe Sujin</h1>
+            <h2 style="font-weight: 300; font-size: clamp(1.5rem, 3vw, 2.5rem); margin-top: -10px;">Game Designer /
+                Creative Lead / Creative Coder</h2>
+            <div class="bio-tags"
+                style="display: flex; flex-wrap: wrap; gap: 10px; margin-top: 10px; margin-bottom: 2rem;">
+                <span class="skill-tag">System First</span>
+                <span class="skill-tag">Rapid Prototyping</span>
+                <span class="skill-tag">Player research</span>
+                <span class="skill-tag">Cross Functional Lead</span>
+                <span class="skill-tag">Metrics-Driven Iteration</span>
+            </div>
         </div>
         <div class="textblock">
-            <p> My name is <b>Joe Sujin <i class="far fa-smile"></i></b> I am a design graduate in <b>Digital Games</b>
-                from the <b>National Institute of Design, India.</b> I make weird,
-                off-beat
-                experiences to share stories through provocative game mechanics across interactive medium. <em>Here are
-                    some of my works.</em></p>
+            <p>I design and ship multi-genre games (sports, racing, shooter, multiplayer) with strong systems, clean
+                onboarding, and fast iteration. Formerly led a 9-designer team building a kid/teen-focused game
+                platform.</p>
         </div>
     </div>
 
+    <!-- Professional Work Sections -->
+    {% for job in site.data.work %}
+    <section class="fp_blocks">
+        <h3>{{ job.company }} <small style="font-size: 0.6em; font-weight: 300;">{{ job.role }}</small></h3>
+        {% if job.description %}
+        <p class="section-blurb">{{ job.description }}</p>
+        {% endif %}
+        <div class="cards_grid">
+            {% for project in job.projects %}
+            <div class="game_card">
+                <a href="{{ project.url }}" class="stretched-link"
+                    onclick="alert('NDA locked can show personally'); return false;">
+                    {% if project.image %}
+                    <img src="{{ project.image }}" alt="{{ project.title }}">
+                    {% endif %}
+                    <h5>{{ project.title }}</h5>
+                </a>
+                <p>{{ project.description }}</p>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+    {% endfor %}
+
     <section class="fp_blocks" id="fp_games">
-        <h3>Games</h3>
+        <h3>Games made at NID</h3>
         <div class="cards_grid games_block">
             {% for game in site.data.games %}
             <div class="game_card">
@@ -93,6 +123,9 @@ title: Joesujin | Portfolio
 
 
 
+
+    <!-- Mobile Scroll Effect -->
+    <script src="js/scroll-interaction.js"></script>
 
     <!-- /.container -->
 </div>
