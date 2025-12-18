@@ -15,15 +15,16 @@ custom_class: cricket-page
     <div class="cs-hero-content">
         <h1 style="color: white; margin-bottom: 0px;">Cricket Legends</h1>
         <span class="tagline" style="display: block; margin-bottom: 0rem; font-size: 1.2rem; color: #888; font-weight: 300;">High-stakes cricket campaign based on history</span>
-        <span class="tagline" style="display: block; margin-bottom: 3rem; font-size: 0.9rem; color: #888; font-weight: 300; font-style: italic;">Role - Game Designer</span>
-        
+        <span class="tagline" style="display: block; margin-bottom: 0.2rem; font-size: 1rem; color: #888; font-weight: 300; font-style: italic;">Role - Lead Game Designer</span>
+        <span class="tagline" style="display: block; margin-bottom: 3rem; font-size: 0.9rem; color: #888; font-weight: 300; font-style: italic;">Development time - 9weeks</span>
+
         <div class="cs-overview" style="margin-top: 4rem;">
             <h3>Overview</h3>
             <p style="max-width: 60ch; font-size: 1.2rem; color: #ddd; line-height: 1.6;">A high-stakes cricket campaign built around historical match moments. Players jump into the action mid-game with the objective to change or uphold the historical result.</p>
         </div>
     </div>
     <div class="cs-hero-image">
-        <img src="{{ page.hero_image }}" alt="Cricket Legends Hero Image">
+        <img src="/img/Terra/Cricket/Cricketmultiplayer_splash_3.png" alt="Cricket Legends Hero Image">
     </div>
 </div>
 
@@ -73,14 +74,12 @@ custom_class: cricket-page
 <div class="cs-credits">
     <h4>Credits</h4>
     <ul>
-        <li><a href="https://www.linkedin.com/in/karthiksub/" target="_blank">Karthik Subramanyam</a></li>
-        <li><a href="https://www.linkedin.com/in/vinitghedia/" target="_blank">Vinit Ghedia</a></li>
-        <li><a href="https://www.linkedin.com/in/fizal-mohammed/" target="_blank">Fizal Mohammed</a></li>
-        <li><a href="https://www.linkedin.com/in/mily-manohar/" target="_blank">Mily Manohar</a></li>
-        <li><a href="https://www.linkedin.com/in/paulomijoshi/" target="_blank">Paulomi Joshi</a></li>
-        <li><a href="https://www.linkedin.com/in/arul-prakash-gd/" target="_blank">Arulpraksh P</a></li>
+        <li><a href="https://www.linkedin.com/in/ashish-kishore-kumar/" target="_blank">Ashish Kumar</a></li>
         <li><a href="https://www.linkedin.com/in/abhay-dwivedi-07/" target="_blank">Abhay Dwivedi</a></li>
-        <li><a href="https://www.linkedin.com/in/angad-kukreja-1018bba8/" target="_blank">Angad Kukreja</a></li>
+        <li><a href="https://www.linkedin.com/in/arul-prakash-gd/" target="_blank">Arulpraksh P</a></li>
+        <li><a href="https://www.linkedin.com/in/samiksha-sharma-5b164221a/" target="_blank">samiksha sharma</a></li>
+        <li><a href="https://www.linkedin.com/in/priyansh-shekhar-a3b212231/" target="_blank">Priyansh Shekhar</a></li>
+        
     </ul>
 </div>
 
