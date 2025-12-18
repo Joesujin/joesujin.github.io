@@ -142,6 +142,15 @@
         justify-content: center !important;
 
     }
+
+    .cs-text-col {
+        flex: 0 0 500px !important;
+        max-width: none !important;
+    }
+
+    .cs-media-col {
+        flex: 1 !important;
+    }
 }
 
 .cs-section:nth-child(2) {

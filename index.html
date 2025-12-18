@@ -29,6 +29,21 @@ title: Joesujin | Portfolio
                 onboarding, and fast iteration. Formerly led a 9-designer team building a kid/teen-focused game
                 platform.</p>
         </div>
+
+        <div class="stats-container">
+            <div class="stat-item">
+                <h3>30+</h3>
+                <p>shipped games</p>
+            </div>
+            <div class="stat-item">
+                <h3>60+</h3>
+                <p>Player interviews</p>
+            </div>
+            <div class="stat-item">
+                <h3>100+</h3>
+                <p>Prototypes</p>
+            </div>
+        </div>
     </div>
 
     <!-- Professional Work Sections -->
@@ -51,6 +66,20 @@ title: Joesujin | Portfolio
             </div>
             {% endfor %}
         </div>
+
+        {% if job.images %}
+        <div class="carousel-wrapper">
+            <div class="carousel-btn prev" aria-label="Previous Image"><i class="fas fa-chevron-left"></i></div>
+            <div class="carousel-track-container">
+                <div class="carousel-track">
+                    {% for img in job.images %}
+                    <img src="{{ img }}" alt="Work Screenshot" class="carousel-card">
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="carousel-btn next" aria-label="Next Image"><i class="fas fa-chevron-right"></i></div>
+        </div>
+        {% endif %}
     </section>
     {% endfor %}
 
@@ -125,6 +154,7 @@ title: Joesujin | Portfolio
 
     <!-- Mobile Scroll Effect -->
     <script src="js/scroll-interaction.js"></script>
+    <script src="js/carousel.js"></script>
 
     <!-- /.container -->
 </div>

@@ -1,6 +1,12 @@
 - company: "Terra"
   role: "as Creative Lead, Game design"
   description: "Led multi-genre game development for a kid/teen(Gen Alpha) platform. Owned systems, prototyping, team leadership, and metric-driven iteration across MVPs and live titles."
+  images:
+    - "/img/Terra/cricket/cricket.png"
+    - "/img/Terra/plumo/plumo.png"
+    - "/img/Terra/stumble cars/stumble_cars.png"
+    - "/img/placeholder.png"
+    - "/img/placeholder.png"
   projects:
     - title: "Plumo"
       image: "/img/Terra/plumo/plumo.png"
@@ -24,6 +30,10 @@
 - company: "Playshifu"
   role: "as Senior game designer"
   description: "Designed AR + physical-kit games for kids. Owned mechanics-to-kit translation, progression, and mini-games across live products."
+  images:
+    - "/img/Playshifu/plugo_farm.avif"
+    - "/img/Playshifu/plugo_detective.avif"
+    - "/img/Playshifu/plugo_coding_1.png"
   projects:
     - title: "Plugo Farm"
       image: "/img/Playshifu/plugo_farm.avif"

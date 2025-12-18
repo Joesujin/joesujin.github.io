@@ -167,6 +167,123 @@ h6 {
 	opacity: 0.8;
 }
 
+/* Stats Section */
+.stats-container {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	flex-direction: row;
+	gap: 4rem;
+	margin-top: 4rem;
+	max-width: 900px;
+}
+
+.stat-item {
+	text-align: center;
+}
+
+.stat-item h3 {
+	font-size: clamp(3rem, 5vw, 5rem);
+	font-weight: 700;
+	margin-bottom: 0.2rem;
+	line-height: 1;
+}
+
+.stat-item p {
+	font-size: 1.1rem;
+	font-weight: 300;
+	opacity: 0.8;
+	margin: 0;
+	text-transform: capitalize;
+}
+
+/* Interactive Work Carousel */
+.carousel-wrapper {
+	position: relative;
+	max-width: 1000px;
+	/* Wider to accommodate side peeks */
+	margin: 3rem auto;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.carousel-track-container {
+	overflow: hidden;
+	width: 600px;
+	/* Visible window size */
+	height: 350px;
+	position: relative;
+	/* Masking gradient to fade out edges if desired */
+	/* mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent); */
+}
+
+.carousel-track {
+	display: flex;
+	align-items: center;
+	height: 100%;
+	/* Transition added via JS or set here */
+	transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+	gap: 40px;
+	/* Space between cards */
+}
+
+.carousel-card {
+	height: 250px;
+	/* Default height */
+	width: auto;
+	border-radius: 12px;
+	opacity: 0.4;
+	transform: scale(0.9);
+	transition: all 0.5s ease;
+	filter: grayscale(100%);
+	cursor: pointer;
+	box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+}
+
+.carousel-card.active {
+	height: 320px;
+	/* Hero height */
+	opacity: 1;
+	transform: scale(1.1);
+	filter: grayscale(0%);
+	box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+	z-index: 2;
+	border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.carousel-btn {
+	background: rgba(255, 255, 255, 0.1);
+	border: 1px solid rgba(255, 255, 255, 0.2);
+	color: #fff;
+	cursor: pointer;
+	position: absolute;
+	top: 50%;
+	transform: translateY(-50%);
+	z-index: 10;
+	width: 50px;
+	height: 50px;
+	border-radius: 50%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 1.2rem;
+	transition: all 0.3s ease;
+}
+
+.carousel-btn:hover {
+	background: rgba(255, 255, 255, 0.2);
+	transform: translateY(-50%) scale(1.1);
+}
+
+.carousel-btn.prev {
+	left: 0;
+}
+
+.carousel-btn.next {
+	right: 0;
+}
+
 /* Sections */
 .fp_blocks {
 	margin: 4rem 0;
