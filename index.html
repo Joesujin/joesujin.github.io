@@ -41,8 +41,7 @@ title: Joesujin | Portfolio
         <div class="cards_grid">
             {% for project in job.projects %}
             <div class="game_card">
-                <a href="{{ project.url }}" class="stretched-link"
-                    onclick="alert('NDA locked can show personally'); return false;">
+                <a href="{{ project.url }}" class="stretched-link">
                     {% if project.image %}
                     <img src="{{ project.image }}" alt="{{ project.title }}">
                     {% endif %}

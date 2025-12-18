@@ -1,0 +1,44 @@
+---
+layout: default copy
+---
+<!-- p5.js Sketch Background -->
+<link rel="stylesheet" href="{{ site.baseurl }}/css/case-study.css">
+<script src="{{ site.baseurl }}/js/sketch.js"></script>
+<script src="{{ site.baseurl }}/js/scroll-interaction.js"></script>
+
+<div class="container main-container work-detail-page dark-mode {{ page.custom_class }}">
+    {% unless page.hide_header %}
+    <div class="work-header" style="margin-bottom: 2rem;">
+        <h1 style="margin-bottom: 0.5rem;">{{ page.title }}</h1>
+        {% if page.tagline %}
+        <h2 style="font-weight: 300; font-size: 1.5rem; color: #888;">{{ page.tagline }}</h2>
+        {% endif %}
+    </div>
+
+    {% if page.video_id %}
+    <div class="video-wrapper"
+        style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%; border-radius: 12px; margin-bottom: 2rem;">
+        <iframe style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"
+            src="https://www.youtube.com/embed/{{ page.video_id }}" frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen></iframe>
+    </div>
+    {% elsif page.video_url %}
+    <div class="video-wrapper" style="margin-bottom: 2rem;">
+        <video controls width="100%" style="border-radius: 12px;">
+            <source src="{{ page.video_url | relative_url }}" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    </div>
+    {% elsif page.hero_image %}
+    <div class="hero-image" style="margin-bottom: 2rem;">
+        <img src="{{ page.hero_image | relative_url }}" alt="{{ page.title }}"
+            style="width: 100%; border-radius: 12px; object-fit: cover;">
+    </div>
+    {% endif %}
+    {% endunless %}
+
+    <div class="work-content textblock" style="width: 100%; margin: 0 auto; line-height: 1.6;">
+        {{ content }}
+    </div>
+</div>
