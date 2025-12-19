@@ -2,7 +2,7 @@
 layout: work_detail
 title: "Plumo"
 tagline: "A talkable AI pet with a rules based “brain”"
-hero_image: "/img/Terra/plumo/plumo.png"
+hero_image: "/img/Terra/Plumo/plumo.png"
 hide_header: true
 custom_class: plumo-page
 # video_id: "Insert_YouTube_ID_Here" 
@@ -135,7 +135,7 @@ Beyond chatting, Plumo can play mini-games like Tic-Tac-Toe and even Pictionary.
 <div class="doc-card-container compact-card">
     <div class="doc-card">
         <div onclick="alert('NDA locked, Can show it personally')" style="cursor: not-allowed; display: block; color: inherit; text-decoration: none;">
-            <img src="/img/Terra/plumo/plumo.png" alt="Documentation Thumbnail">
+            <img src="/img/Terra/Plumo/plumo.png" alt="Documentation Thumbnail">
             <div class="doc-card-content">
                 <h4><i class="fas fa-lock" style="margin-right: 5px;"></i> Documentation</h4>
                 <p>Detailed documentation of my process and research will be here.</p>

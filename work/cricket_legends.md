@@ -2,7 +2,7 @@
 layout: work_detail
 title: "Cricket Legends"
 tagline: "High-stakes cricket campaign based on history"
-hero_image: "/img/Terra/cricket/cricket.png"
+hero_image: "/img/Terra/Cricket/cricket.png"
 hide_header: true
 custom_class: cricket-page
 # video_id: "Insert_YouTube_ID_Here" 
@@ -117,7 +117,7 @@ custom_class: cricket-page
 <div class="doc-card-container compact-card">
     <div class="doc-card">
         <div onclick="alert('NDA locked, Can show it personally')" style="cursor: not-allowed; display: block; color: inherit; text-decoration: none;">
-            <img src="/img/Terra/cricket/cricket.png" alt="Documentation Thumbnail">
+            <img src="/img/Terra/Cricket/cricket.png" alt="Documentation Thumbnail">
             <div class="doc-card-content">
                 <h4><i class="fas fa-lock" style="margin-right: 5px;"></i> Documentation</h4>
                 <p>Detailed documentation of physics + contact logic, shot mapping, difficulty ramping, and the Super Sub system will be added here.</p>
