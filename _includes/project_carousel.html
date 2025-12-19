@@ -1,0 +1,13 @@
+{% if page.images %}
+<div class="carousel-wrapper">
+    <div class="carousel-btn prev" aria-label="Previous Image"><i class="fas fa-chevron-left"></i></div>
+    <div class="carousel-track-container">
+        <div class="carousel-track">
+            {% for img in page.images %}
+            <img src="{{ img }}" alt="Work Screenshot" class="carousel-card">
+            {% endfor %}
+        </div>
+    </div>
+    <div class="carousel-btn next" aria-label="Next Image"><i class="fas fa-chevron-right"></i></div>
+</div>
+{% endif %}

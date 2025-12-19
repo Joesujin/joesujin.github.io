@@ -29,20 +29,39 @@ title: Joesujin | Portfolio
                 onboarding, and fast iteration. Formerly led a 9-designer team building a kid/teen-focused game
                 platform.</p>
         </div>
+
+        <div class="stats-container">
+            <div class="stat-item">
+                <h3>30+</h3>
+                <p>shipped games</p>
+            </div>
+            <div class="stat-item">
+                <h3>60+</h3>
+                <p>Player interviews</p>
+            </div>
+            <div class="stat-item">
+                <h3>100+</h3>
+                <p>Prototypes</p>
+            </div>
+        </div>
     </div>
 
     <!-- Professional Work Sections -->
     {% for job in site.data.work %}
     <section class="fp_blocks">
-        <h3>{{ job.company }} <small style="font-size: 0.6em; font-weight: 300;">{{ job.role }}</small></h3>
+        <div class="company-section" id="{{ job.company | downcase }}">
+            <div class="company-header">
+                <h3>{{ job.company }}</h3>
+                <span class="role">{{ job.role }}</span>
+            </div>
+        </div>
         {% if job.description %}
         <p class="section-blurb">{{ job.description }}</p>
         {% endif %}
         <div class="cards_grid">
             {% for project in job.projects %}
-            <div class="game_card">
-                <a href="{{ project.url }}" class="stretched-link"
-                    onclick="alert('NDA locked can show personally'); return false;">
+            <div class="game_card {{ project.custom_class }}">
+                <a href="{{ project.url }}" class="stretched-link">
                     {% if project.image %}
                     <img src="{{ project.image }}" alt="{{ project.title }}">
                     {% endif %}
@@ -126,6 +145,7 @@ title: Joesujin | Portfolio
 
     <!-- Mobile Scroll Effect -->
     <script src="js/scroll-interaction.js"></script>
+    <script src="js/carousel.js"></script>
 
     <!-- /.container -->
 </div>
