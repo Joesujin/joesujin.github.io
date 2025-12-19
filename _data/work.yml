@@ -56,7 +56,7 @@
   projects:
     - title: "Plugo Farm"
       image: "/img/Playshifu/plugo_farm.avif"
-      url: "https://www.playshifu.com/product/plugo-farm-toys?country=OTH"
+      url: "https://www.youtube.com/watch?v=mujbTiXdUyY"
       description: "Farm play with real pieces—place toys, see them come alive in AR, and run your own kid-friendly farm."
       images:
         - "/img/Playshifu/plugo_farm.avif"
@@ -64,7 +64,7 @@
         - "/img/Playshifu/plugo_farm.avif"
     - title: "Plugo Detective"
       image: "/img/Playshifu/plugo_detective.avif"
-      url: "https://www.playshifu.com/product/plugo-detective-kit-toy?country=OTH"
+      url: "https://www.youtube.com/watch?v=tFhdAGgm1i0"
       description: "Solve cases with real-world pieces—toy interactions power puzzles, logic, and story missions."
       images:
          - "/img/Playshifu/plugo_detective.avif"
@@ -72,7 +72,7 @@
          - "/img/Playshifu/plugo_detective.avif"
     - title: "Plugo Coding"
       image: "/img/Playshifu/plugo_coding_1.png"
-      url: "https://www.playshifu.com/product/plugo-coding-toys?country=OTH"
+      url: "https://www.youtube.com/watch?v=NKrER05en_g"
       description: "Learn coding concepts by playing—toy inputs map to commands, puzzles, and missions."
       images:
         - "/img/Playshifu/plugo_coding.avif"
