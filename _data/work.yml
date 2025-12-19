@@ -15,7 +15,7 @@
         - "/img/Terra/plumo/Screenshot 2025-12-02 111304.png"
         - "/img/Terra/plumo/Screenshot 2025-11-25 185712.png"
     - title: "Cricket Legends"
-      image: "img/Terra/cricket/cricket.png"
+      image: "/img/Terra/Cricket/cricket.png"
       url: "/work/cricket_legends.html"
       description: "A high-stakes cricket campaign built around historical match moments—jump in mid-game and change the result."
       images:
@@ -25,7 +25,7 @@
         - "/img/Terra/Cricket/Cricket V3 - Dreamcricket25 (6).png"
         - "/img/Terra/Cricket/Cricket V3 - Dreamcricket25 (5).png"
     - title: "Stumble cars - Multiplayer"
-      image: "img/Terra/stumble cars/stumble_cars.png"
+      image: "/img/Terra/stumble cars/stumble_cars.png"
       url: "/work/stumble_cars.html"
       description: "A multiplayer car battle-race—dodge obstacles, outdrive friends, and be the last car rolling."
       images:
