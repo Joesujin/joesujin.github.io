@@ -31,14 +31,15 @@ custom_class: cricket-page
 <!-- Section 1: Landscape Video Left (Placeholder), Text Right -->
 <div class="cs-section">
     <div class="cs-media-col">
-        <div class="landscape-frame">
-            <!-- Provisional placeholder video -->
-            <img src="/img/Terra/cricket/cricket.png" alt="PLACEHOLDER VIDEO" style="opacity: 0.6;">
-            <!-- 
-            <video autoplay loop muted playsinline controls preload="auto">
-                <source src="{{ '/img/Terra/cricket/video_placeholder_1.mp4' | relative_url }}" type="video/mp4">
-            </video>
-            -->
+        <div style="display: flex; flex-direction: column; align-items: center;">
+            <div class="landscape-frame">
+                <video autoplay loop muted playsinline controls preload="auto">
+                    <source src="{{ '/img/Terra/Cricket/Cricket_Fresh_Firstbatch_handbreaked.mp4' | relative_url }}" type="video/mp4">
+                </video>
+            </div>
+            <div class="video-reload">
+                crtl/cmd + shift + r
+            </div>
         </div>
     </div>
     <div class="cs-text-col">
@@ -55,14 +56,15 @@ custom_class: cricket-page
 <!-- Section 2: Text Left, Landscape Video Right (Placeholder) -->
 <div class="cs-section reverse">
     <div class="cs-media-col">
-        <div class="landscape-frame">
-             <!-- Provisional placeholder video -->
-            <img src="/img/Terra/cricket/cricket.png" alt="PLACEHOLDER VIDEO" style="opacity: 0.6;">
-            <!--
-            <video autoplay loop muted playsinline controls preload="auto">
-                <source src="{{ '/img/Terra/cricket/video_placeholder_2.mp4' | relative_url }}" type="video/mp4">
-            </video>
-            -->
+        <div style="display: flex; flex-direction: column; align-items: center;">
+            <div class="landscape-frame">
+                 <video autoplay loop muted playsinline controls preload="auto">
+                    <source src="{{ '/img/Terra/Cricket/Cricket_Ftue_handbreak.mp4' | relative_url }}" type="video/mp4">
+                </video>
+            </div>
+            <div class="video-reload">
+                crtl/cmd + shift + r
+            </div>
         </div>
     </div>
     <div class="cs-text-col">
@@ -73,14 +75,15 @@ custom_class: cricket-page
 
 <div class="cs-section reverse">
     <div class="cs-media-col">
-        <div class="landscape-frame">
-             <!-- Provisional placeholder video -->
-            <img src="/img/Terra/cricket/cricket.png" alt="PLACEHOLDER VIDEO" style="opacity: 0.6;">
-            <!--
-            <video autoplay loop muted playsinline controls preload="auto">
-                <source src="{{ '/img/Terra/cricket/video_placeholder_2.mp4' | relative_url }}" type="video/mp4">
-            </video>
-            -->
+        <div style="display: flex; flex-direction: column; align-items: center;">
+            <div class="landscape-frame">
+                <video autoplay loop muted playsinline controls preload="auto">
+                    <source src="{{ '/img/Terra/Cricket/Cricket_Fresh_Firstbatch_handbreaked.mp4' | relative_url }}#t=10" type="video/mp4">
+                </video>
+            </div>
+            <div class="video-reload">
+                crtl/cmd + shift + r
+            </div>
         </div>
     </div>
     <div class="cs-text-col">
@@ -91,14 +94,15 @@ custom_class: cricket-page
 
 <div class="cs-section reverse">
     <div class="cs-media-col">
-        <div class="landscape-frame">
-             <!-- Provisional placeholder video -->
-            <img src="/img/Terra/cricket/cricket.png" alt="PLACEHOLDER VIDEO" style="opacity: 0.6;">
-            <!--
-            <video autoplay loop muted playsinline controls preload="auto">
-                <source src="{{ '/img/Terra/cricket/video_placeholder_2.mp4' | relative_url }}" type="video/mp4">
-            </video>
-            -->
+        <div style="display: flex; flex-direction: column; align-items: center;">
+            <div class="landscape-frame">
+                <video autoplay loop muted playsinline controls preload="auto">
+                    <source src="{{ '/img/Terra/Cricket/Cricket_Homepag_ Menu_handbreaked.mp4' | relative_url }}" type="video/mp4">
+                </video>
+            </div>
+            <div class="video-reload">
+                crtl/cmd + shift + r
+            </div>
         </div>
     </div>
     <div class="cs-text-col">
@@ -107,19 +111,6 @@ custom_class: cricket-page
         <h3>Outcome</h3>
         <p>Delivered a highly positive prototype that was well received, showing strong retention signals (high D1 and D7) and very high average and median playtime—driven by high-stakes scenario design and mastery-focused controls.</p>
     </div>
-</div>
-
-<!-- Credits Section -->
-<div class="cs-credits">
-    <h4>Credits</h4>
-    <ul>
-        <li><a href="https://www.linkedin.com/in/ashish-kishore-kumar/" target="_blank">Ashish Kumar</a></li>
-        <li><a href="https://www.linkedin.com/in/abhay-dwivedi-07/" target="_blank">Abhay Dwivedi</a></li>
-        <li><a href="https://www.linkedin.com/in/arul-prakash-gd/" target="_blank">Arulpraksh P</a></li>
-        <li><a href="https://www.linkedin.com/in/samiksha-sharma-5b164221a/" target="_blank">samiksha sharma</a></li>
-        <li><a href="https://www.linkedin.com/in/priyansh-shekhar-a3b212231/" target="_blank">Priyansh Shekhar</a></li>
-        
-    </ul>
 </div>
 
 <!-- Documentation Card (Compact + NDA Lock) -->
@@ -133,4 +124,44 @@ custom_class: cricket-page
             </div>
         </div>
     </div>
+</div>
+
+<!-- Carousel Section -->
+{% assign project_data = nil %}
+{% for job in site.data.work %}
+  {% assign found = job.projects | where: "title", "Cricket Legends" | first %}
+  {% if found %}
+    {% assign project_data = found %}
+    {% break %}
+  {% endif %}
+{% endfor %}
+
+{% if project_data.images %}
+<div class="cs-section" style="display: block;">
+    <h3 style="text-align: center; margin-bottom: 2rem;">Gallery</h3>
+    <div class="carousel-wrapper">
+        <div class="carousel-btn prev" aria-label="Previous Image"><i class="fas fa-chevron-left"></i></div>
+        <div class="carousel-track-container">
+            <div class="carousel-track">
+                {% for img in project_data.images %}
+                <img src="{{ img }}" alt="Cricket Screenshot" class="carousel-card">
+                {% endfor %}
+            </div>
+        </div>
+        <div class="carousel-btn next" aria-label="Next Image"><i class="fas fa-chevron-right"></i></div>
+    </div>
+</div>
+{% endif %}
+
+<!-- Credits Section -->
+<div class="cs-credits">
+    <h4>Credits</h4>
+    <ul>
+        <li><a href="https://www.linkedin.com/in/ashish-kishore-kumar/" target="_blank">Ashish Kumar</a></li>
+        <li><a href="https://www.linkedin.com/in/abhay-dwivedi-07/" target="_blank">Abhay Dwivedi</a></li>
+        <li><a href="https://www.linkedin.com/in/arul-prakash-gd/" target="_blank">Arulpraksh P</a></li>
+        <li><a href="https://www.linkedin.com/in/samiksha-sharma-5b164221a/" target="_blank">samiksha sharma</a></li>
+        <li><a href="https://www.linkedin.com/in/priyansh-shekhar-a3b212231/" target="_blank">Priyansh Shekhar</a></li>
+        
+    </ul>
 </div>

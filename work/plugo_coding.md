@@ -8,6 +8,9 @@ custom_class: plugo-page
 # video_id: "Insert_YouTube_ID_Here"
 ---
 
+
+
+<!-- Credits Section -->
 <!-- Intro Section -->
 <!-- Hero Section (Title, Tagline, Overview, Image) -->
 <div class="cs-hero">
@@ -67,4 +70,40 @@ custom_class: plugo-page
             </div>
         </div>
     </div>
+</div>
+
+<!-- Carousel Section -->
+{% assign project_data = nil %}
+{% for job in site.data.work %}
+  {% assign found = job.projects | where: "title", "Plugo Coding" | first %}
+  {% if found %}
+    {% assign project_data = found %}
+    {% break %}
+  {% endif %}
+{% endfor %}
+
+{% if project_data.images %}
+<div class="cs-section" style="display: block;">
+    <h3 style="text-align: center; margin-bottom: 2rem;">Gallery</h3>
+    <div class="carousel-wrapper">
+        <div class="carousel-btn prev" aria-label="Previous Image"><i class="fas fa-chevron-left"></i></div>
+        <div class="carousel-track-container">
+            <div class="carousel-track">
+                {% for img in project_data.images %}
+                <img src="{{ img }}" alt="Plugo Coding Screenshot" class="carousel-card">
+                {% endfor %}
+            </div>
+        </div>
+        <div class="carousel-btn next" aria-label="Next Image"><i class="fas fa-chevron-right"></i></div>
+    </div>
+</div>
+{% endif %}
+
+<!-- Credits Section -->
+<div class="cs-credits">
+    <h4>Credits</h4>
+    <ul>
+        <li><strong>Role</strong>: Lead Game Designer</li>
+        <li><strong>Team</strong>: Playshifu Game Team</li>
+    </ul>
 </div>

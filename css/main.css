@@ -200,7 +200,7 @@ h6 {
 /* Interactive Work Carousel */
 .carousel-wrapper {
 	position: relative;
-	max-width: 1000px;
+	max-width: 1200px;
 	/* Wider to accommodate side peeks */
 	margin: 3rem auto;
 	display: flex;
@@ -210,9 +210,9 @@ h6 {
 
 .carousel-track-container {
 	overflow: hidden;
-	width: 600px;
-	/* Visible window size */
-	height: 350px;
+	width: 100%;
+	/* Full width for justified view */
+	height: 380px;
 	position: relative;
 	/* Masking gradient to fade out edges if desired */
 	/* mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent); */
@@ -232,25 +232,31 @@ h6 {
 	height: 250px;
 	/* Default height */
 	width: auto;
+	/* min-width: 200px; REMOVED to prevent distortion */
+	flex-shrink: 0;
+	/* Prevent squashing */
 	border-radius: 12px;
 	opacity: 0.4;
-	transform: scale(0.9);
-	transition: all 0.5s ease;
+	transform: scale(0.85);
+	/* Start smaller */
+	transition: all 0.5s cubic-bezier(0.25, 1, 0.5, 1);
 	filter: grayscale(100%);
 	cursor: pointer;
 	box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
 }
 
 .carousel-card.active {
-	height: 320px;
-	/* Hero height */
+	/* height: 250px;  Keep layout height same as base */
 	opacity: 1;
-	transform: scale(1.1);
+	transform: scale(1.2);
+	/* Scale up visually */
 	filter: grayscale(0%);
 	box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
 	z-index: 2;
 	border: 1px solid rgba(255, 255, 255, 0.2);
 }
+
+
 
 .carousel-btn {
 	background: rgba(255, 255, 255, 0.1);
@@ -347,9 +353,10 @@ h6 {
 
 /* Reduce size for Stories and Misc cards as requested */
 .story-card,
-.other-card {
+.other-card,
+.small-card {
 	flex: 1 1 200px;
-	max-width: 300px;
+	max-width: 250px;
 }
 
 .game_card:hover,

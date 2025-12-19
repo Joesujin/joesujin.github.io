@@ -31,11 +31,16 @@ custom_class: plumo-page
 <!-- Section 1: Phone Left, Text Right -->
 <div class="cs-section">
     <div class="cs-media-col">
-        <div class="phone-frame">
-            <!-- Replace 'path/to/video1.mp4' with your actual file path (can be .mp4 or .gif) -->
-            <video autoplay loop muted playsinline controls preload="auto">
-                <source src="{{ '/img/Terra/plumo/Plumo_Ftue.mp4' | relative_url }}" type="video/mp4">
-            </video>
+        <div style="display: flex; flex-direction: column; align-items: center;">
+            <div class="phone-frame">
+                <!-- Replace 'path/to/video1.mp4' with your actual file path (can be .mp4 or .gif) -->
+                <video autoplay loop muted playsinline controls preload="auto">
+                    <source src="{{ '/img/Terra/plumo/Plumo_Ftue.mp4' | relative_url }}" type="video/mp4">
+                </video>
+            </div>
+            <div class="video-reload">
+                crtl/cmd + shift + r
+            </div>
         </div>
     </div>
     <div class="cs-text-col">
@@ -53,11 +58,16 @@ custom_class: plumo-page
 <!-- Section 2: Text Left, Phone Right -->
 <div class="cs-section reverse">
     <div class="cs-media-col">
-        <div class="phone-frame">
-             <!-- Replace 'path/to/video2.mp4' with your actual file path -->
-            <video autoplay loop muted playsinline controls preload="auto">
-                <source src="{{ '/img/Terra/plumo/Plumo_Throwing_Tantrum.mp4' | relative_url }}#t=80" type="video/mp4">
-            </video>
+        <div style="display: flex; flex-direction: column; align-items: center;">
+            <div class="phone-frame">
+                 <!-- Replace 'path/to/video2.mp4' with your actual file path -->
+                <video autoplay loop muted playsinline controls preload="auto">
+                    <source src="{{ '/img/Terra/plumo/Plumo_Throwing_Tantrum.mp4' | relative_url }}#t=80" type="video/mp4">
+                </video>
+            </div>
+            <div class="video-reload">
+                crtl/cmd + shift + r
+            </div>
         </div>
     </div>
     <div class="cs-text-col">
@@ -70,11 +80,16 @@ As shown in this video, the pet throws a tantrum when the player neglects its ne
 <!-- Section 3: Phone Left, Text Right -->
 <div class="cs-section">
     <div class="cs-media-col">
-        <div class="phone-frame">
-             <!-- Replace 'path/to/video3.mp4' with your actual file path -->
-            <video autoplay loop muted playsinline controls preload="auto">
-                <source src="{{ '/img/Terra/plumo/Plumo_PictoParty.mp4' | relative_url }}#t=100" type="video/mp4">
-            </video>
+        <div style="display: flex; flex-direction: column; align-items: center;">
+            <div class="phone-frame">
+                 <!-- Replace 'path/to/video3.mp4' with your actual file path -->
+                <video autoplay loop muted playsinline controls preload="auto">
+                    <source src="{{ '/img/Terra/plumo/Plumo_PictoParty.mp4' | relative_url }}#t=100" type="video/mp4">
+                </video>
+            </div>
+            <div class="video-reload">
+                crtl/cmd + shift + r
+            </div>
         </div>
     </div>
     <div class="cs-text-col">
@@ -83,6 +98,49 @@ Beyond chatting, Plumo can play mini-games like Tic-Tac-Toe and even Pictionary.
 </p >
         <h3>Outcome</h3>
         <p>Delivered a prototype with strong retention potential, driven by an emotionally engaging digital-pet bond tailored for a younger audience.</p>
+    </div>
+</div>
+
+<!-- Carousel Section -->
+{% assign project_data = nil %}
+{% for job in site.data.work %}
+  {% assign found = job.projects | where: "title", "Plumo" | first %}
+  {% if found %}
+    {% assign project_data = found %}
+    {% break %}
+  {% endif %}
+{% endfor %}
+
+{% if project_data.images %}
+<div class="cs-section" style="display: block;">
+    <h3 style="text-align: center; margin-bottom: 2rem;">Gallery</h3>
+    <div class="carousel-wrapper">
+        <div class="carousel-btn prev" aria-label="Previous Image"><i class="fas fa-chevron-left"></i></div>
+        <div class="carousel-track-container">
+            <div class="carousel-track">
+                {% for img in project_data.images %}
+                <img src="{{ img }}" alt="Plumo Screenshot" class="carousel-card">
+                {% endfor %}
+            </div>
+        </div>
+        <div class="carousel-btn next" aria-label="Next Image"><i class="fas fa-chevron-right"></i></div>
+    </div>
+</div>
+{% endif %}
+
+
+
+<!-- Documentation Card (Styled like Homepage) -->
+<!-- Documentation Card (Styled like Homepage but Compact + NDA Lock) -->
+<div class="doc-card-container compact-card">
+    <div class="doc-card">
+        <div onclick="alert('NDA locked, Can show it personally')" style="cursor: not-allowed; display: block; color: inherit; text-decoration: none;">
+            <img src="/img/Terra/plumo/plumo.png" alt="Documentation Thumbnail">
+            <div class="doc-card-content">
+                <h4><i class="fas fa-lock" style="margin-right: 5px;"></i> Documentation</h4>
+                <p>Detailed documentation of my process and research will be here.</p>
+            </div>
+        </div>
     </div>
 </div>
 
@@ -102,18 +160,4 @@ Beyond chatting, Plumo can play mini-games like Tic-Tac-Toe and even Pictionary.
         <li><a href="https://www.linkedin.com/in/priyansh-shekhar-a3b212231/" target="_blank">Priyansh Shekhar</a></li>
         
     </ul>
-</div>
-
-<!-- Documentation Card (Styled like Homepage) -->
-<!-- Documentation Card (Styled like Homepage but Compact + NDA Lock) -->
-<div class="doc-card-container compact-card">
-    <div class="doc-card">
-        <div onclick="alert('NDA locked, Can show it personally')" style="cursor: not-allowed; display: block; color: inherit; text-decoration: none;">
-            <img src="/img/Terra/plumo/plumo.png" alt="Documentation Thumbnail">
-            <div class="doc-card-content">
-                <h4><i class="fas fa-lock" style="margin-right: 5px;"></i> Documentation</h4>
-                <p>Detailed documentation of my process and research will be here.</p>
-            </div>
-        </div>
-    </div>
 </div>

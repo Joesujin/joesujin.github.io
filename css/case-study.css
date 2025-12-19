@@ -144,12 +144,15 @@
     }
 
     .cs-text-col {
-        flex: 0 0 500px !important;
-        max-width: none !important;
+        flex: 1 !important;
+        /* changed from 0 0 500px to allow fluid sizing */
+        max-width: 500px !important;
+        /* Keep constraint but allow shrinking/growing relations */
     }
 
     .cs-media-col {
         flex: 1 !important;
+
     }
 }
 
@@ -232,10 +235,15 @@
 
 /* Simple Video Container (Frame Removed) */
 .phone-frame {
-    width: 290px;
-    height: 600px;
+    width: 100%;
+    max-width: 400px;
+    /* increased from fixed 290px */
+    aspect-ratio: 9/19;
+    /* Maintain vertical ratio */
+    height: 95%;
+    /* Let aspect ratio drive height */
     background: transparent;
-    border-radius: 42px;
+    border-radius: 60px;
     overflow: hidden;
     position: relative;
     /* Optional: simpler shadow if desired */
@@ -245,7 +253,7 @@
 /* Landscape Video Container */
 .landscape-frame {
     width: 100%;
-    max-width: 600px;
+    /* Removed max-width constraint to fill column */
     aspect-ratio: 16/9;
     background: transparent;
     border-radius: 20px;
@@ -419,4 +427,16 @@
         opacity: 1;
         transform: translateY(0);
     }
+}
+
+/* Video Reload Button */
+.video-reload,
+.dark-mode .video-reload {
+    text-align: center;
+    margin-top: 0.5rem;
+    cursor: pointer;
+    color: #000000ff !important;
+    font-weight: bold;
+    /* Important to override dark mode defaults */
+    font-size: 0.8rem;
 }

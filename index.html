@@ -49,13 +49,18 @@ title: Joesujin | Portfolio
     <!-- Professional Work Sections -->
     {% for job in site.data.work %}
     <section class="fp_blocks">
-        <h3>{{ job.company }} <small style="font-size: 0.6em; font-weight: 300;">{{ job.role }}</small></h3>
+        <div class="company-section" id="{{ job.company | downcase }}">
+            <div class="company-header">
+                <h3>{{ job.company }}</h3>
+                <span class="role">{{ job.role }}</span>
+            </div>
+        </div>
         {% if job.description %}
         <p class="section-blurb">{{ job.description }}</p>
         {% endif %}
         <div class="cards_grid">
             {% for project in job.projects %}
-            <div class="game_card">
+            <div class="game_card {{ project.custom_class }}">
                 <a href="{{ project.url }}" class="stretched-link">
                     {% if project.image %}
                     <img src="{{ project.image }}" alt="{{ project.title }}">
@@ -66,20 +71,6 @@ title: Joesujin | Portfolio
             </div>
             {% endfor %}
         </div>
-
-        {% if job.images %}
-        <div class="carousel-wrapper">
-            <div class="carousel-btn prev" aria-label="Previous Image"><i class="fas fa-chevron-left"></i></div>
-            <div class="carousel-track-container">
-                <div class="carousel-track">
-                    {% for img in job.images %}
-                    <img src="{{ img }}" alt="Work Screenshot" class="carousel-card">
-                    {% endfor %}
-                </div>
-            </div>
-            <div class="carousel-btn next" aria-label="Next Image"><i class="fas fa-chevron-right"></i></div>
-        </div>
-        {% endif %}
     </section>
     {% endfor %}
 
