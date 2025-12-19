@@ -4,16 +4,16 @@
 
   projects:
     - title: "Plumo"
-      image: "/img/Terra/plumo/plumo.png"
+      image: "/img/Terra/Plumo/plumo.png"
       url: "/work/plumo.html"
       description: "A talkable AI pet with a rules-based “brain,” built around co-parenting, habits, and long-term bonding."
       images:
-        - "/img/Terra/plumo/AI pet (1).png"
-        - "/img/Terra/plumo/AI pet (2).png"
-        - "/img/Terra/plumo/AI pet (3).png"
-        - "/img/Terra/plumo/Screenshot 2025-12-05 192145.png"
-        - "/img/Terra/plumo/Screenshot 2025-12-02 111304.png"
-        - "/img/Terra/plumo/Screenshot 2025-11-25 185712.png"
+        - "/img/Terra/Plumo/AI pet (1).png"
+        - "/img/Terra/Plumo/AI pet (2).png"
+        - "/img/Terra/Plumo/AI pet (3).png"
+        - "/img/Terra/Plumo/Screenshot 2025-12-05 192145.png"
+        - "/img/Terra/Plumo/Screenshot 2025-12-02 111304.png"
+        - "/img/Terra/Plumo/Screenshot 2025-11-25 185712.png"
     - title: "Cricket Legends"
       image: "/img/Terra/Cricket/cricket.png"
       url: "/work/cricket_legends.html"
