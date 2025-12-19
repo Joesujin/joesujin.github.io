@@ -35,7 +35,7 @@ custom_class: plumo-page
             <div class="phone-frame">
                 <!-- Replace 'path/to/video1.mp4' with your actual file path (can be .mp4 or .gif) -->
                 <video autoplay loop muted playsinline controls preload="auto">
-                    <source src="{{ '/img/Terra/plumo/Plumo_Ftue.mp4' | relative_url }}" type="video/mp4">
+                    <source src="{{ '/img/Terra/Plumo/Plumo_Ftue.mp4' | relative_url }}" type="video/mp4">
                 </video>
             </div>
             <div class="video-reload">
@@ -62,7 +62,7 @@ custom_class: plumo-page
             <div class="phone-frame">
                  <!-- Replace 'path/to/video2.mp4' with your actual file path -->
                 <video autoplay loop muted playsinline controls preload="auto">
-                    <source src="{{ '/img/Terra/plumo/Plumo_Throwing_Tantrum.mp4' | relative_url }}#t=80" type="video/mp4">
+                    <source src="{{ '/img/Terra/Plumo/Plumo_Throwing_Tantrum.mp4' | relative_url }}#t=80" type="video/mp4">
                 </video>
             </div>
             <div class="video-reload">
@@ -84,7 +84,7 @@ As shown in this video, the pet throws a tantrum when the player neglects its ne
             <div class="phone-frame">
                  <!-- Replace 'path/to/video3.mp4' with your actual file path -->
                 <video autoplay loop muted playsinline controls preload="auto">
-                    <source src="{{ '/img/Terra/plumo/Plumo_PictoParty.mp4' | relative_url }}#t=100" type="video/mp4">
+                    <source src="{{ '/img/Terra/Plumo/Plumo_PictoParty.mp4' | relative_url }}#t=100" type="video/mp4">
                 </video>
             </div>
             <div class="video-reload">
