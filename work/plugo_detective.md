@@ -106,15 +106,3 @@ custom_class: plugo-page
     </div>
 </div>
 
-<!-- Documentation Card -->
-<div class="doc-card-container compact-card">
-    <div class="doc-card">
-        <div onclick="alert('NDA locked, Can show it personally')" style="cursor: not-allowed; display: block; color: inherit; text-decoration: none;">
-            <img src="/img/Playshifu/plugo_detective.avif" alt="Documentation Thumbnail">
-            <div class="doc-card-content">
-                <h4><i class="fas fa-lock" style="margin-right: 5px;"></i> Documentation</h4>
-                <p>Detailed documentation of my process and research will be here.</p>
-            </div>
-        </div>
-    </div>
-</div>
