@@ -17,6 +17,12 @@ custom_class: cricket-page
         <span class="tagline" style="display: block; margin-bottom: 0rem; font-size: 1.2rem; color: #888; font-weight: 300;">A high-stakes cricket game that lets players relive and rewrite history with one clutch decision.</span>
         <span class="tagline" style="display: block; margin-bottom: 0.2rem; font-size: 1rem; color: #888; font-weight: 300; font-style: italic;">Role - Lead Game Designer</span>
         <span class="tagline" style="display: block; margin-bottom: 3rem; font-size: 0.9rem; color: #888; font-weight: 300; font-style: italic;">Development time - 9 weeks</span>
+<!--
+        <div class="cs-contributions" style="margin-top: 2rem; margin-bottom: 2rem;">
+            <span class="skill-tag">Game Design</span>
+            <span class="skill-tag">System Design</span>
+            <span class="skill-tag">Prototyping</span>
+        </div> -->
 
         <div class="cs-overview" style="margin-top: 4rem;">
             <h3>Overview</h3>

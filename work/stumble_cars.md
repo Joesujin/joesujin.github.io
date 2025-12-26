@@ -14,7 +14,13 @@ custom_class: stumble-cars-page
         <h1 style="color: white; margin-bottom: 0px;">Stumble Cars</h1>
         <span class="tagline" style="display: block; margin-bottom: 0rem; font-size: 1.2rem; color: #888; font-weight: 300;">A chaotic knockout racer where precision driving meets “oops I’m flying” energy.</span>
         <span class="tagline" style="display: block; margin-bottom: 3rem; font-size: 0.9rem; color: #888; font-weight: 300; font-style: italic;">Role - Lead Game Designer</span>
-        
+<!--     
+        <div class="cs-contributions" style="margin-top: 2rem; margin-bottom: 2rem;">
+            <span class="skill-tag">Game Design</span>
+            <span class="skill-tag">System Design</span>
+            <span class="skill-tag">Prototyping</span>
+        </div>
+-->   
         <div class="cs-overview" style="margin-top: 4rem;">
             <h3>Overview</h3>
             <p style="max-width: 60ch; font-size: 1.2rem; color: #ddd; line-height: 1.6;">Stumble Cars is a racing game for 13–18 year olds built around short, competitive obstacle-course rounds. Players race through increasingly difficult tracks in a 3-round knockout format—survive the chaos, outdrive the pack, and be the first to reach the finish.</p>

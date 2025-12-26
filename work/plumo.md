@@ -17,7 +17,15 @@ custom_class: plumo-page
         <span class="tagline" style="display: block; margin-bottom: 0rem; font-size: 1.2rem; color: #888; font-weight: 300;">A talkable AI pet with a rules based “brain”</span>
         <span class="tagline" style="display: block; margin-bottom: 0.2rem; font-size: 1rem; color: #888; font-weight: 300; font-style: italic;">Role - Lead Game Designer</span>
         <span class="tagline" style="display: block; margin-bottom: 3rem; font-size: 0.9rem; color: #888; font-weight: 300; font-style: italic;">Development time - 8 weeks</span>
-        
+<!--      
+        <div class="cs-contributions" style="margin-top: 2rem; margin-bottom: 2rem;">
+            <span class="skill-tag">System Design</span>
+            <span class="skill-tag">Game Design</span>
+            <span class="skill-tag">Balancing</span>
+            <span class="skill-tag">Lead Game Designer</span>
+        </div>
+-->
+       
         <div class="cs-overview" style="margin-top: 4rem;">
             <h3>Overview</h3>
             <p style="max-width: 60ch; font-size: 1.2rem; color: #ddd; line-height: 1.6;">Plumo is a talkable AI pet built around co-parenting habits and long-term bonding. It features a rules-based "brain" that responds to user interactions in a realistic and engaging way.</p>
