@@ -82,7 +82,7 @@ custom_class: stumble-cars-page
         <div style="display: flex; flex-direction: column; align-items: center;">
             <div class="landscape-frame">
                 <video autoplay loop muted playsinline controls preload="auto">
-                    <source src="{{ '/img/Terra/stumble cars/Carobby_vid_3Handbraked.mp4' | relative_url }}" type="video/mp4">
+                    <source src="{{ '/img/Terra/stumble cars/Carobby_Vid_3Handbraked.mp4' | relative_url }}" type="video/mp4">
                 </video>
             </div>
             <div class="video-reload">
