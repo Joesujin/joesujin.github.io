@@ -14,7 +14,14 @@ custom_class: ship-wars-page
         <h1 style="color: white; margin-bottom: 0px;">Ship Wars</h1>
         <span class="tagline" style="display: block; margin-bottom: 0rem; font-size: 1.2rem; color: #888; font-weight: 300;">A build-and-battle survival brawler where your bridge is your strategy—and your ship is your life.</span>
         <span class="tagline" style="display: block; margin-bottom: 3rem; font-size: 0.9rem; color: #888; font-weight: 300; font-style: italic;">Role - Lead Game Designer</span>
-        
+<!--     
+        <div class="cs-contributions" style="margin-top: 2rem; margin-bottom: 2rem;">
+            <span class="skill-tag">Game Design</span>
+            <span class="skill-tag">System Design</span>
+            <span class="skill-tag">Prototyping</span>
+        </div>
+-->
+    
         <div class="cs-overview" style="margin-top: 4rem;">
             <h3>Overview</h3>
             <p style="max-width: 60ch; font-size: 1.2rem; color: #ddd; line-height: 1.6;">Ship Wars is an action multiplayer combat + building game for 8–13 year olds, inspired by Minecraft Bedwars. Players collect resources, build pathways and defenses, invade enemy ships, and destroy their core to become the last player/team standing. The loop is simple to learn, but the matches evolve fast based on how players build and fight.</p>
