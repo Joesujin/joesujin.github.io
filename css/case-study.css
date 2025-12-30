@@ -451,3 +451,191 @@
     animation: fadeInUp 0.8s ease forwards;
     animation-delay: 0.1s;
 }
+
+/* Documentation Theme (Light Mode Override) */
+.work-detail-page.doc-theme {
+    background: #ffffff !important;
+    color: #222222 !important;
+    min-height: 100vh;
+}
+
+.work-detail-page.doc-theme .cs-hero-content h1,
+.work-detail-page.doc-theme .cs-hero-content .tagline,
+.work-detail-page.doc-theme .cs-overview h3,
+.work-detail-page.doc-theme .cs-overview p,
+.work-detail-page.doc-theme .cs-text-col h3,
+.work-detail-page.doc-theme .cs-text-col h4,
+.work-detail-page.doc-theme .cs-text-col h5,
+.work-detail-page.doc-theme .cs-text-col p,
+.work-detail-page.doc-theme .cs-text-col ul li,
+.work-detail-page.doc-theme .cs-credits li,
+.work-detail-page.doc-theme .cs-credits h4 {
+    color: #222222 !important;
+}
+
+.work-detail-page.doc-theme .cs-hero-content .tagline {
+    color: #555 !important;
+}
+
+.work-detail-page.doc-theme .cs-overview p,
+.work-detail-page.doc-theme .cs-text-col p,
+.work-detail-page.doc-theme .cs-text-col ul li {
+    font-weight: 400 !important;
+    color: #333333 !important;
+}
+
+.doc-theme .cs-hero-image img,
+.doc-theme .landscape-frame,
+.doc-theme .phone-frame {
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+}
+
+.work-detail-page.doc-theme pre {
+    background: #f4f4f4 !important;
+    color: #333 !important;
+    border: 1px solid #ddd;
+}
+
+.work-detail-page.doc-theme a {
+    color: #000;
+}
+
+/* Doc Theme Layout Refactor */
+.work-detail-page.doc-theme .cs-section,
+.work-detail-page.doc-theme .cs-section.reverse {
+    flex-direction: column !important;
+    align-items: flex-start;
+    gap: 2rem;
+    margin-bottom: 6rem;
+}
+
+.work-detail-page.doc-theme .cs-text-col {
+    order: 1;
+    width: 100% !important;
+    max-width: 100% !important;
+    padding: 0;
+    flex: none !important;
+}
+
+.work-detail-page.doc-theme .cs-media-col {
+    order: 2;
+    width: 100% !important;
+    max-width: 100% !important;
+    margin-top: 2rem;
+    flex: none !important;
+}
+
+.doc-theme .landscape-frame,
+.doc-theme .phone-frame {
+    width: 100% !important;
+    max-width: 100% !important;
+    aspect-ratio: auto;
+    height: auto;
+    border-radius: 12px;
+    box-shadow: none;
+    background: transparent;
+}
+
+.doc-theme .landscape-frame img,
+.doc-theme .phone-frame img {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+}
+
+.work-detail-page.doc-theme h1,
+.work-detail-page.doc-theme h2,
+.work-detail-page.doc-theme h3,
+.work-detail-page.doc-theme h4 {
+    color: #111 !important;
+}
+
+/* Full Bleed Utility */
+.doc-theme .full-bleed {
+    width: 100vw !important;
+    position: relative;
+    left: 50%;
+    right: 50%;
+    margin-left: -50vw !important;
+    margin-right: -50vw !important;
+    max-width: 100vw !important;
+    border-radius: 0 !important;
+}
+
+.doc-theme .full-bleed img {
+    width: 100% !important;
+    max-width: 100vw !important;
+    border-radius: 0 !important;
+}
+
+/* Table Visibility Fix */
+.work-detail-page.doc-theme table,
+.work-detail-page.doc-theme th,
+.work-detail-page.doc-theme td {
+    color: #222 !important;
+    border-color: #eee !important;
+}
+
+/* Caption Styles */
+.work-detail-page.doc-theme .caption {
+    font-weight: 300 !important;
+    /* Lighter weight */
+    font-size: 0.9rem !important;
+    color: #888 !important;
+    /* Very light grey */
+    margin-top: 0.8rem;
+    /* Increased spacing slightly */
+    font-family: 'Roboto', sans-serif;
+    width: 100%;
+    text-align: center !important;
+    /* Center text */
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.work-detail-page.doc-theme .cs-text-col {
+    order: 1;
+    width: 100% !important;
+    max-width: 100% !important;
+    padding: 0;
+    flex: none !important;
+}
+
+.work-detail-page.doc-theme .cs-media-col {
+    order: 2;
+    width: 100% !important;
+    max-width: 100% !important;
+    margin-top: 2rem;
+    flex: none !important;
+    flex-direction: column !important;
+    /* Force caption below image */
+    align-items: center !important;
+    /* Center align items in the column */
+}
+
+.doc-theme .landscape-frame,
+.doc-theme .phone-frame {
+    width: 100% !important;
+    max-width: 100% !important;
+    aspect-ratio: auto;
+    height: auto;
+    border-radius: 12px;
+    box-shadow: none;
+    background: transparent;
+}
+
+.doc-theme .landscape-frame img,
+.doc-theme .phone-frame img {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+}
+
+.work-detail-page.doc-theme h1,
+.work-detail-page.doc-theme h2,
+.work-detail-page.doc-theme h3,
+.work-detail-page.doc-theme h4 {
+    font-weight: 600 !important;
+    color: #111 !important;
+}
