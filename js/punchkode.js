@@ -51,6 +51,9 @@ let threadTaperLength = 0.41;   // Length of the diagonal tapering section
 // Grid bounds for click detection
 let leftStartX = 0, leftStartY = 0, leftCellSize = 0;
 
+// Track sliders for external updates
+let threadLookSliders = {};
+
 // --- MODULE LAYOUT CONFIGURATION ---
 // Tweak these values to adjust the locations and sizes of modules on the 2160x1620 fixed screen
 // Use 'anchorX' (left, right, center) and 'anchorY' (top, bottom, center) to anchor items.
@@ -155,21 +158,22 @@ function setup() {
     devUIContainer.style('width', '500px'); // 3x2 grid
     devUIContainer.style('gap', '25px');
 
-    function createDevSlider(minVal, maxVal, stepVal, startVal, updateFn) {
+    function createDevSlider(name, minVal, maxVal, stepVal, startVal, updateFn) {
         let s = createSlider(minVal, maxVal, startVal, stepVal);
         s.parent(devUIContainer);
         s.style('width', '140px'); // Fill enough space for 3 columns
         s.input(() => {
             updateFn(s.value());
         });
+        threadLookSliders[name] = s;
     }
 
-    createDevSlider(0.1, 1.0, 0.01, topThreadCenter, v => topThreadCenter = v);
-    createDevSlider(0.1, 1.0, 0.01, topThreadEdge, v => topThreadEdge = v);
-    createDevSlider(0.1, 1.0, 0.01, bottomThreadCenter, v => bottomThreadCenter = v);
-    createDevSlider(0.1, 1.0, 0.01, bottomThreadEdge, v => bottomThreadEdge = v);
-    createDevSlider(0.01, 1.0, 0.01, threadTaperEdge, v => threadTaperEdge = v);
-    createDevSlider(0.01, 0.9, 0.01, threadTaperLength, v => threadTaperLength = v);
+    createDevSlider('topThreadCenter', 0.1, 1.0, 0.01, topThreadCenter, v => topThreadCenter = v);
+    createDevSlider('topThreadEdge', 0.1, 1.0, 0.01, topThreadEdge, v => topThreadEdge = v);
+    createDevSlider('bottomThreadCenter', 0.1, 1.0, 0.01, bottomThreadCenter, v => bottomThreadCenter = v);
+    createDevSlider('bottomThreadEdge', 0.1, 1.0, 0.01, bottomThreadEdge, v => bottomThreadEdge = v);
+    createDevSlider('threadTaperEdge', 0.01, 1.0, 0.01, threadTaperEdge, v => threadTaperEdge = v);
+    createDevSlider('threadTaperLength', 0.01, 0.9, 0.01, threadTaperLength, v => threadTaperLength = v);
     // ----------------------------------------------------------------
     uiContainer.style('display', 'flex');
     uiContainer.style('gap', '15px');
@@ -905,6 +909,36 @@ function drawUI() {
     bezier(0, 105, 30, 102, 60, 108, 140, 105);
     bezier(150, 105, 180, 102, 210, 108, 290, 105);
     pop();
+
+    // 4. Draw Styled Logo "PUNCH KODE LOOM" in the center column
+    push();
+    let leftEndX = leftStartX + (GRID_SIZE + 2) * leftCellSize - 200;
+    let centerX = (leftEndX + rightStartX) / 2;
+    let centerY = height / 2 + 200; // Positioned centrally in the vertical span
+
+    textAlign(LEFT, TOP);
+    fill(255);
+    noStroke();
+    textFont("Doto"); // Google Font weight 800 added in HTML header
+    textStyle(BOLD);
+    textSize(80);
+    textLeading(75); // tight vertical spacing for stacked look
+    text("punch\ncode\nloom", centerX, centerY);
+    pop();
+
+
+
+    centerY = height / 2 + 450; // Positioned centrally in the vertical span
+
+    textAlign(LEFT, TOP);
+    fill(205);
+    noStroke();
+    textFont("Doto"); // Google Font weight 800 added in HTML header
+    textStyle(BOLD);
+    textSize(40);
+    textLeading(40); // tight vertical spacing for stacked look
+    text("a tribute \nto the \nJacquard \nPunch Cards", centerX, centerY);
+    pop();
 }
 
 function windowResized() {
@@ -1059,7 +1093,15 @@ function saveToLocal() {
     let payload = {
         patterns: patterns,
         clothData: clothData,
-        colorPalette: colorPalette
+        colorPalette: colorPalette,
+        threadLook: {
+            topThreadCenter: topThreadCenter,
+            topThreadEdge: topThreadEdge,
+            bottomThreadCenter: bottomThreadCenter,
+            bottomThreadEdge: bottomThreadEdge,
+            threadTaperEdge: threadTaperEdge,
+            threadTaperLength: threadTaperLength
+        }
     };
     localStorage.setItem('punchkode_v4', JSON.stringify(payload));
 }
@@ -1103,6 +1145,22 @@ function loadFromLocal() {
                     for (let i = 0; i < 3; i++) {
                         if (pickers[i]) pickers[i].value(colorPalette[i]);
                         if (hexInputs[i]) hexInputs[i].value(colorPalette[i]);
+                    }
+                }
+
+                if (data.threadLook) {
+                    topThreadCenter = data.threadLook.topThreadCenter || topThreadCenter;
+                    topThreadEdge = data.threadLook.topThreadEdge || topThreadEdge;
+                    bottomThreadCenter = data.threadLook.bottomThreadCenter || bottomThreadCenter;
+                    bottomThreadEdge = data.threadLook.bottomThreadEdge || bottomThreadEdge;
+                    threadTaperEdge = data.threadLook.threadTaperEdge || threadTaperEdge;
+                    threadTaperLength = data.threadLook.threadTaperLength || threadTaperLength;
+
+                    // Sync the sliders
+                    for (let key in data.threadLook) {
+                        if (threadLookSliders[key]) {
+                            threadLookSliders[key].value(data.threadLook[key]);
+                        }
                     }
                 }
             }
