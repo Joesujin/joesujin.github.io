@@ -48,7 +48,6 @@ let bottomThreadCenter = 0.72; // Center width percentage for the thread UNDERNE
 let bottomThreadEdge = 0.79;   // Edge width percentage for the thread UNDERNEATH
 let threadTaperEdge = 0.2;     // Length offset away from boundary where thread stays min width
 let threadTaperLength = 0.41;   // Length of the diagonal tapering section
-
 // Grid bounds for click detection
 let leftStartX = 0, leftStartY = 0, leftCellSize = 0;
 
@@ -102,6 +101,7 @@ const LAYOUT = {
 let bankStartX = 0, bankStartY = 0, bankSize = 0;
 let clothStartX = 0, clothStartY = 0, clothCellSize = 0;
 let punchStartX = 0, punchStartY = 0;
+let rightStartX = 0, rightStartY = 0, rightCellSize = 7.7;
 
 let devUIContainer; // Global reference for scaling
 let mainWrapper; // Wrapper div for scaling
@@ -680,7 +680,6 @@ function draw() {
     // ------------------------------------------------------------
     // RIGHT SIDE: The Tiled Loom Blanket
     // ------------------------------------------------------------
-    let rightCellSize = 7.7;
 
     push();
 
@@ -755,12 +754,12 @@ function draw() {
 
     pop();
 
+    // Draw the UI panels first so the threads can lay on top of them
+    drawUI();
+
     // Overlay the scrolling Jacquard Punchcards!
     // They are fully anchored to their own config settings and scale!
     drawPunchCards(punchStartX, punchStartY, LAYOUT.punchcards.scale, totalRowsWoven);
-
-    // Draw the UI panels
-    drawUI();
 
     // Re-evaluate mouse pointer interactions every frame
     checkHoverState();
@@ -1131,33 +1130,77 @@ function drawPunchCards(startX, startY, cellSize, totalRowsWoven) {
     let firstCard = Math.floor(totalRowsWoven / 4) - 1;
     if (firstCard < 0) firstCard = 0;
 
-    // We use a clipping mask to hide the cards as they feed "upwards" into the void
-    drawingContext.save();
-    drawingContext.beginPath();
-    drawingContext.rect(0, startY, width, height); // Clip everything above startY
-    drawingContext.clip();
+    // Helper to calculate the exact onscreen needle coordinate for the Loom's active row
+    let loomY = rightStartY;
 
+    // PASS 1: The 'Down' threads (Drawn UNDER the punch cards, connecting to the loom)
     for (let metaCol = 0; metaCol < 6; metaCol++) {
         let cx = startX + (metaCol * 16 * cellSize);
-
-        // Draw enough cards to fill the vertical space downwards
+        if (cx > 2160) continue;
         for (let i = 0; i < 6; i++) {
             let K = firstCard + i;
             let cy = cardsStartY + getChainY(K * 4) - activeChainY;
 
-            // Draw the cardboard backing
+            for (let r = 0; r < 4; r++) {
+                let R = K * 4 + r;
+                if (R === totalRowsWoven) {
+                    let metaRow = Math.floor(R / GRID_SIZE) % CLOTH_ROWS;
+                    let patternRow = R % GRID_SIZE;
+                    let patternIdx = clothData[metaRow][metaCol];
+                    let p = patterns[patternIdx];
+
+                    for (let patternCol = 0; patternCol < 16; patternCol++) {
+                        let depth = p.patternData[patternRow][patternCol];
+                        if (depth !== 'u') {
+                            let holeX = cx + (patternCol * cellSize) + (cellSize / 2);
+                            let holeY = cy + (r * cellSize) + (cellSize / 2);
+
+                            stroke(255, 255, 255, 80); // Softer opacity for under-threads across the void
+                            strokeWeight(1.5);
+                            let loomX = rightStartX + (metaCol * 16 + patternCol) * rightCellSize + (rightCellSize / 2);
+                            line(holeX, holeY, loomX, loomY);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    // We use a clipping mask for the Cards so they cleanly hide as they feed "upwards" into the void
+    drawingContext.save();
+    drawingContext.beginPath();
+    drawingContext.rect(0, startY - 140, width, height);
+    drawingContext.clip();
+
+    // PASS 2: Draw the cardboard backing
+    for (let metaCol = 0; metaCol < 6; metaCol++) {
+        let cx = startX + (metaCol * 16 * cellSize);
+        if (cx > 2160) continue;
+        for (let i = 0; i < 6; i++) {
+            let K = firstCard + i;
+            let cy = cardsStartY + getChainY(K * 4) - activeChainY;
+
             fill('#D2B48C');
             stroke('#A88D6A');
             strokeWeight(2);
-            // Shrink slightly horizontally so there's a visual gap between the 6 columns
             let hGap = cardGap;
             rect(cx + hGap / 2, cy, cardW - hGap, cardH, 4);
+        }
+    }
+
+    // PASS 3: Draw the punched holes (dark voids)
+    for (let metaCol = 0; metaCol < 6; metaCol++) {
+        let cx = startX + (metaCol * 16 * cellSize);
+        if (cx > 2160) continue;
+        for (let i = 0; i < 6; i++) {
+            let K = firstCard + i;
+            let cy = cardsStartY + getChainY(K * 4) - activeChainY;
 
             noStroke();
             fill(20);
 
             for (let r = 0; r < 4; r++) {
-                let R = K * 4 + r; // The absolute loom row
+                let R = K * 4 + r;
                 let metaRow = Math.floor(R / GRID_SIZE) % CLOTH_ROWS;
                 let patternRow = R % GRID_SIZE;
 
@@ -1167,8 +1210,9 @@ function drawPunchCards(startX, startY, cellSize, totalRowsWoven) {
                 for (let patternCol = 0; patternCol < 16; patternCol++) {
                     let depth = p.patternData[patternRow][patternCol];
                     if (depth === 'u') {
-                        // 'Up' threads are punched holes!
-                        circle(cx + (patternCol * cellSize) + (cellSize / 2), cy + (r * cellSize) + (cellSize / 2), cellSize * 0.6);
+                        let holeX = cx + (patternCol * cellSize) + (cellSize / 2);
+                        let holeY = cy + (r * cellSize) + (cellSize / 2);
+                        circle(holeX, holeY, cellSize * 0.6);
                     }
                 }
             }
@@ -1176,4 +1220,43 @@ function drawPunchCards(startX, startY, cellSize, totalRowsWoven) {
     }
 
     drawingContext.restore();
+
+    // PASS 4: Extruded 'Up' thread lines coming OUT of the holes (Drawn OVER the punch cards & holes)
+    for (let metaCol = 0; metaCol < 6; metaCol++) {
+        let cx = startX + (metaCol * 16 * cellSize);
+        if (cx > 2160) continue;
+        for (let i = 0; i < 6; i++) {
+            let K = firstCard + i;
+            let cy = cardsStartY + getChainY(K * 4) - activeChainY;
+
+            for (let r = 0; r < 4; r++) {
+                let R = K * 4 + r;
+
+                if (R === totalRowsWoven) {
+                    let metaRow = Math.floor(R / GRID_SIZE) % CLOTH_ROWS;
+                    let patternRow = R % GRID_SIZE;
+                    let patternIdx = clothData[metaRow][metaCol];
+                    let p = patterns[patternIdx];
+
+                    // Helper to calculate the exact onscreen needle coordinate for the Loom's active row
+                    // Helper to calculate the exact onscreen needle coordinate for the Loom's active row
+                    let loomY = rightStartY;
+
+                    for (let patternCol = 0; patternCol < 16; patternCol++) {
+                        let depth = p.patternData[patternRow][patternCol];
+                        if (depth === 'u') {
+                            let holeX = cx + (patternCol * cellSize) + (cellSize / 2);
+                            let holeY = cy + (r * cellSize) + (cellSize / 2);
+
+                            stroke(255);
+                            strokeWeight(2);
+                            let loomX = rightStartX + (metaCol * 16 + patternCol) * rightCellSize + (rightCellSize / 2);
+                            line(holeX, holeY, loomX, loomY);
+                        }
+                    }
+                }
+            }
+        }
+    }
+    // End of drawPunchCards
 }
