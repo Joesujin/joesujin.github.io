@@ -49,11 +49,12 @@ function draw() {
     xNoise = xStart;
     for (var x = 0; x <= width; x += scl) {
       xNoise += 0.07;
-      var NoiseVal = noise(xNoise, yNoise);
+
+      // Optimization: Check distance FIRST before heavy noise calculation
       var distant = dist(lastx, lasty, x, y);
 
       if (distant <= fade) {
-        //if (dist(x,y,width,height) < 20) {
+        var NoiseVal = noise(xNoise, yNoise); // Only calculate if needed
         drawPointRotate(x, y, NoiseVal, scl);
       }
     }

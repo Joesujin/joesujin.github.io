@@ -2,7 +2,7 @@
 layout: work_detail
 title: "Plumo"
 tagline: "A talkable AI pet with a rules based “brain”"
-hero_image: "/img/Terra/plumo/plumo.png"
+hero_image: "/img/Terra/Plumo/plumo.png"
 hide_header: true
 custom_class: plumo-page
 # video_id: "Insert_YouTube_ID_Here" 
@@ -17,7 +17,15 @@ custom_class: plumo-page
         <span class="tagline" style="display: block; margin-bottom: 0rem; font-size: 1.2rem; color: #888; font-weight: 300;">A talkable AI pet with a rules based “brain”</span>
         <span class="tagline" style="display: block; margin-bottom: 0.2rem; font-size: 1rem; color: #888; font-weight: 300; font-style: italic;">Role - Lead Game Designer</span>
         <span class="tagline" style="display: block; margin-bottom: 3rem; font-size: 0.9rem; color: #888; font-weight: 300; font-style: italic;">Development time - 8 weeks</span>
-        
+<!--      
+        <div class="cs-contributions" style="margin-top: 2rem; margin-bottom: 2rem;">
+            <span class="skill-tag">System Design</span>
+            <span class="skill-tag">Game Design</span>
+            <span class="skill-tag">Balancing</span>
+            <span class="skill-tag">Lead Game Designer</span>
+        </div>
+-->
+       
         <div class="cs-overview" style="margin-top: 4rem;">
             <h3>Overview</h3>
             <p style="max-width: 60ch; font-size: 1.2rem; color: #ddd; line-height: 1.6;">Plumo is a talkable AI pet built around co-parenting habits and long-term bonding. It features a rules-based "brain" that responds to user interactions in a realistic and engaging way.</p>
@@ -35,7 +43,7 @@ custom_class: plumo-page
             <div class="phone-frame">
                 <!-- Replace 'path/to/video1.mp4' with your actual file path (can be .mp4 or .gif) -->
                 <video autoplay loop muted playsinline controls preload="auto">
-                    <source src="{{ '/img/Terra/plumo/Plumo_Ftue.mp4' | relative_url }}" type="video/mp4">
+                    <source src="{{ '/img/Terra/Plumo/Plumo_Ftue.mp4' | relative_url }}" type="video/mp4">
                 </video>
             </div>
             <div class="video-reload">
@@ -62,7 +70,7 @@ custom_class: plumo-page
             <div class="phone-frame">
                  <!-- Replace 'path/to/video2.mp4' with your actual file path -->
                 <video autoplay loop muted playsinline controls preload="auto">
-                    <source src="{{ '/img/Terra/plumo/Plumo_Throwing_Tantrum.mp4' | relative_url }}#t=80" type="video/mp4">
+                    <source src="{{ '/img/Terra/Plumo/Plumo_Throwing_Tantrum.mp4' | relative_url }}#t=80" type="video/mp4">
                 </video>
             </div>
             <div class="video-reload">
@@ -84,7 +92,7 @@ As shown in this video, the pet throws a tantrum when the player neglects its ne
             <div class="phone-frame">
                  <!-- Replace 'path/to/video3.mp4' with your actual file path -->
                 <video autoplay loop muted playsinline controls preload="auto">
-                    <source src="{{ '/img/Terra/plumo/Plumo_PictoParty.mp4' | relative_url }}#t=100" type="video/mp4">
+                    <source src="{{ '/img/Terra/Plumo/Plumo_PictoParty.mp4' | relative_url }}#t=100" type="video/mp4">
                 </video>
             </div>
             <div class="video-reload">
@@ -135,7 +143,7 @@ Beyond chatting, Plumo can play mini-games like Tic-Tac-Toe and even Pictionary.
 <div class="doc-card-container compact-card">
     <div class="doc-card">
         <div onclick="alert('NDA locked, Can show it personally')" style="cursor: not-allowed; display: block; color: inherit; text-decoration: none;">
-            <img src="/img/Terra/plumo/plumo.png" alt="Documentation Thumbnail">
+            <img src="/img/Terra/Plumo/plumo.png" alt="Documentation Thumbnail">
             <div class="doc-card-content">
                 <h4><i class="fas fa-lock" style="margin-right: 5px;"></i> Documentation</h4>
                 <p>Detailed documentation of my process and research will be here.</p>

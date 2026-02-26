@@ -4,5 +4,6 @@ markdown: kramdown
 baseurl: ""
 url: ""
 
-# Google Analytics
-google_analytics: UA-151968629-1
+# Analytics
+google_analytics: G-XF9W474B8Q
+microsoft_clarity: unpbfla1bt

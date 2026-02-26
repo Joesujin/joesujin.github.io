@@ -2,7 +2,7 @@
 layout: work_detail
 title: "Cricket Legends"
 tagline: "High-stakes cricket campaign based on history"
-hero_image: "/img/Terra/cricket/cricket.png"
+hero_image: "/img/Terra/Cricket/cricket.png"
 hide_header: true
 custom_class: cricket-page
 # video_id: "Insert_YouTube_ID_Here" 
@@ -17,6 +17,12 @@ custom_class: cricket-page
         <span class="tagline" style="display: block; margin-bottom: 0rem; font-size: 1.2rem; color: #888; font-weight: 300;">A high-stakes cricket game that lets players relive and rewrite history with one clutch decision.</span>
         <span class="tagline" style="display: block; margin-bottom: 0.2rem; font-size: 1rem; color: #888; font-weight: 300; font-style: italic;">Role - Lead Game Designer</span>
         <span class="tagline" style="display: block; margin-bottom: 3rem; font-size: 0.9rem; color: #888; font-weight: 300; font-style: italic;">Development time - 9 weeks</span>
+<!--
+        <div class="cs-contributions" style="margin-top: 2rem; margin-bottom: 2rem;">
+            <span class="skill-tag">Game Design</span>
+            <span class="skill-tag">System Design</span>
+            <span class="skill-tag">Prototyping</span>
+        </div> -->
 
         <div class="cs-overview" style="margin-top: 4rem;">
             <h3>Overview</h3>
@@ -117,7 +123,7 @@ custom_class: cricket-page
 <div class="doc-card-container compact-card">
     <div class="doc-card">
         <div onclick="alert('NDA locked, Can show it personally')" style="cursor: not-allowed; display: block; color: inherit; text-decoration: none;">
-            <img src="/img/Terra/cricket/cricket.png" alt="Documentation Thumbnail">
+            <img src="/img/Terra/Cricket/cricket.png" alt="Documentation Thumbnail">
             <div class="doc-card-content">
                 <h4><i class="fas fa-lock" style="margin-right: 5px;"></i> Documentation</h4>
                 <p>Detailed documentation of physics + contact logic, shot mapping, difficulty ramping, and the Super Sub system will be added here.</p>

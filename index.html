@@ -61,7 +61,8 @@ title: Joesujin | Portfolio
         <div class="cards_grid">
             {% for project in job.projects %}
             <div class="game_card {{ project.custom_class }}">
-                <a href="{{ project.url }}" class="stretched-link">
+                <a href="{{ project.url }}" class="stretched-link" {% if project.url contains 'http' %}target="_blank"
+                    {% endif %}>
                     {% if project.image %}
                     <img src="{{ project.image }}" alt="{{ project.title }}">
                     {% endif %}

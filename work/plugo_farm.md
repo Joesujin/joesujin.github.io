@@ -17,6 +17,14 @@ custom_class: plugo-page
         <span class="tagline" style="display: block; margin-bottom: 0rem; font-size: 1.2rem; color: #888; font-weight: 300;">Phygital Farm Kit for Early Learners</span>
         <span class="tagline" style="display: block; margin-bottom: 3rem; font-size: 0.9rem; color: #888; font-weight: 300; font-style: italic;">Role - Senior Game Designer</span>
         
+<!--        
+        <div class="cs-contributions" style="margin-top: 2rem; margin-bottom: 2rem;">
+            <span class="skill-tag">Game Design</span>
+            <span class="skill-tag">System Design</span>
+            <span class="skill-tag">Prototyping</span>
+        </div>
+-->
+
         <div class="cs-overview" style="margin-top: 4rem;">
             <h3>Overview</h3>
             <p style="max-width: 60ch; font-size: 1.2rem; color: #ddd; line-height: 1.6;">Plugo Farm is an AR-powered farm kit where kids manage their own digital farm using real physical toys. It bridges tactile play with digital feedback.</p>
@@ -31,9 +39,9 @@ custom_class: plugo-page
 <div class="cs-section">
     <div class="cs-media-col">
         <div class="landscape-frame">
-            <img src="/img/Playshifu/plugo_farm_1.avif" alt="Plugo Farm Kit" style="opacity: 0.8;">
+            <iframe width="100%" height="100%" src="https://www.youtube.com/embed/ET-bkQiLeoU" title="Plugo Farm by PlayShifu" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
         </div>
-    </div>
+    </div>      
     <div class="cs-text-col">
         <h3>Key Features</h3>
         <ul>
@@ -48,7 +56,7 @@ custom_class: plugo-page
 <div class="cs-section reverse">
     <div class="cs-media-col">
         <div class="landscape-frame">
-             <img src="/img/Playshifu/plugo_farm.avif" alt="Plugo Farm Gameplay" style="opacity: 0.8;">
+             <img src="/img/Playshifu/plugofarm/Plugofarmimg_6.avif" alt="Plugo Farm Gameplay" style="opacity: 0.8;">
         </div>
     </div>
     <div class="cs-text-col">
@@ -57,18 +65,6 @@ custom_class: plugo-page
     </div>
 </div>
 
-<!-- Documentation Card -->
-<div class="doc-card-container compact-card">
-    <div class="doc-card">
-        <div onclick="alert('NDA locked, Can show it personally')" style="cursor: not-allowed; display: block; color: inherit; text-decoration: none;">
-            <img src="/img/Playshifu/plugo_farm.avif" alt="Documentation Thumbnail">
-            <div class="doc-card-content">
-                <h4><i class="fas fa-lock" style="margin-right: 5px;"></i> Documentation</h4>
-                <p>Detailed documentation of my process and research will be here.</p>
-            </div>
-        </div>
-    </div>
-</div>
 
 <!-- Carousel Section -->
 {% assign project_data = nil %}
@@ -97,11 +93,16 @@ custom_class: plugo-page
 </div>
 {% endif %}
 
-<!-- Credits Section -->
-<div class="cs-credits">
-    <h4>Credits</h4>
-    <ul>
-        <li><strong>Role</strong>: Senior Game Designer</li>
-        <li><strong>Team</strong>: Playshifu Game Team</li>
-    </ul>
-</div>
+
+<!-- Documentation Card -->
+<div class="doc-card-container compact-card">
+    <div class="doc-card">
+        <div onclick="alert('NDA locked, Can show it personally')" style="cursor: not-allowed; display: block; color: inherit; text-decoration: none;">
+            <img src="/img/Playshifu/plugo_farm.avif" alt="Documentation Thumbnail">
+            <div class="doc-card-content">
+                <h4><i class="fas fa-lock" style="margin-right: 5px;"></i> Documentation</h4>
+                <p>Detailed documentation of my process and research will be here.</p>
+            </div>
+        </div>
+    </div>
+</div> 

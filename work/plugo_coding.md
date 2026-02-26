@@ -18,7 +18,14 @@ custom_class: plugo-page
         <h1 style="color: white; margin-bottom: 0px;">Plugo Coding</h1>
         <span class="tagline" style="display: block; margin-bottom: 0rem; font-size: 1.2rem; color: #888; font-weight: 300;">Logical Thinking through Tactile Play</span>
         <span class="tagline" style="display: block; margin-bottom: 3rem; font-size: 0.9rem; color: #888; font-weight: 300; font-style: italic;">Role - Lead Game Designer</span>
-        
+
+<!--       
+        <div class="cs-contributions" style="margin-top: 2rem; margin-bottom: 2rem;">
+            <span class="skill-tag">Game Design</span>
+            <span class="skill-tag">System Design</span>
+            <span class="skill-tag">Prototyping</span>
+        </div>
+        -->
         <div class="cs-overview" style="margin-top: 4rem;">
             <h3>Overview</h3>
             <p style="max-width: 60ch; font-size: 1.2rem; color: #ddd; line-height: 1.6;">Plugo Coding teaches the fundamentals of programming—sequences, loops, and conditions—without any screens-only abstraction. Kids simply snap physical blocks to issue commands.</p>
@@ -33,9 +40,10 @@ custom_class: plugo-page
 <div class="cs-section">
     <div class="cs-media-col">
         <div class="landscape-frame">
-            <img src="/img/Playshifu/plugo_coding.avif" alt="Plugo Coding Gameplay" style="opacity: 0.8;">
+            <iframe width="100%" height="100%" src="https://www.youtube.com/embed/NKrER05en_g" title="Plugo Coding Video" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
         </div>
-    </div>
+    </div>   
+    
     <div class="cs-text-col">
         <h3>Key Features</h3>
         <ul>
@@ -50,7 +58,7 @@ custom_class: plugo-page
 <div class="cs-section reverse">
     <div class="cs-media-col">
         <div class="landscape-frame">
-            <img src="/img/Playshifu/plugo_coding_1.png" alt="Plugo Coding Blocks" style="opacity: 0.8;">
+            <img src="/img/Playshifu/plugocoding/plugocoding_3.avif" alt="Plugo Coding Blocks" style="opacity: 0.8;">
         </div>
     </div>
     <div class="cs-text-col">
@@ -59,18 +67,6 @@ custom_class: plugo-page
     </div>
 </div>
 
-<!-- Documentation Card (Compact + NDA Lock) -->
-<div class="doc-card-container compact-card">
-    <div class="doc-card">
-        <div onclick="alert('NDA locked, Can show it personally')" style="cursor: not-allowed; display: block; color: inherit; text-decoration: none;">
-            <img src="/img/Playshifu/plugo_coding_1.png" alt="Documentation Thumbnail">
-            <div class="doc-card-content">
-                <h4><i class="fas fa-lock" style="margin-right: 5px;"></i> Documentation</h4>
-                <p>Detailed documentation of my process and research will be here.</p>
-            </div>
-        </div>
-    </div>
-</div>
 
 <!-- Carousel Section -->
 {% assign project_data = nil %}
@@ -99,11 +95,16 @@ custom_class: plugo-page
 </div>
 {% endif %}
 
-<!-- Credits Section -->
-<div class="cs-credits">
-    <h4>Credits</h4>
-    <ul>
-        <li><strong>Role</strong>: Lead Game Designer</li>
-        <li><strong>Team</strong>: Playshifu Game Team</li>
-    </ul>
+<!-- Documentation Card (Compact + NDA Lock) -->
+<div class="doc-card-container compact-card">
+    <div class="doc-card">
+        <div onclick="alert('NDA locked, Can show it personally')" style="cursor: not-allowed; display: block; color: inherit; text-decoration: none;">
+            <img src="/img/Playshifu/plugo_coding_1.png" alt="Documentation Thumbnail">
+            <div class="doc-card-content">
+                <h4><i class="fas fa-lock" style="margin-right: 5px;"></i> Documentation</h4>
+                <p>Detailed documentation of my process and research will be here.</p>
+            </div>
+        </div>
+    </div>
 </div>
+
