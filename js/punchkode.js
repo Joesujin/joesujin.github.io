@@ -582,8 +582,9 @@ function draw() {
         let patternCol = c % GRID_SIZE;
 
         // Determine which pattern bank applies to this macro-block in the Cloth grid
-        let metaRow = Math.floor(totalRowsWoven / GRID_SIZE) % CLOTH_ROWS;
-        let metaCol = Math.floor(c / GRID_SIZE);
+        // Safely bounds-check metaRow and metaCol to prevent 'undefined' crashes
+        let metaRow = Math.floor(Math.abs(totalRowsWoven) / GRID_SIZE) % CLOTH_ROWS;
+        let metaCol = Math.floor(c / GRID_SIZE) % CLOTH_COLS;
         let activePatternIdxForLoom = clothData[metaRow][metaCol];
         let pLoom = patterns[activePatternIdxForLoom];
 
