@@ -17,9 +17,77 @@ title: PunchKode Looms
         padding: 0;
         overflow: hidden;
         background-color: #000;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
+    }
+
+    /* Custom p5 DOM Slider Styles for PunchKode */
+    input[type=range].punchkode-slider {
+        -webkit-appearance: none !important;
+        appearance: none !important;
+        background: transparent !important;
+        outline: none !important;
+        border: none !important;
+        margin: 0;
+    }
+
+    input[type=range].punchkode-slider:focus {
+        outline: none !important;
+    }
+
+    /* Match the exact geometric "hourglass/diamond" shape from the mockup */
+    input[type=range].punchkode-slider::-webkit-slider-thumb {
+        -webkit-appearance: none !important;
+        appearance: none !important;
+        width: 25px !important;
+        height: 35px !important;
+        background-color: #ffffff !important;
+        cursor: pointer;
+        border-radius: 0 !important;
+        margin-top: -15px !important;
+        box-shadow: none !important;
+        border: none !important;
+        /* adjust vertical alignment over the fake drawn tracks */
+        /* Create the inward-pointing geometric knob */
+        clip-path: polygon(0% 0%, 100% 0%, 75% 50%, 100% 100%, 0% 100%, 25% 50%);
+        transition: background-color 0.1s ease;
+    }
+
+    input[type=range].punchkode-slider::-webkit-slider-thumb:hover {
+        background-color: #ffaa00 !important;
+        /* Warm highlight on hover */
+    }
+
+    input[type=range].punchkode-slider::-moz-range-thumb {
+        width: 25px !important;
+        height: 35px !important;
+        background-color: #ffffff !important;
+        cursor: pointer;
+        border-radius: 0 !important;
+        border: none !important;
+        box-shadow: none !important;
+        clip-path: polygon(0% 0%, 100% 0%, 75% 50%, 100% 100%, 0% 100%, 25% 50%);
+    }
+
+    /* Hide the default HTML track entirely since the canvas is drawing fake wobbly ones underneath */
+    input[type=range].punchkode-slider::-webkit-slider-runnable-track {
+        width: 100% !important;
+        height: 6px !important;
+        cursor: pointer;
+        background: transparent !important;
+        background-image: none !important;
+        border: none !important;
+        box-shadow: none !important;
+        outline: none !important;
+        color: transparent !important;
+    }
+
+    input[type=range].punchkode-slider::-moz-range-track {
+        width: 100% !important;
+        height: 6px !important;
+        cursor: pointer;
+        background: transparent !important;
+        background-image: none !important;
+        border: none !important;
+        box-shadow: none !important;
+        outline: none !important;
     }
 </style>
