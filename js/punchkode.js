@@ -853,22 +853,42 @@ function drawUI() {
     fill(255);
     text("Reset", resetX + 20, btnY + 10);
 
+    // Erase the region to ensure p5.js completely flushes old thick strokes
+    fill(21);
+    noStroke();
+    let pad = 10;
+    rect(bankStartX - pad, bankStartY - pad, 6 * (bankSize + LAYOUT.patternBank.gap) + pad * 2, 5 * (bankSize + LAYOUT.patternBank.gap) + pad * 2);
+
     let buttonsPerRow = 6;
 
-    // Determine draw order to preserve highlighting outlines (z-index)
-    let drawOrder = [];
+    // Pass 1: Draw ALL buttons with default unselected styles
     for (let i = 0; i < 26; i++) {
-        if (i !== activePatternIndex && i !== copiedPatternIndex) {
-            drawOrder.push(i);
-        }
-    }
-    if (copiedPatternIndex !== null && copiedPatternIndex !== activePatternIndex) {
-        drawOrder.push(copiedPatternIndex);
-    }
-    drawOrder.push(activePatternIndex);
+        let gridCol = i % buttonsPerRow;
+        let gridRow = Math.floor(i / buttonsPerRow);
+        let bx = bankStartX + gridCol * (bankSize + LAYOUT.patternBank.gap);
+        let by = bankStartY + gridRow * (bankSize + LAYOUT.patternBank.gap);
 
-    for (let index = 0; index < drawOrder.length; index++) {
-        let i = drawOrder[index];
+        stroke('#555');
+        strokeWeight(1);
+        fill(40);
+        rect(bx, by, bankSize, bankSize, 6);
+
+        noStroke();
+        fill(255);
+        textAlign(CENTER, CENTER);
+        textSize(bankSize * 0.45);
+        text(String.fromCharCode(65 + i), bx + bankSize / 2, by + bankSize / 2);
+    }
+
+    // Pass 2: Draw the highlights EXACTLY on top to prevent borders overlapping
+    let draws = [];
+    if (copiedPatternIndex !== null && copiedPatternIndex !== activePatternIndex) draws.push(copiedPatternIndex);
+    draws.push(activePatternIndex);
+
+    for (let j = 0; j < draws.length; j++) {
+        let i = draws[j];
+        if (i === null) continue;
+
         let gridCol = i % buttonsPerRow;
         let gridRow = Math.floor(i / buttonsPerRow);
         let bx = bankStartX + gridCol * (bankSize + LAYOUT.patternBank.gap);
@@ -882,7 +902,6 @@ function drawUI() {
             strokeWeight(3);
             fill(80);
             rect(bx, by, bankSize, bankSize, 6);
-            // Draw a nested orange ring so both states are visible
             stroke('#ffaa00');
             strokeWeight(2);
             noFill();
@@ -896,11 +915,6 @@ function drawUI() {
             stroke('#ffaa00');
             strokeWeight(2);
             fill(60);
-            rect(bx, by, bankSize, bankSize, 6);
-        } else {
-            stroke('#555');
-            strokeWeight(1);
-            fill(40);
             rect(bx, by, bankSize, bankSize, 6);
         }
 
