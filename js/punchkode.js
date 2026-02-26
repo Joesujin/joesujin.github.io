@@ -946,7 +946,7 @@ function drawUI() {
     fill(copiedPatternIndex !== null ? 255 : 100);
     text("Paste", pasteX + 20, btnY + 10);
     fill(255);
-    text("Clear pattern", resetX + 20, btnY + 10);
+    text("Clear", resetX + 20, btnY + 10);
 
     // Erase the region to ensure p5.js completely flushes old thick strokes
     fill(0);
