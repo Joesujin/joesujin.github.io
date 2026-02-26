@@ -854,7 +854,21 @@ function drawUI() {
     text("Reset", resetX + 20, btnY + 10);
 
     let buttonsPerRow = 6;
+
+    // Determine draw order to preserve highlighting outlines (z-index)
+    let drawOrder = [];
     for (let i = 0; i < 26; i++) {
+        if (i !== activePatternIndex && i !== copiedPatternIndex) {
+            drawOrder.push(i);
+        }
+    }
+    if (copiedPatternIndex !== null && copiedPatternIndex !== activePatternIndex) {
+        drawOrder.push(copiedPatternIndex);
+    }
+    drawOrder.push(activePatternIndex);
+
+    for (let index = 0; index < drawOrder.length; index++) {
+        let i = drawOrder[index];
         let gridCol = i % buttonsPerRow;
         let gridRow = Math.floor(i / buttonsPerRow);
         let bx = bankStartX + gridCol * (bankSize + LAYOUT.patternBank.gap);
