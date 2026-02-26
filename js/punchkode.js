@@ -26,7 +26,7 @@ let clothData = []; // Stores integers 0-7 representing pattern indices
 // UI elements for the palette
 let pickers = [];
 let hexInputs = [];
-let colorPalette = ['#BF4646', '#FFF4EA', '#7EACB5']; // 3 available colors
+let colorPalette = ['#E2E8CE', '#262626', '#FF7F11']; // 3 available colors
 // Memory matrix for the massive loom blanket
 let loomData = [];
 
@@ -404,18 +404,19 @@ function applyGridClick(col, row, isClick) {
 }
 
 function mousePressed() {
-    // Check for [Copy] button click
+    // Check for [Copy], [Paste], [Reset] button clicks
+    let btnY = bankStartY - 25;
     let copyX = bankStartX + 110;
-    let copyY = bankStartY - 25;
-    if (mouseX >= copyX && mouseX <= copyX + 40 && mouseY >= copyY && mouseY <= copyY + 20) {
+    let pasteX = copyX + 50;
+    let resetX = bankStartX + 210;
+    let isInBtn = (bx) => mouseX >= bx && mouseX <= bx + 40 && mouseY >= btnY && mouseY <= btnY + 20;
+
+    if (isInBtn(copyX)) {
         copiedPatternIndex = activePatternIndex;
         return;
     }
 
-    // Check for [Paste] button click
-    let pasteX = copyX + 50;
-    let pasteY = copyY;
-    if (mouseX >= pasteX && mouseX <= pasteX + 40 && mouseY >= pasteY && mouseY <= pasteY + 20) {
+    if (isInBtn(pasteX)) {
         if (copiedPatternIndex !== null) {
             // Deep copy the state from copiedPatternIndex into activePatternIndex
             let sourceP = patterns[copiedPatternIndex];
@@ -429,6 +430,19 @@ function mousePressed() {
 
             saveToLocal();
         }
+        return;
+    }
+
+    if (isInBtn(resetX)) {
+        let p = patterns[activePatternIndex];
+        for (let i = 0; i < GRID_SIZE; i++) {
+            p.rowColors[i] = 0;
+            p.colColors[i] = 1;
+            for (let j = 0; j < GRID_SIZE; j++) {
+                p.patternData[i][j] = 'u';
+            }
+        }
+        saveToLocal();
         return;
     }
 
@@ -772,14 +786,16 @@ function draw() {
 function checkHoverState() {
     let isHoveringHitbox = false;
 
-    // 1. Check Copy & Paste Buttons
+    // 1. Check Copy & Paste & Reset Buttons
+    let btnY = bankStartY - 25;
     let copyX = bankStartX + 110;
-    let copyY = bankStartY - 25;
-    if (mouseX >= copyX && mouseX <= copyX + 40 && mouseY >= copyY && mouseY <= copyY + 20) isHoveringHitbox = true;
-
     let pasteX = copyX + 50;
-    let pasteY = copyY;
-    if (mouseX >= pasteX && mouseX <= pasteX + 40 && mouseY >= pasteY && mouseY <= pasteY + 20) isHoveringHitbox = true;
+    let resetX = bankStartX + 210;
+    let isInBtn = (bx) => mouseX >= bx && mouseX <= bx + 40 && mouseY >= btnY && mouseY <= btnY + 20;
+
+    if (isInBtn(copyX) || isInBtn(pasteX) || isInBtn(resetX)) {
+        isHoveringHitbox = true;
+    }
 
     // 2. Check Pattern Bank Grid
     let bxEnd = bankStartX + 6 * (bankSize + LAYOUT.patternBank.gap);
@@ -819,21 +835,23 @@ function drawUI() {
     textAlign(LEFT, BOTTOM);
     text("Pattern Bank", bankStartX, bankStartY - 10);
 
-    // Draw Copy Button
+    // Draw Copy, Paste, Reset Buttons
+    let btnY = bankStartY - 25;
     let copyX = bankStartX + 110;
-    let copyY = bankStartY - 25;
-    fill(40); stroke('#555'); strokeWeight(1);
-    rect(copyX, copyY, 40, 20, 4);
-    noStroke(); fill(200); textSize(11); textAlign(CENTER, CENTER);
-    text("Copy", copyX + 20, copyY + 10);
-
-    // Draw Paste Button
     let pasteX = copyX + 50;
-    let pasteY = copyY;
+    let resetX = bankStartX + 210;
+
     fill(40); stroke('#555'); strokeWeight(1);
-    rect(pasteX, pasteY, 40, 20, 4);
-    noStroke(); fill(copiedPatternIndex !== null ? 255 : 100); textSize(11); textAlign(CENTER, CENTER);
-    text("Paste", pasteX + 20, pasteY + 10);
+    rect(copyX, btnY, 40, 20, 4);
+    rect(pasteX, btnY, 40, 20, 4);
+    rect(resetX, btnY, 40, 20, 4);
+
+    noStroke(); fill(200); textSize(11); textAlign(CENTER, CENTER);
+    text("Copy", copyX + 20, btnY + 10);
+    fill(copiedPatternIndex !== null ? 255 : 100);
+    text("Paste", pasteX + 20, btnY + 10);
+    fill(255);
+    text("Reset", resetX + 20, btnY + 10);
 
     let buttonsPerRow = 6;
     for (let i = 0; i < 26; i++) {
@@ -842,20 +860,35 @@ function drawUI() {
         let bx = bankStartX + gridCol * (bankSize + LAYOUT.patternBank.gap);
         let by = bankStartY + gridRow * (bankSize + LAYOUT.patternBank.gap);
 
-        if (i === activePatternIndex) {
+        let isActive = (i === activePatternIndex);
+        let isCopied = (i === copiedPatternIndex);
+
+        if (isActive && isCopied) {
             stroke('#fff');
             strokeWeight(3);
             fill(80);
-        } else if (i === copiedPatternIndex) {
+            rect(bx, by, bankSize, bankSize, 6);
+            // Draw a nested orange ring so both states are visible
+            stroke('#ffaa00');
+            strokeWeight(2);
+            noFill();
+            rect(bx + 3, by + 3, bankSize - 6, bankSize - 6, 4);
+        } else if (isActive) {
+            stroke('#fff');
+            strokeWeight(3);
+            fill(80);
+            rect(bx, by, bankSize, bankSize, 6);
+        } else if (isCopied) {
             stroke('#ffaa00');
             strokeWeight(2);
             fill(60);
+            rect(bx, by, bankSize, bankSize, 6);
         } else {
             stroke('#555');
             strokeWeight(1);
             fill(40);
+            rect(bx, by, bankSize, bankSize, 6);
         }
-        rect(bx, by, bankSize, bankSize, 6); // rounded buttons
 
         noStroke();
         fill(255);
@@ -875,12 +908,20 @@ function drawUI() {
             let cx = clothStartX + c * clothCellSize;
             let cy = clothStartY + r * clothCellSize;
 
-            stroke('#555');
-            strokeWeight(1);
-            fill(30);
+            let patternIdx = clothData[r][c];
+
+            // Highlight the cells in the layout that match the active pattern being edited
+            if (patternIdx === activePatternIndex) {
+                stroke('#fff');
+                strokeWeight(2);
+                fill(80);
+            } else {
+                stroke('#555');
+                strokeWeight(1);
+                fill(30);
+            }
             rect(cx, cy, clothCellSize, clothCellSize, 2);
 
-            let patternIdx = clothData[r][c];
             noStroke();
             fill('#ddd');
             textSize(12);
@@ -912,6 +953,7 @@ function drawUI() {
 
     // 4. Draw Styled Logo "PUNCH KODE LOOM" in the center column
     push();
+    noStroke();
     let leftEndX = leftStartX + (GRID_SIZE + 2) * leftCellSize - 200;
     let centerX = (leftEndX + rightStartX) / 2;
     let centerY = height / 2 + 200; // Positioned centrally in the vertical span
@@ -928,6 +970,9 @@ function drawUI() {
 
 
 
+    // Draw Tribute Text
+    push();
+    noStroke();
     centerY = height / 2 + 450; // Positioned centrally in the vertical span
 
     textAlign(LEFT, TOP);
@@ -1192,33 +1237,51 @@ function drawPunchCards(startX, startY, cellSize, totalRowsWoven) {
     let loomY = rightStartY;
 
     // PASS 1: The 'Down' threads (Drawn UNDER the punch cards, connecting to the loom)
-    for (let metaCol = 0; metaCol < 6; metaCol++) {
-        let cx = startX + (metaCol * 16 * cellSize);
-        if (cx > 2160) continue;
-        for (let i = 0; i < 6; i++) {
-            let K = firstCard + i;
-            let cy = cardsStartY + getChainY(K * 4) - activeChainY;
+    let R = totalRowsWoven;
+    let targetK = Math.floor(R / 4);
+    let targetR = R % 4;
+    let targetCardIndex = targetK - firstCard;
 
-            for (let r = 0; r < 4; r++) {
-                let R = K * 4 + r;
-                if (R === totalRowsWoven) {
-                    let metaRow = Math.floor(R / GRID_SIZE) % CLOTH_ROWS;
-                    let patternRow = R % GRID_SIZE;
-                    let patternIdx = clothData[metaRow][metaCol];
-                    let p = patterns[patternIdx];
+    if (targetCardIndex >= 0 && targetCardIndex < 6) {
+        let cy = cardsStartY + getChainY(targetK * 4) - activeChainY;
+        let metaRow = Math.floor(R / GRID_SIZE) % CLOTH_ROWS;
+        let patternRow = R % GRID_SIZE;
 
-                    for (let patternCol = 0; patternCol < 16; patternCol++) {
-                        let depth = p.patternData[patternRow][patternCol];
-                        if (depth !== 'u') {
-                            let holeX = cx + (patternCol * cellSize) + (cellSize / 2);
-                            let holeY = cy + (r * cellSize) + (cellSize / 2);
+        for (let metaCol = 0; metaCol < 6; metaCol++) {
+            let cx = startX + (metaCol * 16 * cellSize);
+            if (cx > 2160) continue;
 
-                            stroke(255, 255, 255, 80); // Softer opacity for under-threads across the void
-                            strokeWeight(1.5);
-                            let loomX = rightStartX + (metaCol * 16 + patternCol) * rightCellSize + (rightCellSize / 2);
-                            line(holeX, holeY, loomX, loomY);
-                        }
-                    }
+            let patternIdx = clothData[metaRow][metaCol];
+            let p = patterns[patternIdx];
+
+            for (let patternCol = 0; patternCol < 16; patternCol++) {
+                let depth = p.patternData[patternRow][patternCol];
+                if (depth !== 'u') {
+                    let holeX = cx + (patternCol * cellSize) + (cellSize / 2);
+                    let holeY = cy + (targetR * cellSize) + (cellSize / 2);
+
+                    let threadColIdx = p.colColors[patternCol];
+                    let threadColor = color(colorPalette[threadColIdx]);
+                    // Down threads are now solid
+                    stroke(threadColor);
+                    strokeWeight(3);
+                    let loomX = rightStartX + (metaCol * 16 + patternCol) * rightCellSize + (rightCellSize / 2);
+
+                    let offx = 10;
+                    let offy = -190;
+                    line(holeX, holeY, holeX + offx, holeY + offy);
+                    line(holeX + offx, holeY + offy, loomX, loomY);
+
+                    // Structural Bar (Horizontal)
+                    stroke(200, 150);
+                    strokeWeight(0.5);
+                    line(holeX + offx, holeY + offy, holeX - 40, holeY + offy);
+
+                    // Refined Bezier
+                    noFill();
+                    strokeWeight(3.5);
+                    stroke(threadColor);
+                    bezier(holeX, holeY, holeX - 100, holeY + 100, loomX, loomY + 400, loomX + 50, loomY + 800);
                 }
             }
         }
@@ -1280,38 +1343,42 @@ function drawPunchCards(startX, startY, cellSize, totalRowsWoven) {
     drawingContext.restore();
 
     // PASS 4: Extruded 'Up' thread lines coming OUT of the holes (Drawn OVER the punch cards & holes)
-    for (let metaCol = 0; metaCol < 6; metaCol++) {
-        let cx = startX + (metaCol * 16 * cellSize);
-        if (cx > 2160) continue;
-        for (let i = 0; i < 6; i++) {
-            let K = firstCard + i;
-            let cy = cardsStartY + getChainY(K * 4) - activeChainY;
+    if (targetCardIndex >= 0 && targetCardIndex < 6) {
+        let cy = cardsStartY + getChainY(targetK * 4) - activeChainY;
+        let metaRow = Math.floor(R / GRID_SIZE) % CLOTH_ROWS;
+        let patternRow = R % GRID_SIZE;
 
-            for (let r = 0; r < 4; r++) {
-                let R = K * 4 + r;
+        for (let metaCol = 0; metaCol < 6; metaCol++) {
+            let cx = startX + (metaCol * 16 * cellSize);
+            if (cx > 2160) continue;
 
-                if (R === totalRowsWoven) {
-                    let metaRow = Math.floor(R / GRID_SIZE) % CLOTH_ROWS;
-                    let patternRow = R % GRID_SIZE;
-                    let patternIdx = clothData[metaRow][metaCol];
-                    let p = patterns[patternIdx];
+            let patternIdx = clothData[metaRow][metaCol];
+            let p = patterns[patternIdx];
 
-                    // Helper to calculate the exact onscreen needle coordinate for the Loom's active row
-                    // Helper to calculate the exact onscreen needle coordinate for the Loom's active row
-                    let loomY = rightStartY;
+            for (let patternCol = 0; patternCol < 16; patternCol++) {
+                let depth = p.patternData[patternRow][patternCol];
+                if (depth === 'u') {
+                    let holeX = cx + (patternCol * cellSize) + (cellSize / 2);
+                    let holeY = cy + (targetR * cellSize) + (cellSize / 2);
+                    let threadColIdx = p.colColors[patternCol];
+                    let threadColor = color(colorPalette[threadColIdx]);
+                    threadColor.setAlpha(220); // Up threads are now softer opacity
 
-                    for (let patternCol = 0; patternCol < 16; patternCol++) {
-                        let depth = p.patternData[patternRow][patternCol];
-                        if (depth === 'u') {
-                            let holeX = cx + (patternCol * cellSize) + (cellSize / 2);
-                            let holeY = cy + (r * cellSize) + (cellSize / 2);
+                    let offx = -60;
+                    let offy = -140;
 
-                            stroke(255);
-                            strokeWeight(2);
-                            let loomX = rightStartX + (metaCol * 16 + patternCol) * rightCellSize + (rightCellSize / 2);
-                            line(holeX, holeY, loomX, loomY);
-                        }
-                    }
+                    // Structural Bar (Horizontal)
+                    stroke(200, 150);
+                    strokeWeight(0.5);
+                    line(holeX + offx, holeY + offy, holeX + 40, holeY + offy);
+
+                    // Restored Thread logic
+                    stroke(threadColor);
+                    strokeWeight(0.5);
+                    let loomX = rightStartX + (metaCol * 16 + patternCol) * rightCellSize + (rightCellSize / 2);
+
+                    line(holeX, holeY, holeX + offx, holeY + offy);
+                    line(holeX + offx, holeY + offy, loomX, loomY + 10);
                 }
             }
         }
