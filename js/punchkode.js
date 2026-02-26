@@ -177,6 +177,7 @@ function setup() {
         let s = createSlider(minVal, maxVal, startVal, stepVal);
         s.parent(devUIContainer);
         s.style('width', '140px'); // Fill enough space for 3 columns
+        s.class('punchkode-slider'); // Attach class for CSS theming
         s.input(() => {
             updateFn(s.value());
         });
@@ -428,23 +429,26 @@ function applyGridClick(col, row, isClick) {
 function mousePressed() {
     // Check for [Copy], [Paste], [Reset] button clicks
     // Check for [Copy], [Paste], [Clear], [Reset] button clicks
-    let btnY = bankStartY - 25;
-    let copyX = bankStartX + 110;
-    let pasteX = copyX + 50;
-    let clearX = bankStartX + 10;
-    let resetX = bankStartX + 210;
-    let fullResetX = resetX + 100;
-    let isInBtn = (bx) => mouseX >= bx && mouseX <= bx + 40 && mouseY >= btnY && mouseY <= btnY + 20;
+    // 2x2 Layout:
+    // [Copy ]  [Paste]
+    // [Clear]  [Reset]
+    let btnStartY = bankStartY - 85; // moved up to fit 2 rows + larger buttons
+    let btnW = 70;
+    let btnH = 30;
 
-    // Wider hitbox for the 'Clear pattern' text button
-    let isInClearBtn = (bx) => mouseX >= bx && mouseX <= bx + 80 && mouseY >= btnY && mouseY <= btnY + 20;
+    let copyX = bankStartX + 120;
+    let pasteX = copyX + btnW + 5;
+    let clearX = copyX;
+    let resetX = pasteX;
 
-    if (isInBtn(copyX)) {
+    let isInBtn = (bx, by) => mouseX >= bx && mouseX <= bx + btnW && mouseY >= by && mouseY <= by + btnH;
+
+    if (isInBtn(copyX, btnStartY)) {
         copiedPatternIndex = activePatternIndex;
         return;
     }
 
-    if (isInBtn(pasteX)) {
+    if (isInBtn(pasteX, btnStartY)) {
         if (copiedPatternIndex !== null) {
             // Deep copy the state from copiedPatternIndex into activePatternIndex
             let sourceP = patterns[copiedPatternIndex];
@@ -461,7 +465,7 @@ function mousePressed() {
         return;
     }
 
-    if (isInClearBtn(resetX)) { // Re-using resetting logic but extending hitbox
+    if (isInBtn(clearX, btnStartY + btnH + 5)) { // Second row
         let p = patterns[activePatternIndex];
         for (let i = 0; i < GRID_SIZE; i++) {
             p.rowColors[i] = 0;
@@ -474,7 +478,7 @@ function mousePressed() {
         return;
     }
 
-    if (isInBtn(fullResetX)) {
+    if (isInBtn(resetX, btnStartY + btnH + 5)) { // Second row
         if (window.bannerResetData) {
             loadFromData(window.bannerResetData);
 
@@ -901,23 +905,24 @@ function draw() {
 function checkHoverState() {
     let isHoveringHitbox = false;
 
-    // 1. Check Copy & Paste & Reset Buttons
-    let btnY = bankStartY - 25;
-    let copyX = bankStartX + 110;
-    let pasteX = copyX + 50;
-    let resetX = bankStartX + 210;
-    let isInBtn = (bx) => mouseX >= bx && mouseX <= bx + 40 && mouseY >= btnY && mouseY <= btnY + 20;
+    // 1. Check Copy & Paste & Clear & Reset Buttons
 
-    if (isInBtn(copyX) || isInBtn(pasteX) || isInBtn(resetX)) {
+    // 1. Check Copy & Paste & Clear & Reset Buttons
+    // Check for [Copy], [Paste], [Clear], [Reset] button clicks
+    let btnStartY = bankStartY - 85;
+    let btnW = 70;
+    let btnH = 30;
+
+    let copyX = bankStartX + 120;
+    let pasteX = copyX + btnW + 5;
+    let clearX = copyX;
+    let resetX = pasteX;
+    let isInBtn = (bx, by) => mouseX >= bx && mouseX <= bx + btnW && mouseY >= by && mouseY <= by + btnH;
+
+    if (isInBtn(copyX, btnStartY) || isInBtn(pasteX, btnStartY) ||
+        isInBtn(clearX, btnStartY + btnH + 5) || isInBtn(resetX, btnStartY + btnH + 5)) {
         isHoveringHitbox = true;
     }
-
-    // 2. Check Pattern Bank Grid
-    let bxEnd = bankStartX + 6 * (bankSize + LAYOUT.patternBank.gap);
-    let byEnd = bankStartY + 5 * (bankSize + LAYOUT.patternBank.gap);
-    if (mouseX >= bankStartX && mouseX <= bxEnd && mouseY >= bankStartY && mouseY <= byEnd) isHoveringHitbox = true;
-
-    // 3. Check Cloth Grid
     let cxEnd = clothStartX + CLOTH_COLS * clothCellSize;
     let cyEnd = clothStartY + CLOTH_ROWS * clothCellSize;
     if (mouseX >= clothStartX && mouseX <= cxEnd && mouseY >= clothStartY && mouseY <= cyEnd) isHoveringHitbox = true;
@@ -951,31 +956,68 @@ function drawUI() {
     text("Pattern Bank", bankStartX, bankStartY - 10);
 
     // Draw Copy, Paste, Clear Pattern, Full Reset Buttons
-    let btnY = bankStartY - 25;
-    let copyX = bankStartX + 110;
-    let pasteX = copyX + 50;
-    let resetX = bankStartX + 210;
-    let fullResetX = resetX + 100;
+    let btnStartY = bankStartY - 85;
+    let btnW = 70;
+    let btnH = 30;
+
+    let copyX = bankStartX + 120;
+    let pasteX = copyX + btnW + 5;
+    let clearX = copyX;
+    let resetX = pasteX;
 
     fill(40); stroke('#555'); strokeWeight(1);
-    rect(copyX, btnY, 40, 20, 4);
-    rect(pasteX, btnY, 40, 20, 4);
-    rect(resetX, btnY, 80, 20, 4);
-    rect(fullResetX, btnY, 40, 20, 4);
+    // Row 1
+    rect(copyX, btnStartY, btnW, btnH, 4);
+    rect(pasteX, btnStartY, btnW, btnH, 4);
+    // Row 2
+    rect(clearX, btnStartY + btnH + 5, btnW, btnH, 4);
+    rect(resetX, btnStartY + btnH + 5, btnW, btnH, 4);
 
     noStroke(); fill(200); textSize(11); textAlign(CENTER, CENTER);
-    text("Copy", copyX + 20, btnY + 10);
+    text("Copy", copyX + (btnW / 2), btnStartY + (btnH / 2));
+
     fill(copiedPatternIndex !== null ? 255 : 100);
-    text("Paste", pasteX + 20, btnY + 10);
+    text("Paste", pasteX + (btnW / 2), btnStartY + (btnH / 2));
+
     fill(255);
-    text("Clear pattern", resetX + 40, btnY + 10);
-    text("Reset", fullResetX + 20, btnY + 10);
+    text("Clear", clearX + (btnW / 2), btnStartY + btnH + 5 + (btnH / 2));
+    text("Reset", resetX + (btnW / 2), btnStartY + btnH + 5 + (btnH / 2));
 
     // Erase the region to ensure p5.js completely flushes old thick strokes
     fill(0);
     noStroke();
     let pad = 10;
     rect(bankStartX - pad, bankStartY - pad, 6 * (bankSize + LAYOUT.patternBank.gap) + pad * 2, 5 * (bankSize + LAYOUT.patternBank.gap) + pad * 2);
+
+    // 1.25 Draw "multi flip" annotation pointing to the bottom toggles
+    fill(200);
+    noStroke();
+    textLeading(14);
+    textAlign(RIGHT, CENTER);
+    textFont("monospace");
+    textSize(12);
+    text("multi\nflip", leftStartX - 10, leftStartY + GRID_SIZE * leftCellSize + 15);
+
+    // Draw thick white arrow curve
+    noFill();
+    stroke(255);
+    strokeWeight(3);
+    beginShape();
+    let sx = leftStartX - 5;
+    let sy = leftStartY + GRID_SIZE * leftCellSize + 15;
+    let ex = leftStartX + 10;
+    let ey = leftStartY + GRID_SIZE * leftCellSize + 15;
+    bezier(sx, sy, sx + 5, sy + 15, ex - 10, ey + 15, ex, ey);
+    endShape();
+    // Arrowhead tip
+    fill(255);
+    noStroke();
+    beginShape();
+    vertex(ex + 4, ey - 5);
+    vertex(ex - 8, ey);
+    vertex(ex + 2, ey + 7);
+    endShape(CLOSE);
+
 
     let buttonsPerRow = 6;
 
@@ -1043,6 +1085,36 @@ function drawUI() {
         text(String.fromCharCode(65 + i), bx + bankSize / 2, by + bankSize / 2);
     }
 
+    // 1.5 Draw Connectivity Curves from Active Pattern to Cloth Layout Blocks
+    // We draw this BEFORE the Action Buttons and Cloth Grid so they slip underneath
+    let activeGridCol = activePatternIndex % buttonsPerRow;
+    let activeGridRow = Math.floor(activePatternIndex / buttonsPerRow);
+    let bankBtnX = bankStartX + activeGridCol * (bankSize + LAYOUT.patternBank.gap) + bankSize / 2;
+    let bankBtnY = bankStartY + activeGridRow * (bankSize + LAYOUT.patternBank.gap) + bankSize / 2;
+
+    blendMode(ADD);
+    for (let r = 0; r < CLOTH_ROWS; r++) {
+        for (let c = 0; c < CLOTH_COLS; c++) {
+            if (clothData[r][c] === activePatternIndex) {
+                let clothRectX = clothStartX + c * clothCellSize + clothCellSize / 2;
+                let clothRectY = clothStartY + r * clothCellSize + clothCellSize / 2;
+
+                noFill();
+                stroke(255, 255, 255, 80); // Translucent white
+                strokeWeight(2);
+
+                // Control points explicitly routed to swing wide right and down, underneath the Action buttons
+                let cp1X = bankBtnX + 100;
+                let cp1Y = bankBtnY + 80;
+                let cp2X = clothRectX - 100;
+                let cp2Y = clothRectY + 20;
+
+                bezier(bankBtnX, bankBtnY, cp1X, cp1Y, cp2X, cp2Y, clothRectX, clothRectY);
+            }
+        }
+    }
+    blendMode(BLEND);
+
     // 2. Draw Cloth Layout Grid (6 cols x 9 rows)
     fill(0);
     noStroke();
@@ -1097,6 +1169,32 @@ function drawUI() {
         }
     }
 
+    // 2.5 Draw the Weaving Progress Row Marker next to the Cloth Layout
+    let activeClothRow = Math.floor(Math.abs(totalRowsWoven) / GRID_SIZE) % CLOTH_ROWS;
+
+    // Smooth interpolation trick: Move the marker smoothly between rows as the 16 sub-rows weave
+    // Calculate fractional progression through the current macro-block
+    let subRowProgress = (Math.abs(totalRowsWoven) % GRID_SIZE) / GRID_SIZE;
+
+    // Base Y offset for the current row
+    let baseMarkerY = clothStartY + activeClothRow * clothCellSize;
+    // Animate smoothly downwards to the next row
+    let markerY = baseMarkerY + (subRowProgress * clothCellSize) + (clothCellSize / 2);
+
+    let markerX = clothStartX + (CLOTH_COLS * clothCellSize) + 15;
+
+    // Draw a small pointing triangle colored according to the actual current physical row
+    let activePatternIdxForRow = clothData[activeClothRow][0]; // Color based on the first pattern block in the row
+    let activeRowColorIdx = patterns[activePatternIdxForRow].rowColors[Math.abs(totalRowsWoven) % GRID_SIZE];
+    fill(colorPalette[activeRowColorIdx]);
+
+    noStroke();
+    beginShape();
+    vertex(markerX, markerY); // Tip pointing left
+    vertex(markerX + 10, markerY - 6); // Top right base
+    vertex(markerX + 10, markerY + 6); // Bottom right base
+    endShape(CLOSE);
+
     // 3. Draw Hand-drawn "THREAD Loook" text above sliders
     push();
     translate(LAYOUT.devSliders.resolvedX, LAYOUT.devSliders.resolvedY - 40); // Align perfectly above resolved DOM sliders
@@ -1105,17 +1203,19 @@ function drawUI() {
     fill(255);
     // Rough marker-style rendering
     textStyle(BOLD);
+    textFont("monospace");
     text("THREAD Loook", 0, 0);
 
     // Draw little hand-drawn scribbles for the slider tracks just like the mockup
     strokeWeight(4);
     stroke(255);
     noFill();
-    rotate(0.05); // counter rotate for lines to match horizontal DOM sliders closely
-    bezier(0, 55, 30, 52, 60, 58, 140, 55);
-    bezier(150, 55, 180, 52, 210, 58, 290, 55);
-    bezier(0, 105, 30, 102, 60, 108, 140, 105);
-    bezier(150, 105, 180, 102, 210, 108, 290, 105);
+    rotate(0.05); // counter rotate for lines to match horizontal DOM sliders
+    // Re-calculating scribble positions to perfectly cover the three DOM CSS tracks
+    let tY1 = 65, tY2 = 113; // Horizontal track center heights
+    let tLX = -8, tRX = 480;  // Full span across the container
+    bezier(tLX, tY1, tLX + 100, tY1 - 4, tRX - 100, tY1 + 5, tRX, tY1); // Top Track
+    bezier(tLX, tY2, tLX + 100, tY2 + 4, tRX - 100, tY2 - 3, tRX, tY2); // Bottom Track
     pop();
 
     // 4. Draw Styled Logo "PUNCH KODE LOOM" in the center column
@@ -1137,12 +1237,6 @@ function drawUI() {
     pop();
 
 
-
-    // Draw Tribute Text
-    push();
-    noStroke();
-    centerY = height / 2 + 450; // Positioned centrally in the vertical span
-
     textAlign(LEFT, TOP);
     fill(205);
     noStroke();
@@ -1150,6 +1244,38 @@ function drawUI() {
     textSize(40);
     textLeading(40); // tight vertical spacing for stacked look
     text("a tribute \nto the \nJacquard \nPunch Cards", centerX, centerY);
+    pop();
+
+    // 5. Annotate "Thread Color" row slider above the loom
+    push();
+    fill(200);
+    noStroke();
+    textLeading(16);
+    textAlign(CENTER, BOTTOM);
+    textFont("monospace");
+    textSize(14);
+
+    let colorTextX = rightStartX + (LOOM_COLS * rightCellSize) + rightCellSize * 2;
+    let colorTextY = rightStartY - 20;
+
+    text("thread\ncolor", colorTextX, colorTextY - 15);
+
+    // Draw thick white arrow pointing down
+    noFill();
+    stroke(255);
+    strokeWeight(4);
+    beginShape();
+    bezier(colorTextX, colorTextY - 5, colorTextX - 10, colorTextY + 10, colorTextX - 15, colorTextY + 20, colorTextX - 5, colorTextY + 25);
+    endShape();
+
+    // Arrowhead tip pointing to the color indicators
+    fill(255);
+    noStroke();
+    beginShape();
+    vertex(colorTextX - 5, colorTextY + 30);
+    vertex(colorTextX - 15, colorTextY + 20);
+    vertex(colorTextX, colorTextY + 16);
+    endShape(CLOSE);
     pop();
 }
 
