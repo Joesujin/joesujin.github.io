@@ -271,7 +271,7 @@ function setup() {
     // Attempt to load previously saved session (or fallback to defaults and save them)
     loadFromLocal();
 
-    console.log("Punchkode Version 3: True Loom Editor Initialized!");
+    console.log("Punchkode Version 5: Synchronized Loom Editor Initialized!");
 }
 
 // Global UI container ref for resizing
@@ -1013,11 +1013,13 @@ function drawUI() {
 
     // 4. Draw Styled Logo "PUNCH KODE LOOM" in the center column
     push();
+
     noStroke();
     let leftEndX = leftStartX + (GRID_SIZE + 2) * leftCellSize - 200;
     let centerX = (leftEndX + rightStartX) / 2;
     let centerY = height / 2 + 200; // Positioned centrally in the vertical span
-
+    fill(20);
+    rect(centerX, centerY, 500, 1200)
     textAlign(LEFT, TOP);
     fill(255);
     noStroke();
