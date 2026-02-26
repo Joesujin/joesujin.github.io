@@ -110,6 +110,14 @@ let devUIContainer; // Global reference for scaling
 let mainWrapper; // Wrapper div for scaling
 let uiLayer; // Explicit overlay wrapper synced with canvas scale
 
+let defaultSaveData;
+
+function preload() {
+    // Load default patterns file before setup runs
+    defaultSaveData = loadJSON('js/punchkode_default.json');
+}
+
+
 function setup() {
     document.body.style.margin = '0';
     document.body.style.padding = '0';
@@ -260,6 +268,11 @@ function setup() {
     }
 
     windowResized();
+
+    // First, apply default save data if we loaded it successfully
+    if (defaultSaveData) {
+        loadFromData(defaultSaveData);
+    }
 
     // Attempt to load previously saved session
     loadFromLocal();
@@ -1200,64 +1213,69 @@ function saveToLocal() {
     localStorage.setItem('punchkode_v4', JSON.stringify(payload));
 }
 
+function loadFromData(data) {
+    if (data.patterns && data.clothData) {
+        // Deep copy to prevent modifying the default cached object directly
+        patterns = JSON.parse(JSON.stringify(data.patterns));
+
+        // Backwards compatibility: If an old save file with only 8 patterns is loaded, 
+        // expand the active memory array out to 26 so we don't crash when someone clicks 'I'
+        while (patterns.length < 26) {
+            let pData = { patternData: [], colColors: [], rowColors: [] };
+            for (let i = 0; i < GRID_SIZE; i++) {
+                pData.rowColors.push(0);
+                pData.colColors.push(1);
+                let row = [];
+                for (let j = 0; j < GRID_SIZE; j++) {
+                    row.push('u');
+                }
+                pData.patternData.push(row);
+            }
+            patterns.push(pData);
+        }
+
+        clothData = JSON.parse(JSON.stringify(data.clothData));
+
+        // Backwards compatibility: pad columns if older save only had 5
+        for (let r = 0; r < clothData.length; r++) {
+            while (clothData[r].length < CLOTH_COLS) {
+                clothData[r].push(0);
+            }
+        }
+
+        if (data.colorPalette) {
+            colorPalette = JSON.parse(JSON.stringify(data.colorPalette));
+            // Keep the HTML UI pickers in sync with the loaded palette
+            for (let i = 0; i < 3; i++) {
+                if (pickers[i]) pickers[i].value(colorPalette[i]);
+                if (hexInputs[i]) hexInputs[i].value(colorPalette[i]);
+            }
+        }
+
+        if (data.threadLook) {
+            topThreadCenter = data.threadLook.topThreadCenter || topThreadCenter;
+            topThreadEdge = data.threadLook.topThreadEdge || topThreadEdge;
+            bottomThreadCenter = data.threadLook.bottomThreadCenter || bottomThreadCenter;
+            bottomThreadEdge = data.threadLook.bottomThreadEdge || bottomThreadEdge;
+            threadTaperEdge = data.threadLook.threadTaperEdge || threadTaperEdge;
+            threadTaperLength = data.threadLook.threadTaperLength || threadTaperLength;
+
+            // Sync the sliders
+            for (let key in data.threadLook) {
+                if (threadLookSliders[key]) {
+                    threadLookSliders[key].value(data.threadLook[key]);
+                }
+            }
+        }
+    }
+}
+
 function loadFromLocal() {
     let saved = localStorage.getItem('punchkode_v4');
     if (saved) {
         try {
             let data = JSON.parse(saved);
-            if (data.patterns && data.clothData) {
-                patterns = data.patterns;
-
-                // Backwards compatibility: If an old save file with only 8 patterns is loaded, 
-                // expand the active memory array out to 26 so we don't crash when someone clicks 'I'
-                while (patterns.length < 26) {
-                    let pData = { patternData: [], colColors: [], rowColors: [] };
-                    for (let i = 0; i < GRID_SIZE; i++) {
-                        pData.rowColors.push(0);
-                        pData.colColors.push(1);
-                        let row = [];
-                        for (let j = 0; j < GRID_SIZE; j++) {
-                            row.push('u');
-                        }
-                        pData.patternData.push(row);
-                    }
-                    patterns.push(pData);
-                }
-
-                clothData = data.clothData;
-
-                // Backwards compatibility: pad columns if older save only had 5
-                for (let r = 0; r < clothData.length; r++) {
-                    while (clothData[r].length < CLOTH_COLS) {
-                        clothData[r].push(0);
-                    }
-                }
-
-                if (data.colorPalette) {
-                    colorPalette = data.colorPalette;
-                    // Keep the HTML UI pickers in sync with the loaded palette
-                    for (let i = 0; i < 3; i++) {
-                        if (pickers[i]) pickers[i].value(colorPalette[i]);
-                        if (hexInputs[i]) hexInputs[i].value(colorPalette[i]);
-                    }
-                }
-
-                if (data.threadLook) {
-                    topThreadCenter = data.threadLook.topThreadCenter || topThreadCenter;
-                    topThreadEdge = data.threadLook.topThreadEdge || topThreadEdge;
-                    bottomThreadCenter = data.threadLook.bottomThreadCenter || bottomThreadCenter;
-                    bottomThreadEdge = data.threadLook.bottomThreadEdge || bottomThreadEdge;
-                    threadTaperEdge = data.threadLook.threadTaperEdge || threadTaperEdge;
-                    threadTaperLength = data.threadLook.threadTaperLength || threadTaperLength;
-
-                    // Sync the sliders
-                    for (let key in data.threadLook) {
-                        if (threadLookSliders[key]) {
-                            threadLookSliders[key].value(data.threadLook[key]);
-                        }
-                    }
-                }
-            }
+            loadFromData(data);
         } catch (e) {
             console.error("Failed to load local storage session:", e);
         }
