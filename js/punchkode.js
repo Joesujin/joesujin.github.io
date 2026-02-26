@@ -50,6 +50,8 @@ let threadTaperEdge = 0.2;     // Length offset away from boundary where thread 
 let threadTaperLength = 0.41;   // Length of the diagonal tapering section
 // Grid bounds for click detection
 let leftStartX = 0, leftStartY = 0, leftCellSize = 0;
+let rightStartX = 0, rightStartY = 0, rightCellSize = 7.7;
+let miniStartX = 0, miniStartY = 0, miniCellSize = 3;
 
 // Track sliders for external updates
 let threadLookSliders = {};
@@ -90,8 +92,14 @@ const LAYOUT = {
     },
     loom: {
         anchorX: 'right', anchorY: 'top',
-        x: 250, // from right edge
+        x: 400, // Shifted left to make room for mini loom
         y: 750
+    },
+    miniLoom: {
+        anchorX: 'right', anchorY: 'top',
+        x: 80, // from right edge
+        y: 750,
+        cellSize: 3
     },
     punchcards: {
         anchorX: 'right', anchorY: 'bottom',
@@ -104,7 +112,7 @@ const LAYOUT = {
 let bankStartX = 0, bankStartY = 0, bankSize = 0;
 let clothStartX = 0, clothStartY = 0, clothCellSize = 0;
 let punchStartX = 0, punchStartY = 0;
-let rightStartX = 0, rightStartY = 0, rightCellSize = 7.7;
+
 
 let devUIContainer; // Global reference for scaling
 let mainWrapper; // Wrapper div for scaling
@@ -335,10 +343,17 @@ function positionUI() {
     }
 
     // 5. Loom Setup
-    let loomW = LOOM_COLS * 7.7;
+    let loomW = LOOM_COLS * rightCellSize;
     let pLoom = resolvePos(LAYOUT.loom, loomW, 1620);
     rightStartX = pLoom.x;
     rightStartY = pLoom.y;
+
+    // 5b. Mini Loom Setup
+    miniCellSize = LAYOUT.miniLoom.cellSize;
+    let miniW = LOOM_COLS * miniCellSize;
+    let pMini = resolvePos(LAYOUT.miniLoom, miniW, 1620);
+    miniStartX = pMini.x;
+    miniStartY = pMini.y;
 
     // 6. Punchcard layout
     punchCardConfig = { scale: LAYOUT.punchcards.scale };
@@ -783,6 +798,73 @@ function draw() {
 
     pop();
 
+    // ------------------------------------------------------------
+    // FAR RIGHT SIDE: The Compressed "Mini" Loom
+    // ------------------------------------------------------------
+    push();
+
+    let miniTranslateY = miniStartY - (totalRowsWoven * miniCellSize);
+    translate(0, miniTranslateY);
+
+    for (let row = 0; row < loomData.length; row++) {
+        let rawY = miniStartY + (row * miniCellSize);
+        let visualY = rawY + miniTranslateY;
+
+        // Optimize: Don't draw rows that are completely scrolled off screen
+        if (visualY < -miniCellSize || visualY > height + miniCellSize) continue;
+
+        for (let col = 0; col < LOOM_COLS; col++) {
+            let x = miniStartX + (col * miniCellSize);
+            let y = rawY;
+
+            let isWoven = false;
+            if (row < totalRowsWoven) {
+                isWoven = true;
+            } else if (row === totalRowsWoven) {
+                let isEvenRow = (row % 2 === 0);
+                if (isEvenRow) {
+                    if (col < currentRowStep) isWoven = true;
+                } else {
+                    if (col >= LOOM_COLS - currentRowStep) isWoven = true;
+                }
+            }
+
+            if (isWoven) {
+                let cellMemory = loomData[row][col];
+                if (!cellMemory || cellMemory === '' || cellMemory === 'empty') {
+                    fill(20);
+                    rect(x, y, miniCellSize, miniCellSize);
+                    continue;
+                }
+
+                let depth = cellMemory.depth;
+                let hColor = colorPalette[cellMemory.hColor];
+                let vColor = colorPalette[cellMemory.vColor];
+
+                // Background
+                fill(20);
+                rect(x, y, miniCellSize, miniCellSize);
+
+                noStroke();
+                // Simple solid rectangle mapping replacing the complex bezier tapered thread rendering
+                if (depth === 'u') {
+                    // Underneath: Vertical thread, On top: Horizontal thread
+                    fill(hColor);
+                    rect(x, y + 1, miniCellSize, miniCellSize - 1);
+                } else {
+                    // Underneath: Horizontal thread, On top: Vertical thread
+                    fill(vColor);
+                    rect(x + 1, y, miniCellSize - 1, miniCellSize);
+                }
+            } else {
+                fill(20);
+                rect(x, y, miniCellSize, miniCellSize);
+            }
+        }
+    }
+
+    pop();
+
     // Draw the UI panels first so the threads can lay on top of them
     drawUI();
 
@@ -862,7 +944,7 @@ function drawUI() {
     fill(copiedPatternIndex !== null ? 255 : 100);
     text("Paste", pasteX + 20, btnY + 10);
     fill(255);
-    text("Reset", resetX + 20, btnY + 10);
+    text("Clear pattern", resetX + 20, btnY + 10);
 
     // Erase the region to ensure p5.js completely flushes old thick strokes
     fill(21);
