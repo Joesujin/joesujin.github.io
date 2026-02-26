@@ -110,13 +110,7 @@ let devUIContainer; // Global reference for scaling
 let mainWrapper; // Wrapper div for scaling
 let uiLayer; // Explicit overlay wrapper synced with canvas scale
 
-
-
-let dotoFont;
-
-function preload() {
-    dotoFont = loadFont('../assets/fonts/Doto-Variable.ttf');
-}
+let fontsLoaded = false;
 
 function setup() {
     document.body.style.margin = '0';
@@ -148,6 +142,11 @@ function setup() {
     noStroke(0);
 
     lastUpdate = millis();
+
+    // Prevent any drawing loop logic until the CSS variable font is 100% ready
+    document.fonts.ready.then(() => {
+        fontsLoaded = true;
+    });
 
     // The target depth ('u' or 'd') assigned when a mouse drag begins
     window.dragTargetState = null;
@@ -540,6 +539,9 @@ function mouseReleased() {
 }
 
 function draw() {
+    // Wait for Doto to be parsed by the browser cache so it does not fallback render onto canvas buffer
+    if (!fontsLoaded) return;
+
     // Clear background
     background(21);
 
@@ -1019,7 +1021,7 @@ function drawUI() {
     textAlign(LEFT, TOP);
     fill(255);
     noStroke();
-    textFont(dotoFont);
+    textFont("Doto");
     textSize(80);
     textLeading(75); // tight vertical spacing for stacked look
     text("punch\ncode\nloom", centerX, centerY);
@@ -1035,7 +1037,7 @@ function drawUI() {
     textAlign(LEFT, TOP);
     fill(205);
     noStroke();
-    textFont(dotoFont);
+    textFont("Doto");
     textSize(40);
     textLeading(40); // tight vertical spacing for stacked look
     text("a tribute \nto the \nJacquard \nPunch Cards", centerX, centerY);
@@ -1043,6 +1045,7 @@ function drawUI() {
 }
 
 function windowResized() {
+    if (!canvas) return; // Prevent resizing before setup completes
     resizeCanvas(2160, 1620); // enforce canvas size
 
     let scaleX = windowWidth / 2160;
