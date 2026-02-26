@@ -996,17 +996,17 @@ function drawUI() {
     textAlign(RIGHT, CENTER);
     textFont("monospace");
     textSize(12);
-    text("multi\nflip", leftStartX - 10, leftStartY + GRID_SIZE * leftCellSize + 15);
+    text("multi\nflip", leftStartX - 10 + 30, leftStartY + GRID_SIZE * leftCellSize + 15 + 50);
 
     // Draw thick white arrow curve
     noFill();
     stroke(255);
     strokeWeight(3);
     beginShape();
-    let sx = leftStartX - 5;
-    let sy = leftStartY + GRID_SIZE * leftCellSize + 15;
-    let ex = leftStartX + 10;
-    let ey = leftStartY + GRID_SIZE * leftCellSize + 15;
+    let sx = leftStartX - 5 + 30;
+    let sy = leftStartY + GRID_SIZE * leftCellSize + 15 + 50;
+    let ex = leftStartX + 10 + 30;
+    let ey = leftStartY + GRID_SIZE * leftCellSize + 15 + 50;
     bezier(sx, sy, sx + 5, sy + 15, ex - 10, ey + 15, ex, ey);
     endShape();
     // Arrowhead tip
@@ -1178,8 +1178,8 @@ function drawUI() {
 
     // Base Y offset for the current row
     let baseMarkerY = clothStartY + activeClothRow * clothCellSize;
-    // Animate smoothly downwards to the next row
-    let markerY = baseMarkerY + (subRowProgress * clothCellSize) + (clothCellSize / 2);
+    // Animate smoothly downwards to the next row (shifted 5px up)
+    let markerY = baseMarkerY + (subRowProgress * clothCellSize) + (clothCellSize / 2) - 8;
 
     let markerX = clothStartX + (CLOTH_COLS * clothCellSize) + 15;
 
@@ -1189,10 +1189,14 @@ function drawUI() {
     fill(colorPalette[activeRowColorIdx]);
 
     noStroke();
+    let sice = 10;
     beginShape();
+    // vertex(markerX - 10, markerY + (sice / 2)); // Top right base
+    // vertex(markerX, markerY); // Tip pointing left
     vertex(markerX, markerY); // Tip pointing left
-    vertex(markerX + 10, markerY - 6); // Top right base
-    vertex(markerX + 10, markerY + 6); // Bottom right base
+    vertex(markerX - sice, markerY - sice); // Top right base
+    vertex(markerX + sice, markerY - sice);
+    vertex(markerX + sice, markerY);// Bottom right base
     endShape(CLOSE);
 
     // 3. Draw Hand-drawn "THREAD Loook" text above sliders
@@ -1212,7 +1216,7 @@ function drawUI() {
     noFill();
     rotate(0.05); // counter rotate for lines to match horizontal DOM sliders
     // Re-calculating scribble positions to perfectly cover the three DOM CSS tracks
-    let tY1 = 65, tY2 = 113; // Horizontal track center heights
+    let tY1 = 40, tY2 = 71; // Horizontal track center heights
     let tLX = -8, tRX = 480;  // Full span across the container
     bezier(tLX, tY1, tLX + 100, tY1 - 4, tRX - 100, tY1 + 5, tRX, tY1); // Top Track
     bezier(tLX, tY2, tLX + 100, tY2 + 4, tRX - 100, tY2 - 3, tRX, tY2); // Bottom Track
@@ -1243,7 +1247,7 @@ function drawUI() {
     textFont("Doto");
     textSize(40);
     textLeading(40); // tight vertical spacing for stacked look
-    text("a tribute \nto the \nJacquard \nPunch Cards", centerX, centerY);
+    text("a tribute \nto the \nJacquard \nPunch Cards", centerX, centerY + 240);
     pop();
 
     // 5. Annotate "Thread Color" row slider above the loom
@@ -1255,8 +1259,8 @@ function drawUI() {
     textFont("monospace");
     textSize(14);
 
-    let colorTextX = rightStartX + (LOOM_COLS * rightCellSize) + rightCellSize * 2;
-    let colorTextY = rightStartY - 20;
+    let colorTextX = leftStartX + (GRID_SIZE + 2) * leftCellSize - 20;
+    let colorTextY = leftStartY + (GRID_SIZE / 2) * leftCellSize - 10 - 340;
 
     text("thread\ncolor", colorTextX, colorTextY - 15);
 
