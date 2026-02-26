@@ -1099,7 +1099,7 @@ function drawUI() {
     push();
 
     noStroke();
-    let leftEndX = leftStartX + (GRID_SIZE + 2) * leftCellSize - 200;
+    let leftEndX = leftStartX + (GRID_SIZE + 2) * leftCellSize - 350;
     let centerX = (leftEndX + rightStartX) / 2;
     let centerY = height / 2 + 200; // Positioned centrally in the vertical span
     fill(0);
@@ -1432,7 +1432,7 @@ function drawPunchCards(startX, startY, cellSize, totalRowsWoven) {
                     let offx = 10;
                     let offy = -190;
                     line(holeX, holeY, holeX + offx, holeY + offy);
-                    line(holeX + offx, holeY + offy, loomX, loomY);
+                    line(holeX + offx, holeY + offy, loomX, loomY + 7);
 
                     // Structural Bar (Horizontal)
                     stroke(200, 150);
@@ -1443,7 +1443,7 @@ function drawPunchCards(startX, startY, cellSize, totalRowsWoven) {
                     noFill();
                     strokeWeight(3.5);
                     stroke(threadColor);
-                    bezier(holeX, holeY, holeX - 100, holeY + 100, loomX, loomY + 400, loomX + 50, loomY + 800);
+                    bezier(holeX, holeY, holeX - 100, holeY + 100, loomX, loomY + 400, loomX + 50, loomY + 1000);
                 }
             }
         }
@@ -1526,8 +1526,8 @@ function drawPunchCards(startX, startY, cellSize, totalRowsWoven) {
                     let threadColor = color(colorPalette[threadColIdx]);
                     threadColor.setAlpha(220); // Up threads are now softer opacity
 
-                    let offx = -60;
-                    let offy = -140;
+                    let offx = -160;
+                    let offy = -130;
 
                     // Structural Bar (Horizontal)
                     stroke(200, 150);
