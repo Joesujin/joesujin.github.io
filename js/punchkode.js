@@ -798,6 +798,13 @@ function draw() {
 
     pop();
 
+    // Draw the UI panels first so the threads can lay on top of them
+    drawUI();
+
+    // Overlay the scrolling Jacquard Punchcards!
+    // They are fully anchored to their own config settings and scale!
+    drawPunchCards(punchStartX, punchStartY, LAYOUT.punchcards.scale, totalRowsWoven);
+
     // ------------------------------------------------------------
     // FAR RIGHT SIDE: The Compressed "Mini" Loom
     // ------------------------------------------------------------
@@ -864,13 +871,6 @@ function draw() {
     }
 
     pop();
-
-    // Draw the UI panels first so the threads can lay on top of them
-    drawUI();
-
-    // Overlay the scrolling Jacquard Punchcards!
-    // They are fully anchored to their own config settings and scale!
-    drawPunchCards(punchStartX, punchStartY, LAYOUT.punchcards.scale, totalRowsWoven);
 
     // Re-evaluate mouse pointer interactions every frame
     checkHoverState();
