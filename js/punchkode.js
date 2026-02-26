@@ -1231,7 +1231,15 @@ function loadFromData(data) {
 
         clothData = JSON.parse(JSON.stringify(data.clothData));
 
-        // Backwards compatibility: pad columns if older save only had 5
+        // Backwards compatibility: pad rows and columns if older save only had smaller dimensions
+        while (clothData.length < CLOTH_ROWS) {
+            let emptyRow = [];
+            for (let c = 0; c < CLOTH_COLS; c++) {
+                emptyRow.push(0);
+            }
+            clothData.push(emptyRow);
+        }
+
         for (let r = 0; r < clothData.length; r++) {
             while (clothData[r].length < CLOTH_COLS) {
                 clothData[r].push(0);
