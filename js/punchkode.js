@@ -430,7 +430,8 @@ function mousePressed() {
     let btnY = bankStartY - 25;
     let copyX = bankStartX + 110;
     let pasteX = copyX + 50;
-    let resetX = bankStartX + 210;
+    let resetX = bankStartX + 190;
+    let fullResetX = resetX + 50;
     let isInBtn = (bx) => mouseX >= bx && mouseX <= bx + 40 && mouseY >= btnY && mouseY <= btnY + 20;
 
     if (isInBtn(copyX)) {
@@ -465,6 +466,31 @@ function mousePressed() {
             }
         }
         saveToLocal();
+        return;
+    }
+
+    if (isInBtn(fullResetX)) {
+        if (window.bannerResetData) {
+            loadFromData(window.bannerResetData);
+
+            // Reset weaving animation state for a true clean slate
+            totalRowsWoven = 0;
+            currentRowStep = 0;
+            isRowPaused = false;
+            lastUpdate = millis();
+
+            // Re-initialize loom memory
+            loomData = [];
+            for (let r = 0; r < INITIAL_LOOM_ROWS; r++) {
+                let row = [];
+                for (let c = 0; c < LOOM_COLS; c++) {
+                    row.push('');
+                }
+                loomData.push(row);
+            }
+
+            saveToLocal();
+        }
         return;
     }
 
@@ -885,10 +911,11 @@ function checkHoverState() {
     let btnY = bankStartY - 25;
     let copyX = bankStartX + 110;
     let pasteX = copyX + 50;
-    let resetX = bankStartX + 210;
+    let resetX = bankStartX + 190;
+    let fullResetX = resetX + 50;
     let isInBtn = (bx) => mouseX >= bx && mouseX <= bx + 40 && mouseY >= btnY && mouseY <= btnY + 20;
 
-    if (isInBtn(copyX) || isInBtn(pasteX) || isInBtn(resetX)) {
+    if (isInBtn(copyX) || isInBtn(pasteX) || isInBtn(resetX) || isInBtn(fullResetX)) {
         isHoveringHitbox = true;
     }
 
@@ -934,12 +961,14 @@ function drawUI() {
     let btnY = bankStartY - 25;
     let copyX = bankStartX + 110;
     let pasteX = copyX + 50;
-    let resetX = bankStartX + 210;
+    let resetX = bankStartX + 190;
+    let fullResetX = resetX + 50;
 
     fill(40); stroke('#555'); strokeWeight(1);
     rect(copyX, btnY, 40, 20, 4);
     rect(pasteX, btnY, 40, 20, 4);
     rect(resetX, btnY, 40, 20, 4);
+    rect(fullResetX, btnY, 40, 20, 4);
 
     noStroke(); fill(200); textSize(11); textAlign(CENTER, CENTER);
     text("Copy", copyX + 20, btnY + 10);
@@ -947,6 +976,7 @@ function drawUI() {
     text("Paste", pasteX + 20, btnY + 10);
     fill(255);
     text("Clear", resetX + 20, btnY + 10);
+    text("Reset", fullResetX + 20, btnY + 10);
 
     // Erase the region to ensure p5.js completely flushes old thick strokes
     fill(0);
