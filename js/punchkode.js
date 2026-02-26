@@ -908,20 +908,12 @@ function drawUI() {
             let cx = clothStartX + c * clothCellSize;
             let cy = clothStartY + r * clothCellSize;
 
-            let patternIdx = clothData[r][c];
-
-            // Highlight the cells in the layout that match the active pattern being edited
-            if (patternIdx === activePatternIndex) {
-                stroke('#fff');
-                strokeWeight(2);
-                fill(80);
-            } else {
-                stroke('#555');
-                strokeWeight(1);
-                fill(30);
-            }
+            stroke('#555');
+            strokeWeight(1);
+            fill(30);
             rect(cx, cy, clothCellSize, clothCellSize, 2);
 
+            let patternIdx = clothData[r][c];
             noStroke();
             fill('#ddd');
             textSize(12);
