@@ -110,12 +110,6 @@ let devUIContainer; // Global reference for scaling
 let mainWrapper; // Wrapper div for scaling
 let uiLayer; // Explicit overlay wrapper synced with canvas scale
 
-let defaultSaveData;
-
-function preload() {
-    // Load default patterns file before setup runs
-    defaultSaveData = loadJSON('js/punchkode_default.json');
-}
 
 
 function setup() {
@@ -270,8 +264,8 @@ function setup() {
     windowResized();
 
     // First, apply default save data if we loaded it successfully
-    if (defaultSaveData) {
-        loadFromData(defaultSaveData);
+    if (typeof window.defaultSaveData !== "undefined" && window.defaultSaveData) {
+        loadFromData(window.defaultSaveData);
     }
 
     // Attempt to load previously saved session

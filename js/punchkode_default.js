@@ -1,3 +1,4 @@
+window.defaultSaveData =
 {
     "patterns": [
         {
