@@ -263,12 +263,7 @@ function setup() {
 
     windowResized();
 
-    // First, apply default save data if we loaded it successfully
-    if (typeof window.defaultSaveData !== "undefined" && window.defaultSaveData) {
-        loadFromData(window.defaultSaveData);
-    }
-
-    // Attempt to load previously saved session
+    // Attempt to load previously saved session (or fallback to defaults and save them)
     loadFromLocal();
 
     console.log("Punchkode Version 3: True Loom Editor Initialized!");
@@ -1205,7 +1200,7 @@ function saveToLocal() {
             threadTaperLength: threadTaperLength
         }
     };
-    localStorage.setItem('punchkode_v4', JSON.stringify(payload));
+    localStorage.setItem('punchkode_v5', JSON.stringify(payload));
 }
 
 function loadFromData(data) {
@@ -1274,7 +1269,7 @@ function loadFromData(data) {
 }
 
 function loadFromLocal() {
-    let saved = localStorage.getItem('punchkode_v4');
+    let saved = localStorage.getItem('punchkode_v5');
     if (saved) {
         try {
             let data = JSON.parse(saved);
@@ -1282,6 +1277,10 @@ function loadFromLocal() {
         } catch (e) {
             console.error("Failed to load local storage session:", e);
         }
+    } else if (typeof window.defaultSaveData !== "undefined" && window.defaultSaveData) {
+        // If no local save exists yet, fall back to the defaults and IMMEDIATELY save it!
+        loadFromData(window.defaultSaveData);
+        saveToLocal();
     }
 }
 
