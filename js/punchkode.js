@@ -97,13 +97,13 @@ const LAYOUT = {
     },
     miniLoom: {
         anchorX: 'right', anchorY: 'top',
-        x: 80, // from right edge
-        y: 750,
+        x: 100, // from right edge
+        y: 700,
         cellSize: 3
     },
     punchcards: {
         anchorX: 'right', anchorY: 'bottom',
-        x: 450, //  from right edge
+        x: 500, //  from right edge
         y: 350, //  from bottom edge
         scale: 7
     }
@@ -351,7 +351,7 @@ function positionUI() {
     // 5b. Mini Loom Setup
     miniCellSize = LAYOUT.miniLoom.cellSize;
     let miniW = LOOM_COLS * miniCellSize;
-    let pMini = resolvePos(LAYOUT.miniLoom, miniW, 1620);
+    let pMini = resolvePos(LAYOUT.miniLoom, miniW - 100, 1620);
     miniStartX = pMini.x;
     miniStartY = pMini.y;
 
@@ -558,8 +558,10 @@ function draw() {
     if (!fontsLoaded) return;
 
     // Clear background
-    background(21);
+    background(0);
 
+    fill(0);
+    rect(0, 0, width, height);
     // Draw the grid and UI elements
     let currentRevealSpeed = isRowPaused ? rowPause : (rowDuration / LOOM_COLS);
 
@@ -687,7 +689,7 @@ function draw() {
                 pop();
             } else if (col >= 0 && col < GRID_SIZE && row >= 0 && row < GRID_SIZE) {
                 // Main Grid Cell
-                fill(20);
+                fill(0);
                 noStroke();
                 rect(visualX, visualY, leftCellSize, leftCellSize);
 
@@ -765,7 +767,7 @@ function draw() {
                 let cellMemory = loomData[row][col];
                 if (!cellMemory || cellMemory === '' || cellMemory === 'empty') {
                     // This handles completely blank cells waiting to be woven
-                    fill(20);
+                    fill(0);
                     rect(x, y, rightCellSize, rightCellSize);
                     continue;
                 }
@@ -775,7 +777,7 @@ function draw() {
                 let vColor = colorPalette[cellMemory.vColor];
 
                 // Background
-                fill(20);
+                fill(0);
                 rect(x, y, rightCellSize, rightCellSize);
 
                 if (depth === 'u') {
@@ -790,7 +792,7 @@ function draw() {
                     drawTaperedThread(x, y, rightCellSize, vColor, false, true);
                 }
             } else {
-                fill(20);
+                fill(0);
                 rect(x, y, rightCellSize, rightCellSize);
             }
         }
@@ -839,7 +841,7 @@ function draw() {
             if (isWoven) {
                 let cellMemory = loomData[row][col];
                 if (!cellMemory || cellMemory === '' || cellMemory === 'empty') {
-                    fill(20);
+                    fill(0);
                     rect(x, y, miniCellSize, miniCellSize);
                     continue;
                 }
@@ -849,7 +851,7 @@ function draw() {
                 let vColor = colorPalette[cellMemory.vColor];
 
                 // Background
-                fill(20);
+                fill(0);
                 rect(x, y, miniCellSize, miniCellSize);
 
                 noStroke();
@@ -864,7 +866,7 @@ function draw() {
                     rect(x + 1, y, miniCellSize - 1, miniCellSize);
                 }
             } else {
-                fill(20);
+                fill(0);
                 rect(x, y, miniCellSize, miniCellSize);
             }
         }
@@ -947,7 +949,7 @@ function drawUI() {
     text("Clear pattern", resetX + 20, btnY + 10);
 
     // Erase the region to ensure p5.js completely flushes old thick strokes
-    fill(21);
+    fill(0);
     noStroke();
     let pad = 10;
     rect(bankStartX - pad, bankStartY - pad, 6 * (bankSize + LAYOUT.patternBank.gap) + pad * 2, 5 * (bankSize + LAYOUT.patternBank.gap) + pad * 2);
@@ -1019,7 +1021,7 @@ function drawUI() {
     }
 
     // 2. Draw Cloth Layout Grid (6 cols x 9 rows)
-    fill(21);
+    fill(0);
     noStroke();
     rect(clothStartX - pad, clothStartY - pad, CLOTH_COLS * clothCellSize + pad * 2, CLOTH_ROWS * clothCellSize + pad * 2);
 
@@ -1100,7 +1102,7 @@ function drawUI() {
     let leftEndX = leftStartX + (GRID_SIZE + 2) * leftCellSize - 200;
     let centerX = (leftEndX + rightStartX) / 2;
     let centerY = height / 2 + 200; // Positioned centrally in the vertical span
-    fill(20);
+    fill(0);
     rect(centerX, centerY, 500, 1200)
     textAlign(LEFT, TOP);
     fill(255);
@@ -1450,7 +1452,7 @@ function drawPunchCards(startX, startY, cellSize, totalRowsWoven) {
     // We use a clipping mask for the Cards so they cleanly hide as they feed "upwards" into the void
     drawingContext.save();
     drawingContext.beginPath();
-    drawingContext.rect(0, startY - 140, width, height);
+    drawingContext.rect(0, startY - 140, width + 100, height);
     drawingContext.clip();
 
     // PASS 2: Draw the cardboard backing
@@ -1478,7 +1480,7 @@ function drawPunchCards(startX, startY, cellSize, totalRowsWoven) {
             let cy = cardsStartY + getChainY(K * 4) - activeChainY;
 
             noStroke();
-            fill(20);
+            fill(0);
 
             for (let r = 0; r < 4; r++) {
                 let R = K * 4 + r;
