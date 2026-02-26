@@ -1014,7 +1014,7 @@ function drawUI() {
     fill(255);
     noStroke();
     textFont("Doto"); // Google Font weight 800 added in HTML header
-    textStyle(BOLD);
+    textStyle(NORMAL); // Prevent synthetic bolding overlays
     textSize(80);
     textLeading(75); // tight vertical spacing for stacked look
     text("punch\ncode\nloom", centerX, centerY);
@@ -1031,7 +1031,7 @@ function drawUI() {
     fill(205);
     noStroke();
     textFont("Doto"); // Google Font weight 800 added in HTML header
-    textStyle(BOLD);
+    textStyle(NORMAL); // Prevent synthetic bolding overlays
     textSize(40);
     textLeading(40); // tight vertical spacing for stacked look
     text("a tribute \nto the \nJacquard \nPunch Cards", centerX, centerY);
