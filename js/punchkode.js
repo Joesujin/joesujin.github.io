@@ -112,6 +112,12 @@ let uiLayer; // Explicit overlay wrapper synced with canvas scale
 
 
 
+let dotoFont;
+
+function preload() {
+    dotoFont = loadFont('../assets/fonts/Doto-Variable.ttf');
+}
+
 function setup() {
     document.body.style.margin = '0';
     document.body.style.padding = '0';
@@ -1013,8 +1019,7 @@ function drawUI() {
     textAlign(LEFT, TOP);
     fill(255);
     noStroke();
-    textFont("Doto"); // Google Font weight 800 added in HTML header
-    textStyle(NORMAL); // Prevent synthetic bolding overlays
+    textFont(dotoFont);
     textSize(80);
     textLeading(75); // tight vertical spacing for stacked look
     text("punch\ncode\nloom", centerX, centerY);
@@ -1030,8 +1035,7 @@ function drawUI() {
     textAlign(LEFT, TOP);
     fill(205);
     noStroke();
-    textFont("Doto"); // Google Font weight 800 added in HTML header
-    textStyle(NORMAL); // Prevent synthetic bolding overlays
+    textFont(dotoFont);
     textSize(40);
     textLeading(40); // tight vertical spacing for stacked look
     text("a tribute \nto the \nJacquard \nPunch Cards", centerX, centerY);
