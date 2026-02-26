@@ -100,11 +100,19 @@ const LAYOUT = {
         x: 80, // from right edge
         y: 750,
         cellSize: 3
+    },
+    punchcards: {
+        anchorX: 'right', anchorY: 'bottom',
+        x: 450, //  from right edge
+        y: 350, //  from bottom edge
+        scale: 7
     }
 };
 
 let bankStartX = 0, bankStartY = 0, bankSize = 0;
 let clothStartX = 0, clothStartY = 0, clothCellSize = 0;
+let punchStartX = 0, punchStartY = 0;
+
 
 let devUIContainer; // Global reference for scaling
 let mainWrapper; // Wrapper div for scaling
@@ -346,6 +354,14 @@ function positionUI() {
     let pMini = resolvePos(LAYOUT.miniLoom, miniW, 1620);
     miniStartX = pMini.x;
     miniStartY = pMini.y;
+
+    // 6. Punchcard layout
+    punchCardConfig = { scale: LAYOUT.punchcards.scale };
+    let cardW = 16 * 4.25 * LAYOUT.punchcards.scale;
+    let cardH = 34 * LAYOUT.punchcards.scale;
+    let pCards = resolvePos(LAYOUT.punchcards, cardW, cardH);
+    punchStartX = pCards.x;
+    punchStartY = pCards.y;
 }
 
 function applyGridClick(col, row, isClick) {
@@ -852,6 +868,10 @@ function draw() {
     // Draw the UI panels first so the threads can lay on top of them
     drawUI();
 
+    // Overlay the scrolling Jacquard Punchcards!
+    // They are fully anchored to their own config settings and scale!
+    drawPunchCards(punchStartX, punchStartY, LAYOUT.punchcards.scale, totalRowsWoven);
+
     // Re-evaluate mouse pointer interactions every frame
     checkHoverState();
 }
@@ -924,7 +944,7 @@ function drawUI() {
     fill(copiedPatternIndex !== null ? 255 : 100);
     text("Paste", pasteX + 20, btnY + 10);
     fill(255);
-    text("Clear", resetX + 20, btnY + 10);
+    text("Clear pattern", resetX + 20, btnY + 10);
 
     // Erase the region to ensure p5.js completely flushes old thick strokes
     fill(21);
@@ -1353,4 +1373,175 @@ function loadFromLocal() {
         loadFromData(window.defaultSaveData);
         saveToLocal();
     }
+}
+
+function drawPunchCards(startX, startY, cellSize, totalRowsWoven) {
+    let cardW = 16 * cellSize; // Span 1 pattern (16 holes)
+    let cardH = 4 * cellSize;
+    let cardGap = Math.max(4, cellSize * 0.4); // Noticeable gap between physical cards
+
+    // Lock the cards right below their anchored Y position
+    let cardsStartY = startY;
+
+    function getChainY(r) {
+        return r * cellSize + Math.floor(r / 4) * cardGap;
+    }
+
+    let activeChainY = getChainY(totalRowsWoven);
+
+    // We start from 1 card BEFORE the current one to ensure smooth scroll out of view
+    let firstCard = Math.floor(totalRowsWoven / 4) - 1;
+    if (firstCard < 0) firstCard = 0;
+
+    // Helper to calculate the exact onscreen needle coordinate for the Loom's active row
+    let loomY = rightStartY;
+
+    // PASS 1: The 'Down' threads (Drawn UNDER the punch cards, connecting to the loom)
+    let R = totalRowsWoven;
+    let targetK = Math.floor(R / 4);
+    let targetR = R % 4;
+    let targetCardIndex = targetK - firstCard;
+
+    if (targetCardIndex >= 0 && targetCardIndex < 6) {
+        let cy = cardsStartY + getChainY(targetK * 4) - activeChainY;
+        let metaRow = Math.floor(R / GRID_SIZE) % CLOTH_ROWS;
+        let patternRow = R % GRID_SIZE;
+
+        for (let metaCol = 0; metaCol < 6; metaCol++) {
+            let cx = startX + (metaCol * 16 * cellSize);
+            if (cx > 2160) continue;
+
+            let patternIdx = clothData[metaRow][metaCol];
+            let p = patterns[patternIdx];
+
+            for (let patternCol = 0; patternCol < 16; patternCol++) {
+                let depth = p.patternData[patternRow][patternCol];
+                if (depth !== 'u') {
+                    let holeX = cx + (patternCol * cellSize) + (cellSize / 2);
+                    let holeY = cy + (targetR * cellSize) + (cellSize / 2);
+
+                    let threadColIdx = p.colColors[patternCol];
+                    let threadColor = color(colorPalette[threadColIdx]);
+                    // Down threads are now solid
+                    stroke(threadColor);
+                    strokeWeight(3);
+                    let loomX = rightStartX + (metaCol * 16 + patternCol) * rightCellSize + (rightCellSize / 2);
+
+                    let offx = 10;
+                    let offy = -190;
+                    line(holeX, holeY, holeX + offx, holeY + offy);
+                    line(holeX + offx, holeY + offy, loomX, loomY);
+
+                    // Structural Bar (Horizontal)
+                    stroke(200, 150);
+                    strokeWeight(0.5);
+                    line(holeX + offx, holeY + offy, holeX - 40, holeY + offy);
+
+                    // Refined Bezier
+                    noFill();
+                    strokeWeight(3.5);
+                    stroke(threadColor);
+                    bezier(holeX, holeY, holeX - 100, holeY + 100, loomX, loomY + 400, loomX + 50, loomY + 800);
+                }
+            }
+        }
+    }
+
+    // We use a clipping mask for the Cards so they cleanly hide as they feed "upwards" into the void
+    drawingContext.save();
+    drawingContext.beginPath();
+    drawingContext.rect(0, startY - 140, width, height);
+    drawingContext.clip();
+
+    // PASS 2: Draw the cardboard backing
+    for (let metaCol = 0; metaCol < 6; metaCol++) {
+        let cx = startX + (metaCol * 16 * cellSize);
+        if (cx > 2160) continue;
+        for (let i = 0; i < 6; i++) {
+            let K = firstCard + i;
+            let cy = cardsStartY + getChainY(K * 4) - activeChainY;
+
+            fill('#D2B48C');
+            stroke('#A88D6A');
+            strokeWeight(2);
+            let hGap = cardGap;
+            rect(cx + hGap / 2, cy, cardW - hGap, cardH, 4);
+        }
+    }
+
+    // PASS 3: Draw the punched holes (dark voids)
+    for (let metaCol = 0; metaCol < 6; metaCol++) {
+        let cx = startX + (metaCol * 16 * cellSize);
+        if (cx > 2160) continue;
+        for (let i = 0; i < 6; i++) {
+            let K = firstCard + i;
+            let cy = cardsStartY + getChainY(K * 4) - activeChainY;
+
+            noStroke();
+            fill(20);
+
+            for (let r = 0; r < 4; r++) {
+                let R = K * 4 + r;
+                let metaRow = Math.floor(R / GRID_SIZE) % CLOTH_ROWS;
+                let patternRow = R % GRID_SIZE;
+
+                let patternIdx = clothData[metaRow][metaCol];
+                let p = patterns[patternIdx];
+
+                for (let patternCol = 0; patternCol < 16; patternCol++) {
+                    let depth = p.patternData[patternRow][patternCol];
+                    if (depth === 'u') {
+                        let holeX = cx + (patternCol * cellSize) + (cellSize / 2);
+                        let holeY = cy + (r * cellSize) + (cellSize / 2);
+                        circle(holeX, holeY, cellSize * 0.6);
+                    }
+                }
+            }
+        }
+    }
+
+    drawingContext.restore();
+
+    // PASS 4: Extruded 'Up' thread lines coming OUT of the holes (Drawn OVER the punch cards & holes)
+    if (targetCardIndex >= 0 && targetCardIndex < 6) {
+        let cy = cardsStartY + getChainY(targetK * 4) - activeChainY;
+        let metaRow = Math.floor(R / GRID_SIZE) % CLOTH_ROWS;
+        let patternRow = R % GRID_SIZE;
+
+        for (let metaCol = 0; metaCol < 6; metaCol++) {
+            let cx = startX + (metaCol * 16 * cellSize);
+            if (cx > 2160) continue;
+
+            let patternIdx = clothData[metaRow][metaCol];
+            let p = patterns[patternIdx];
+
+            for (let patternCol = 0; patternCol < 16; patternCol++) {
+                let depth = p.patternData[patternRow][patternCol];
+                if (depth === 'u') {
+                    let holeX = cx + (patternCol * cellSize) + (cellSize / 2);
+                    let holeY = cy + (targetR * cellSize) + (cellSize / 2);
+                    let threadColIdx = p.colColors[patternCol];
+                    let threadColor = color(colorPalette[threadColIdx]);
+                    threadColor.setAlpha(220); // Up threads are now softer opacity
+
+                    let offx = -60;
+                    let offy = -140;
+
+                    // Structural Bar (Horizontal)
+                    stroke(200, 150);
+                    strokeWeight(0.5);
+                    line(holeX + offx, holeY + offy, holeX + 40, holeY + offy);
+
+                    // Restored Thread logic
+                    stroke(threadColor);
+                    strokeWeight(0.5);
+                    let loomX = rightStartX + (metaCol * 16 + patternCol) * rightCellSize + (rightCellSize / 2);
+
+                    line(holeX, holeY, holeX + offx, holeY + offy);
+                    line(holeX + offx, holeY + offy, loomX, loomY + 10);
+                }
+            }
+        }
+    }
+    // End of drawPunchCards
 }
