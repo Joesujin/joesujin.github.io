@@ -427,11 +427,17 @@ function applyGridClick(col, row, isClick) {
 
 function mousePressed() {
     // Check for [Copy], [Paste], [Reset] button clicks
+    // Check for [Copy], [Paste], [Clear], [Reset] button clicks
     let btnY = bankStartY - 25;
     let copyX = bankStartX + 110;
     let pasteX = copyX + 50;
+    let clearX = bankStartX + 10;
     let resetX = bankStartX + 210;
+    let fullResetX = resetX + 100;
     let isInBtn = (bx) => mouseX >= bx && mouseX <= bx + 40 && mouseY >= btnY && mouseY <= btnY + 20;
+
+    // Wider hitbox for the 'Clear pattern' text button
+    let isInClearBtn = (bx) => mouseX >= bx && mouseX <= bx + 80 && mouseY >= btnY && mouseY <= btnY + 20;
 
     if (isInBtn(copyX)) {
         copiedPatternIndex = activePatternIndex;
@@ -455,7 +461,7 @@ function mousePressed() {
         return;
     }
 
-    if (isInBtn(resetX)) {
+    if (isInClearBtn(resetX)) { // Re-using resetting logic but extending hitbox
         let p = patterns[activePatternIndex];
         for (let i = 0; i < GRID_SIZE; i++) {
             p.rowColors[i] = 0;
@@ -465,6 +471,21 @@ function mousePressed() {
             }
         }
         saveToLocal();
+        return;
+    }
+
+    if (isInBtn(fullResetX)) {
+        if (window.bannerResetData) {
+            loadFromData(window.bannerResetData);
+
+            // Reset weaving animation state for a true clean slate
+            totalRowsWoven = 0;
+            currentRowStep = 0;
+            isRowPaused = false;
+            lastUpdate = millis();
+
+            saveToLocal();
+        }
         return;
     }
 
@@ -929,23 +950,26 @@ function drawUI() {
     textAlign(LEFT, BOTTOM);
     text("Pattern Bank", bankStartX, bankStartY - 10);
 
-    // Draw Copy, Paste, Reset Buttons
+    // Draw Copy, Paste, Clear Pattern, Full Reset Buttons
     let btnY = bankStartY - 25;
     let copyX = bankStartX + 110;
     let pasteX = copyX + 50;
     let resetX = bankStartX + 210;
+    let fullResetX = resetX + 100;
 
     fill(40); stroke('#555'); strokeWeight(1);
     rect(copyX, btnY, 40, 20, 4);
     rect(pasteX, btnY, 40, 20, 4);
-    rect(resetX, btnY, 40, 20, 4);
+    rect(resetX, btnY, 80, 20, 4);
+    rect(fullResetX, btnY, 40, 20, 4);
 
     noStroke(); fill(200); textSize(11); textAlign(CENTER, CENTER);
     text("Copy", copyX + 20, btnY + 10);
     fill(copiedPatternIndex !== null ? 255 : 100);
     text("Paste", pasteX + 20, btnY + 10);
     fill(255);
-    text("Clear pattern", resetX + 20, btnY + 10);
+    text("Clear pattern", resetX + 40, btnY + 10);
+    text("Reset", fullResetX + 20, btnY + 10);
 
     // Erase the region to ensure p5.js completely flushes old thick strokes
     fill(0);
