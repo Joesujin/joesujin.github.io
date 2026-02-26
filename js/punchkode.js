@@ -926,27 +926,56 @@ function drawUI() {
     }
 
     // 2. Draw Cloth Layout Grid (6 cols x 9 rows)
+    fill(21);
+    noStroke();
+    rect(clothStartX - pad, clothStartY - pad, CLOTH_COLS * clothCellSize + pad * 2, CLOTH_ROWS * clothCellSize + pad * 2);
+
     fill(255);
     textAlign(LEFT, BOTTOM);
     textSize(16);
     text("Cloth Layout", clothStartX, clothStartY - 10);
 
+    // Pass 1: Draw standard Unselected cells
     for (let r = 0; r < CLOTH_ROWS; r++) {
         for (let c = 0; c < CLOTH_COLS; c++) {
-            let cx = clothStartX + c * clothCellSize;
-            let cy = clothStartY + r * clothCellSize;
-
-            stroke('#555');
-            strokeWeight(1);
-            fill(30);
-            rect(cx, cy, clothCellSize, clothCellSize, 2);
-
             let patternIdx = clothData[r][c];
-            noStroke();
-            fill('#ddd');
-            textSize(12);
-            textAlign(CENTER, CENTER);
-            text(String.fromCharCode(65 + patternIdx), cx + clothCellSize / 2, cy + clothCellSize / 2);
+
+            if (patternIdx !== activePatternIndex) {
+                let cx = clothStartX + c * clothCellSize;
+                let cy = clothStartY + r * clothCellSize;
+                stroke('#555');
+                strokeWeight(1);
+                fill(30);
+                rect(cx, cy, clothCellSize, clothCellSize, 2);
+
+                noStroke();
+                fill('#ddd');
+                textSize(12);
+                textAlign(CENTER, CENTER);
+                text(String.fromCharCode(65 + patternIdx), cx + clothCellSize / 2, cy + clothCellSize / 2);
+            }
+        }
+    }
+
+    // Pass 2: Draw Highlighted active cells layered on top
+    for (let r = 0; r < CLOTH_ROWS; r++) {
+        for (let c = 0; c < CLOTH_COLS; c++) {
+            let patternIdx = clothData[r][c];
+
+            if (patternIdx === activePatternIndex) {
+                let cx = clothStartX + c * clothCellSize;
+                let cy = clothStartY + r * clothCellSize;
+                stroke('#fff');
+                strokeWeight(2);
+                fill(80);
+                rect(cx, cy, clothCellSize, clothCellSize, 2);
+
+                noStroke();
+                fill('#ddd');
+                textSize(12);
+                textAlign(CENTER, CENTER);
+                text(String.fromCharCode(65 + patternIdx), cx + clothCellSize / 2, cy + clothCellSize / 2);
+            }
         }
     }
 
