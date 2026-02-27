@@ -1181,7 +1181,17 @@ function drawUI() {
     // Animate smoothly downwards to the next row (shifted 5px up)
     let markerY = baseMarkerY + (subRowProgress * clothCellSize) + (clothCellSize / 2) - 8;
 
-    let markerX = clothStartX + (CLOTH_COLS * clothCellSize) + 15;
+    let isEvenRow = (Math.abs(totalRowsWoven) % 2 === 0);
+    let progressFraction = currentRowStep / LOOM_COLS;
+
+    // Smooth out movement logic across the frame:
+    // If we're an even row, we go left to right. If odd, right to left.
+    let markerX;
+    if (isEvenRow) {
+        markerX = clothStartX + (progressFraction * CLOTH_COLS * clothCellSize);
+    } else {
+        markerX = clothStartX + ((1 - progressFraction) * CLOTH_COLS * clothCellSize);
+    }
 
     // Draw a small pointing triangle colored according to the actual current physical row
     let activePatternIdxForRow = clothData[activeClothRow][0]; // Color based on the first pattern block in the row
