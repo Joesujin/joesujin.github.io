@@ -15,6 +15,7 @@ const INITIAL_LOOM_ROWS = GRID_SIZE * START_PATTERN_ROWS;
 // True physical loom variables
 // Editor Grid data & Pattern Banks
 let patterns = []; // Array of 8 pattern objects: { patternData: [], colColors: [], rowColors: [] }
+let patternBuffers = []; // Cached p5.Graphics buffers for the 26 mini patterns
 let activePatternIndex = 0; // Currently selected pattern
 let copiedPatternIndex = null; // Currently copied pattern for pasting
 
@@ -222,6 +223,7 @@ function setup() {
             let val = picker.value();
             colorPalette[i] = val;
             hexIn.value(val);
+            for (let j = 0; j < 26; j++) updatePatternBuffer(j); // Update all caches since colors changed
         });
 
         hexIn.input(() => {
@@ -230,6 +232,7 @@ function setup() {
             if (/^#[0-9A-F]{6}$/i.test(val)) {
                 colorPalette[i] = val;
                 picker.value(val);
+                for (let j = 0; j < 26; j++) updatePatternBuffer(j); // Update all caches since colors changed
             }
         });
 
@@ -279,6 +282,13 @@ function setup() {
 
     // Attempt to load previously saved session (or fallback to defaults and save them)
     loadFromLocal();
+
+    // Generate graphics buffers for all patterns
+    for (let i = 0; i < 26; i++) {
+        let pg = createGraphics(bankSize, bankSize);
+        patternBuffers.push(pg);
+        updatePatternBuffer(i);
+    }
 
     console.log("Punchkode Version 5: Synchronized Loom Editor Initialized!");
 }
@@ -424,6 +434,9 @@ function applyGridClick(col, row, isClick) {
             p.patternData[row][col] = window.dragTargetState;
         }
     }
+
+    // Always update the buffer when any grid interaction completes
+    updatePatternBuffer(activePatternIndex);
 }
 
 function mousePressed() {
@@ -460,6 +473,7 @@ function mousePressed() {
                 rowColors: [...sourceP.rowColors]
             };
 
+            updatePatternBuffer(activePatternIndex);
             saveToLocal();
         }
         return;
@@ -474,6 +488,7 @@ function mousePressed() {
                 p.patternData[i][j] = 'u';
             }
         }
+        updatePatternBuffer(activePatternIndex);
         saveToLocal();
         return;
     }
@@ -487,6 +502,8 @@ function mousePressed() {
             currentRowStep = 0;
             isRowPaused = false;
             lastUpdate = millis();
+
+            for (let i = 0; i < 26; i++) updatePatternBuffer(i);
 
             saveToLocal();
         }
@@ -1303,40 +1320,61 @@ function windowResized() {
     positionUI();
 }
 
-function drawPatternMiniature(x, y, w, h, patternIndex, cornerRadius) {
+function updatePatternBuffer(patternIndex) {
     let p = patterns[patternIndex];
     if (!p) return;
+    let pg = patternBuffers[patternIndex];
+    if (!pg) return;
 
-    let pw = w / GRID_SIZE;
-    let ph = h / GRID_SIZE;
+    let pw = pg.width / GRID_SIZE;
+    let ph = pg.height / GRID_SIZE;
 
-    push();
-    if (cornerRadius) {
-        drawingContext.save();
-        drawingContext.beginPath();
-        drawingContext.moveTo(x + cornerRadius, y);
-        drawingContext.arcTo(x + w, y, x + w, y + h, cornerRadius);
-        drawingContext.arcTo(x + w, y + h, x, y + h, cornerRadius);
-        drawingContext.arcTo(x, y + h, x, y, cornerRadius);
-        drawingContext.arcTo(x, y, x + w, y, cornerRadius);
-        drawingContext.clip();
-    }
+    pg.clear();
+    pg.noStroke();
 
-    noStroke();
+    // Draw rounded background clip path in the graphics buffer
+    pg.drawingContext.save();
+    pg.drawingContext.beginPath();
+    pg.drawingContext.moveTo(6, 0);
+    pg.drawingContext.arcTo(pg.width, 0, pg.width, pg.height, 6);
+    pg.drawingContext.arcTo(pg.width, pg.height, 0, pg.height, 6);
+    pg.drawingContext.arcTo(0, pg.height, 0, 0, 6);
+    pg.drawingContext.arcTo(0, 0, pg.width, 0, 6);
+    pg.drawingContext.clip();
+
     for (let r = 0; r < GRID_SIZE; r++) {
         for (let c = 0; c < GRID_SIZE; c++) {
             let hColor = colorPalette[p.rowColors[r]];
             let vColor = colorPalette[p.colColors[c]];
             let depth = p.patternData[r][c];
-            fill(depth === 'u' ? hColor : vColor);
-            rect(x + c * pw, y + r * ph, pw, ph);
+            pg.fill(depth === 'u' ? hColor : vColor);
+            pg.rect(c * pw, r * ph, pw, ph);
         }
     }
+    pg.drawingContext.restore();
+}
 
-    if (cornerRadius) {
-        drawingContext.restore();
+function drawPatternMiniature(x, y, w, h, patternIndex, cornerRadius) {
+    if (patternBuffers[patternIndex]) {
+        push();
+        if (cornerRadius) {
+            drawingContext.save();
+            drawingContext.beginPath();
+            drawingContext.moveTo(x + cornerRadius, y);
+            drawingContext.arcTo(x + w, y, x + w, y + h, cornerRadius);
+            drawingContext.arcTo(x + w, y + h, x, y + h, cornerRadius);
+            drawingContext.arcTo(x, y + h, x, y, cornerRadius);
+            drawingContext.arcTo(x, y, x + w, y, cornerRadius);
+            drawingContext.clip();
+        }
+
+        image(patternBuffers[patternIndex], x, y, w, h);
+
+        if (cornerRadius) {
+            drawingContext.restore();
+        }
+        pop();
     }
-    pop();
 }
 
 // Master draw function for the complex thread polygon
