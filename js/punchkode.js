@@ -1028,16 +1028,11 @@ function drawUI() {
         let bx = bankStartX + gridCol * (bankSize + LAYOUT.patternBank.gap);
         let by = bankStartY + gridRow * (bankSize + LAYOUT.patternBank.gap);
 
+        drawPatternMiniature(bx, by, bankSize, bankSize, i, 6);
         stroke('#555');
         strokeWeight(1);
-        fill(40);
+        noFill();
         rect(bx, by, bankSize, bankSize, 6);
-
-        noStroke();
-        fill(255);
-        textAlign(CENTER, CENTER);
-        textSize(bankSize * 0.45);
-        text(String.fromCharCode(65 + i), bx + bankSize / 2, by + bankSize / 2);
     }
 
     // Pass 2: Draw the highlights EXACTLY on top to prevent borders overlapping
@@ -1057,10 +1052,12 @@ function drawUI() {
         let isActive = (i === activePatternIndex);
         let isCopied = (i === copiedPatternIndex);
 
+        drawPatternMiniature(bx, by, bankSize, bankSize, i, 6);
+
         if (isActive && isCopied) {
             stroke('#fff');
             strokeWeight(3);
-            fill(80);
+            noFill();
             rect(bx, by, bankSize, bankSize, 6);
             stroke('#ffaa00');
             strokeWeight(2);
@@ -1069,20 +1066,14 @@ function drawUI() {
         } else if (isActive) {
             stroke('#fff');
             strokeWeight(3);
-            fill(80);
+            noFill();
             rect(bx, by, bankSize, bankSize, 6);
         } else if (isCopied) {
             stroke('#ffaa00');
             strokeWeight(2);
-            fill(60);
+            noFill();
             rect(bx, by, bankSize, bankSize, 6);
         }
-
-        noStroke();
-        fill(255);
-        textAlign(CENTER, CENTER);
-        textSize(bankSize * 0.45);
-        text(String.fromCharCode(65 + i), bx + bankSize / 2, by + bankSize / 2);
     }
 
     // 1.5 Draw Connectivity Curves from Active Pattern to Cloth Layout Blocks
@@ -1133,16 +1124,11 @@ function drawUI() {
             if (patternIdx !== activePatternIndex) {
                 let cx = clothStartX + c * clothCellSize;
                 let cy = clothStartY + r * clothCellSize;
+                drawPatternMiniature(cx, cy, clothCellSize, clothCellSize, patternIdx, 2);
                 stroke('#555');
                 strokeWeight(1);
-                fill(30);
+                noFill();
                 rect(cx, cy, clothCellSize, clothCellSize, 2);
-
-                noStroke();
-                fill('#ddd');
-                textSize(12);
-                textAlign(CENTER, CENTER);
-                text(String.fromCharCode(65 + patternIdx), cx + clothCellSize / 2, cy + clothCellSize / 2);
             }
         }
     }
@@ -1155,16 +1141,11 @@ function drawUI() {
             if (patternIdx === activePatternIndex) {
                 let cx = clothStartX + c * clothCellSize;
                 let cy = clothStartY + r * clothCellSize;
+                drawPatternMiniature(cx, cy, clothCellSize, clothCellSize, patternIdx, 2);
                 stroke('#fff');
                 strokeWeight(2);
-                fill(80);
+                noFill();
                 rect(cx, cy, clothCellSize, clothCellSize, 2);
-
-                noStroke();
-                fill('#ddd');
-                textSize(12);
-                textAlign(CENTER, CENTER);
-                text(String.fromCharCode(65 + patternIdx), cx + clothCellSize / 2, cy + clothCellSize / 2);
             }
         }
     }
@@ -1320,6 +1301,42 @@ function windowResized() {
     }
 
     positionUI();
+}
+
+function drawPatternMiniature(x, y, w, h, patternIndex, cornerRadius) {
+    let p = patterns[patternIndex];
+    if (!p) return;
+
+    let pw = w / GRID_SIZE;
+    let ph = h / GRID_SIZE;
+
+    push();
+    if (cornerRadius) {
+        drawingContext.save();
+        drawingContext.beginPath();
+        drawingContext.moveTo(x + cornerRadius, y);
+        drawingContext.arcTo(x + w, y, x + w, y + h, cornerRadius);
+        drawingContext.arcTo(x + w, y + h, x, y + h, cornerRadius);
+        drawingContext.arcTo(x, y + h, x, y, cornerRadius);
+        drawingContext.arcTo(x, y, x + w, y, cornerRadius);
+        drawingContext.clip();
+    }
+
+    noStroke();
+    for (let r = 0; r < GRID_SIZE; r++) {
+        for (let c = 0; c < GRID_SIZE; c++) {
+            let hColor = colorPalette[p.rowColors[r]];
+            let vColor = colorPalette[p.colColors[c]];
+            let depth = p.patternData[r][c];
+            fill(depth === 'u' ? hColor : vColor);
+            rect(x + c * pw, y + r * ph, pw, ph);
+        }
+    }
+
+    if (cornerRadius) {
+        drawingContext.restore();
+    }
+    pop();
 }
 
 // Master draw function for the complex thread polygon
