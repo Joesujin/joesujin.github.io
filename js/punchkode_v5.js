@@ -181,6 +181,7 @@ function setup() {
         s.class('punchkode-slider'); // Attach class for CSS theming
         s.input(() => {
             updateFn(s.value());
+            threadGeometryCache = {}; // Global invalidate on slider adjust
         });
         threadLookSliders[name] = s;
     }
@@ -440,21 +441,20 @@ function applyGridClick(col, row, isClick) {
 }
 
 function mousePressed() {
-    // Check for [Copy], [Paste], [Reset] button clicks
-    // Check for [Copy], [Paste], [Clear], [Reset] button clicks
-    // 2x2 Layout:
-    // [Copy ]  [Paste]
-    // [Clear]  [Reset]
-    let btnStartY = bankStartY - 85; // moved up to fit 2 rows + larger buttons
+    // Check for [Copy], [Paste], [Clear], [Clear All], [Tutorial] button clicks
+    let btnStartY = bankStartY - 85;
     let btnW = 70;
+    let btnGap = 5;
     let btnH = 30;
 
-    let copyX = bankStartX + 120;
-    let pasteX = copyX + btnW + 5;
-    let clearX = copyX;
-    let resetX = pasteX;
+    let copyX = bankStartX + 80;
+    let pasteX = copyX + btnW + btnGap;
+    let clearX = pasteX + btnW + btnGap;
 
-    let isInBtn = (bx, by) => mouseX >= bx && mouseX <= bx + btnW && mouseY >= by && mouseY <= by + btnH;
+    let clearAllX = bankStartX + 80;
+    let tutorialX = clearAllX + btnW + btnGap + btnW + btnGap; // span 2 cols to right
+
+    let isInBtn = (bx, by, bw = btnW) => mouseX >= bx && mouseX <= bx + bw && mouseY >= by && mouseY <= by + btnH;
 
     if (isInBtn(copyX, btnStartY)) {
         copiedPatternIndex = activePatternIndex;
@@ -479,7 +479,7 @@ function mousePressed() {
         return;
     }
 
-    if (isInBtn(clearX, btnStartY + btnH + 5)) { // Second row
+    if (isInBtn(clearX, btnStartY)) { // First row
         let p = patterns[activePatternIndex];
         for (let i = 0; i < GRID_SIZE; i++) {
             p.rowColors[i] = 0;
@@ -493,7 +493,31 @@ function mousePressed() {
         return;
     }
 
-    if (isInBtn(resetX, btnStartY + btnH + 5)) { // Second row
+    if (isInBtn(clearAllX, btnStartY + btnH + btnGap, btnW * 2 + btnGap)) { // Second row, spans 2 cols
+        for (let k = 0; k < 26; k++) {
+            let p = patterns[k];
+            for (let i = 0; i < GRID_SIZE; i++) {
+                p.rowColors[i] = 0;
+                p.colColors[i] = 1;
+                for (let j = 0; j < GRID_SIZE; j++) {
+                    p.patternData[i][j] = 'u';
+                }
+            }
+            updatePatternBuffer(k);
+        }
+
+        // Also clear cloth data
+        for (let r = 0; r < CLOTH_ROWS; r++) {
+            for (let c = 0; c < CLOTH_COLS; c++) {
+                clothData[r][c] = 0; // default to pattern A
+            }
+        }
+
+        saveToLocal();
+        return;
+    }
+
+    if (isInBtn(tutorialX, btnStartY + btnH + btnGap)) { // Second row
         if (window.bannerResetData) {
             loadFromData(window.bannerResetData);
 
@@ -502,6 +526,7 @@ function mousePressed() {
             currentRowStep = 0;
             isRowPaused = false;
             lastUpdate = millis();
+            activePatternIndex = 0; // Switch to Pattern A
 
             for (let i = 0; i < 26; i++) updatePatternBuffer(i);
 
@@ -780,6 +805,7 @@ function draw() {
     translate(0, translateY);
 
     for (let row = 0; row < loomData.length; row++) {
+        // Find where this raw row will end up visually
         let rawY = rightStartY + (row * rightCellSize);
         let visualY = rawY + translateY;
 
@@ -923,23 +949,31 @@ function checkHoverState() {
     let isHoveringHitbox = false;
 
     // 1. Check Copy & Paste & Clear & Reset Buttons
-
-    // 1. Check Copy & Paste & Clear & Reset Buttons
-    // Check for [Copy], [Paste], [Clear], [Reset] button clicks
     let btnStartY = bankStartY - 85;
     let btnW = 70;
+    let btnGap = 5;
     let btnH = 30;
 
-    let copyX = bankStartX + 120;
-    let pasteX = copyX + btnW + 5;
-    let clearX = copyX;
-    let resetX = pasteX;
-    let isInBtn = (bx, by) => mouseX >= bx && mouseX <= bx + btnW && mouseY >= by && mouseY <= by + btnH;
+    let copyX = bankStartX + 80;
+    let pasteX = copyX + btnW + btnGap;
+    let clearX = pasteX + btnW + btnGap;
 
-    if (isInBtn(copyX, btnStartY) || isInBtn(pasteX, btnStartY) ||
-        isInBtn(clearX, btnStartY + btnH + 5) || isInBtn(resetX, btnStartY + btnH + 5)) {
+    let clearAllX = bankStartX + 80;
+    let tutorialX = clearAllX + btnW + btnGap + btnW + btnGap;
+
+    let isInBtn = (bx, by, bw = btnW) => mouseX >= bx && mouseX <= bx + bw && mouseY >= by && mouseY <= by + btnH;
+
+    if (isInBtn(copyX, btnStartY) || isInBtn(pasteX, btnStartY) || isInBtn(clearX, btnStartY) ||
+        isInBtn(clearAllX, btnStartY + btnH + btnGap, btnW * 2 + btnGap) || isInBtn(tutorialX, btnStartY + btnH + btnGap)) {
         isHoveringHitbox = true;
     }
+
+    // 2. Check Pattern Bank Grid
+    let bxEnd = bankStartX + 6 * (bankSize + LAYOUT.patternBank.gap);
+    let byEnd = bankStartY + 5 * (bankSize + LAYOUT.patternBank.gap);
+    if (mouseX >= bankStartX && mouseX <= bxEnd && mouseY >= bankStartY && mouseY <= byEnd) isHoveringHitbox = true;
+
+    // 3. Check Cloth Grid
     let cxEnd = clothStartX + CLOTH_COLS * clothCellSize;
     let cyEnd = clothStartY + CLOTH_ROWS * clothCellSize;
     if (mouseX >= clothStartX && mouseX <= cxEnd && mouseY >= clothStartY && mouseY <= cyEnd) isHoveringHitbox = true;
@@ -975,20 +1009,25 @@ function drawUI() {
     // Draw Copy, Paste, Clear Pattern, Full Reset Buttons
     let btnStartY = bankStartY - 85;
     let btnW = 70;
+    let btnGap = 5;
     let btnH = 30;
 
-    let copyX = bankStartX + 120;
-    let pasteX = copyX + btnW + 5;
-    let clearX = copyX;
-    let resetX = pasteX;
+    let copyX = bankStartX + 80;
+    let pasteX = copyX + btnW + btnGap;
+    let clearX = pasteX + btnW + btnGap;
+
+    let clearAllX = bankStartX + 80;
+    let tutorialX = clearAllX + btnW + btnGap + btnW + btnGap; // span 2 cols to right
 
     fill(40); stroke('#555'); strokeWeight(1);
     // Row 1
     rect(copyX, btnStartY, btnW, btnH, 4);
     rect(pasteX, btnStartY, btnW, btnH, 4);
+    rect(clearX, btnStartY, btnW, btnH, 4);
+
     // Row 2
-    rect(clearX, btnStartY + btnH + 5, btnW, btnH, 4);
-    rect(resetX, btnStartY + btnH + 5, btnW, btnH, 4);
+    rect(clearAllX, btnStartY + btnH + btnGap, btnW * 2 + btnGap, btnH, 4);
+    rect(tutorialX, btnStartY + btnH + btnGap, btnW, btnH, 4);
 
     noStroke(); fill(200); textSize(11); textAlign(CENTER, CENTER);
     text("Copy", copyX + (btnW / 2), btnStartY + (btnH / 2));
@@ -997,8 +1036,13 @@ function drawUI() {
     text("Paste", pasteX + (btnW / 2), btnStartY + (btnH / 2));
 
     fill(255);
-    text("Clear", clearX + (btnW / 2), btnStartY + btnH + 5 + (btnH / 2));
-    text("Reset", resetX + (btnW / 2), btnStartY + btnH + 5 + (btnH / 2));
+    text("Clear", clearX + (btnW / 2), btnStartY + (btnH / 2));
+
+    fill('#ff7f11'); // Highlight error-prone clear all button
+    text("Clear All", clearAllX + ((btnW * 2 + btnGap) / 2), btnStartY + btnH + btnGap + (btnH / 2));
+
+    fill('#E2E8CE'); // Tutorial button styled specially
+    text("Tutorial", tutorialX + (btnW / 2), btnStartY + btnH + btnGap + (btnH / 2));
 
     // Erase the region to ensure p5.js completely flushes old thick strokes
     fill(0);
@@ -1035,7 +1079,6 @@ function drawUI() {
     vertex(ex + 2, ey + 7);
     endShape(CLOSE);
 
-
     let buttonsPerRow = 6;
 
     // Pass 1: Draw ALL buttons with default unselected styles
@@ -1045,11 +1088,12 @@ function drawUI() {
         let bx = bankStartX + gridCol * (bankSize + LAYOUT.patternBank.gap);
         let by = bankStartY + gridRow * (bankSize + LAYOUT.patternBank.gap);
 
-        drawPatternMiniature(bx, by, bankSize, bankSize, i, 6);
-        stroke('#555');
+        stroke(85, 100);
         strokeWeight(1);
-        noFill();
+        fill(40, 100);
         rect(bx, by, bankSize, bankSize, 6);
+
+        drawPatternMiniature(bx, by, bankSize, bankSize, i, 6, 100);
     }
 
     // Pass 2: Draw the highlights EXACTLY on top to prevent borders overlapping
@@ -1069,12 +1113,10 @@ function drawUI() {
         let isActive = (i === activePatternIndex);
         let isCopied = (i === copiedPatternIndex);
 
-        drawPatternMiniature(bx, by, bankSize, bankSize, i, 6);
-
         if (isActive && isCopied) {
             stroke('#fff');
             strokeWeight(3);
-            noFill();
+            fill(80);
             rect(bx, by, bankSize, bankSize, 6);
             stroke('#ffaa00');
             strokeWeight(2);
@@ -1083,14 +1125,16 @@ function drawUI() {
         } else if (isActive) {
             stroke('#fff');
             strokeWeight(3);
-            noFill();
+            fill(80);
             rect(bx, by, bankSize, bankSize, 6);
         } else if (isCopied) {
             stroke('#ffaa00');
             strokeWeight(2);
-            noFill();
+            fill(60);
             rect(bx, by, bankSize, bankSize, 6);
         }
+
+        drawPatternMiniature(bx, by, bankSize, bankSize, i, 6, 255);
     }
 
     // 1.5 Draw Connectivity Curves from Active Pattern to Cloth Layout Blocks
@@ -1141,11 +1185,12 @@ function drawUI() {
             if (patternIdx !== activePatternIndex) {
                 let cx = clothStartX + c * clothCellSize;
                 let cy = clothStartY + r * clothCellSize;
-                drawPatternMiniature(cx, cy, clothCellSize, clothCellSize, patternIdx, 2);
-                stroke('#555');
+                stroke(85, 100);
                 strokeWeight(1);
-                noFill();
+                fill(30, 100);
                 rect(cx, cy, clothCellSize, clothCellSize, 2);
+
+                drawPatternMiniature(cx, cy, clothCellSize, clothCellSize, patternIdx, 2, 100);
             }
         }
     }
@@ -1158,32 +1203,28 @@ function drawUI() {
             if (patternIdx === activePatternIndex) {
                 let cx = clothStartX + c * clothCellSize;
                 let cy = clothStartY + r * clothCellSize;
-                drawPatternMiniature(cx, cy, clothCellSize, clothCellSize, patternIdx, 2);
                 stroke('#fff');
                 strokeWeight(2);
-                noFill();
+                fill(80);
                 rect(cx, cy, clothCellSize, clothCellSize, 2);
+
+                drawPatternMiniature(cx, cy, clothCellSize, clothCellSize, patternIdx, 2, 255);
             }
         }
     }
 
-    // 2.5 Draw the Weaving Progress Row Marker next to the Cloth Layout
+    // 2.5 Draw the Weaving Progress Row Marker across the Cloth Layout
     let activeClothRow = Math.floor(Math.abs(totalRowsWoven) / GRID_SIZE) % CLOTH_ROWS;
 
     // Smooth interpolation trick: Move the marker smoothly between rows as the 16 sub-rows weave
-    // Calculate fractional progression through the current macro-block
     let subRowProgress = (Math.abs(totalRowsWoven) % GRID_SIZE) / GRID_SIZE;
-
-    // Base Y offset for the current row
     let baseMarkerY = clothStartY + activeClothRow * clothCellSize;
-    // Animate smoothly downwards to the next row (shifted 5px up)
-    let markerY = baseMarkerY + (subRowProgress * clothCellSize) + (clothCellSize / 2) - 8;
+    let markerY = baseMarkerY + (subRowProgress * clothCellSize);
 
     let isEvenRow = (Math.abs(totalRowsWoven) % 2 === 0);
     let progressFraction = currentRowStep / LOOM_COLS;
 
-    // Smooth out movement logic across the frame:
-    // If we're an even row, we go left to right. If odd, right to left.
+    // Smooth out movement logic across the frame: left to right, right to left.
     let markerX;
     if (isEvenRow) {
         markerX = clothStartX + (progressFraction * CLOTH_COLS * clothCellSize);
@@ -1191,21 +1232,15 @@ function drawUI() {
         markerX = clothStartX + ((1 - progressFraction) * CLOTH_COLS * clothCellSize);
     }
 
-    // Draw a small pointing triangle colored according to the actual current physical row
+    // Color it based on the current actual physical horizontal thread color entering the loom
     let activePatternIdxForRow = clothData[activeClothRow][0]; // Color based on the first pattern block in the row
     let activeRowColorIdx = patterns[activePatternIdxForRow].rowColors[Math.abs(totalRowsWoven) % GRID_SIZE];
-    fill(colorPalette[activeRowColorIdx]);
 
-    noStroke();
-    let sice = 10;
-    beginShape();
-    // vertex(markerX - 10, markerY + (sice / 2)); // Top right base
-    // vertex(markerX, markerY); // Tip pointing left
-    vertex(markerX, markerY); // Tip pointing left
-    vertex(markerX - sice, markerY - sice); // Top right base
-    vertex(markerX + sice, markerY - sice);
-    vertex(markerX + sice, markerY);// Bottom right base
-    endShape(CLOSE);
+    // Draw the requested elongated ellipse with white outline and thread color fill
+    stroke(255); // White outline
+    strokeWeight(2);
+    fill(colorPalette[activeRowColorIdx]); // Current horizontal thread color
+    ellipse(markerX, markerY, 24, 12); // Horizontally elongated
 
     // 3. Draw Hand-drawn "THREAD Loook" text above sliders
     push();
@@ -1234,7 +1269,7 @@ function drawUI() {
     push();
 
     noStroke();
-    let leftEndX = leftStartX + (GRID_SIZE + 2) * leftCellSize - 350;
+    let leftEndX = leftStartX + (GRID_SIZE + 2) * leftCellSize - 200;
     let centerX = (leftEndX + rightStartX) / 2;
     let centerY = height / 2 + 200; // Positioned centrally in the vertical span
     fill(0);
@@ -1249,75 +1284,20 @@ function drawUI() {
     pop();
 
 
+
+    // Draw Tribute Text
+    push();
+    noStroke();
+    centerY = height / 2 + 450; // Positioned centrally in the vertical span
+
     textAlign(LEFT, TOP);
     fill(205);
     noStroke();
     textFont("Doto");
     textSize(40);
     textLeading(40); // tight vertical spacing for stacked look
-    text("a tribute \nto the \nJacquard \nPunch Cards", centerX, centerY + 240);
+    text("a tribute \nto the \nJacquard \nPunch Cards", centerX, centerY);
     pop();
-
-    // 5. Annotate "Thread Color" row slider above the loom
-    push();
-    fill(200);
-    noStroke();
-    textLeading(16);
-    textAlign(CENTER, BOTTOM);
-    textFont("monospace");
-    textSize(14);
-
-    let colorTextX = leftStartX + (GRID_SIZE + 2) * leftCellSize - 20;
-    let colorTextY = leftStartY + (GRID_SIZE / 2) * leftCellSize - 10 - 340;
-
-    text("thread\ncolor", colorTextX, colorTextY - 15);
-
-    // Draw thick white arrow pointing down
-    noFill();
-    stroke(255);
-    strokeWeight(4);
-    beginShape();
-    bezier(colorTextX, colorTextY - 5, colorTextX - 10, colorTextY + 10, colorTextX - 15, colorTextY + 20, colorTextX - 5, colorTextY + 25);
-    endShape();
-
-    // Arrowhead tip pointing to the color indicators
-    fill(255);
-    noStroke();
-    beginShape();
-    vertex(colorTextX - 5, colorTextY + 30);
-    vertex(colorTextX - 15, colorTextY + 20);
-    vertex(colorTextX, colorTextY + 16);
-    endShape(CLOSE);
-    pop();
-}
-
-function windowResized() {
-    if (!canvas) return; // Prevent resizing before setup completes
-    resizeCanvas(2160, 1620); // enforce canvas size
-
-    let scaleX = windowWidth / 2160;
-    let scaleY = windowHeight / 1620;
-    let s = min(scaleX, scaleY);
-
-    let scaledW = 2160 * s;
-    let scaledH = 1620 * s;
-    let offX = (windowWidth - scaledW) / 2;
-    let offY = (windowHeight - scaledH) / 2;
-
-    canvas.style('left', offX + 'px');
-    canvas.style('top', offY + 'px');
-    canvas.style('width', scaledW + 'px');
-    canvas.style('height', scaledH + 'px');
-    canvas.style('transform', 'none'); // Explicitly remove any transforms so p5.js calculates scrollWidth reliably
-
-    // The HTML DOM inputs still need the affine scale since their internal coords are absolute 2160 math
-    if (uiLayer) {
-        uiLayer.style('transform', `scale(${s})`);
-        uiLayer.style('left', offX + 'px');
-        uiLayer.style('top', offY + 'px');
-    }
-
-    positionUI();
 }
 
 function updatePatternBuffer(patternIndex) {
@@ -1354,34 +1334,65 @@ function updatePatternBuffer(patternIndex) {
     pg.drawingContext.restore();
 }
 
-function drawPatternMiniature(x, y, w, h, patternIndex, cornerRadius) {
+function drawPatternMiniature(x, y, w, h, patternIndex, cornerRadius, transparency) {
     if (patternBuffers[patternIndex]) {
         push();
-        if (cornerRadius) {
-            drawingContext.save();
-            drawingContext.beginPath();
-            drawingContext.moveTo(x + cornerRadius, y);
-            drawingContext.arcTo(x + w, y, x + w, y + h, cornerRadius);
-            drawingContext.arcTo(x + w, y + h, x, y + h, cornerRadius);
-            drawingContext.arcTo(x, y + h, x, y, cornerRadius);
-            drawingContext.arcTo(x, y, x + w, y, cornerRadius);
-            drawingContext.clip();
+        if (transparency !== undefined) {
+            // Using globalAlpha is massively faster than p5 tint()
+            drawingContext.globalAlpha = transparency / 255.0;
         }
+
+        // We removed the redundant drawingContext.clip() operations here because 
+        // the rounded corners are already permanently baked into updatePatternBuffer!
 
         image(patternBuffers[patternIndex], x, y, w, h);
 
-        if (cornerRadius) {
-            drawingContext.restore();
-        }
         pop();
     }
 }
 
-// Master draw function for the complex thread polygon
-function drawTaperedThread(cx, cy, size, threadColor, isHorizontal, isOnTop) {
-    // If the threadColor matches our active HTML pickers visually, make sure we use the active hex string instead of an old cached string
-    // This allows active selection to change the canvas instantly if it hasn't fallen off the loom yet
-    // (This logic is no longer needed since we pull directly from colorPalette indices)
+function windowResized() {
+    if (!canvas) return; // Prevent resizing before setup completes
+    resizeCanvas(2160, 1620); // enforce canvas size
+
+    let scaleX = windowWidth / 2160;
+    let scaleY = windowHeight / 1620;
+    let s = min(scaleX, scaleY);
+
+    let scaledW = 2160 * s;
+    let scaledH = 1620 * s;
+    let offX = (windowWidth - scaledW) / 2;
+    let offY = (windowHeight - scaledH) / 2;
+
+    canvas.style('left', offX + 'px');
+    canvas.style('top', offY + 'px');
+    canvas.style('width', scaledW + 'px');
+    canvas.style('height', scaledH + 'px');
+    canvas.style('transform', 'none'); // Explicitly remove any transforms so p5.js calculates scrollWidth reliably
+
+    // The HTML DOM inputs still need the affine scale since their internal coords are absolute 2160 math
+    if (uiLayer) {
+        uiLayer.style('transform', `scale(${s})`);
+        uiLayer.style('left', offX + 'px');
+        uiLayer.style('top', offY + 'px');
+    }
+
+    positionUI();
+}
+
+// Global cache for thread geometries
+let threadGeometryCache = {};
+
+function getThreadGeometry(size, isOnTop) {
+    // We only use the structural variables (size, isOnTop) for the key.
+    // The rest are global variables controlled by sliders.
+    // If sliders change, they clear `threadGeometryCache` globally.
+    // Using simple strings avoids massive memory profiling hits and GC crashes.
+    let key = (isOnTop ? "T_" : "B_") + Math.round(size * 10);
+
+    if (threadGeometryCache[key]) {
+        return threadGeometryCache[key];
+    }
 
     let maxT = size * (isOnTop ? topThreadCenter : bottomThreadCenter);
     let minT = size * (isOnTop ? topThreadEdge : bottomThreadEdge);
@@ -1451,49 +1462,72 @@ function drawTaperedThread(cx, cy, size, threadColor, isHorizontal, isOnTop) {
 
         return halfMax;
     }
-    fill(threadColor);
-    beginShape();
+
+    let geom = [];
+    for (let i = 0; i < pts.length; i++) {
+        geom.push({ pt: pts[i], hw: getHalfWidth(pts[i]) });
+    }
+
+    threadGeometryCache[key] = geom;
+    return geom;
+}
+
+// Master draw function for the complex thread polygon
+function drawTaperedThread(cx, cy, size, threadColor, isHorizontal, isOnTop) {
+
+    let geom = getThreadGeometry(size, isOnTop);
+
+    drawingContext.fillStyle = threadColor;
+    drawingContext.beginPath();
     if (isHorizontal) {
         // Top edge
-        for (let i = 0; i < pts.length; i++) {
-            vertex(cx + pts[i], cy + size / 2 - getHalfWidth(pts[i]));
+        drawingContext.moveTo(cx + geom[0].pt, cy + size / 2 - geom[0].hw);
+        for (let i = 1; i < geom.length; i++) {
+            drawingContext.lineTo(cx + geom[i].pt, cy + size / 2 - geom[i].hw);
         }
         // Bottom edge
-        for (let i = pts.length - 1; i >= 0; i--) {
-            vertex(cx + pts[i], cy + size / 2 + getHalfWidth(pts[i]));
+        for (let i = geom.length - 1; i >= 0; i--) {
+            drawingContext.lineTo(cx + geom[i].pt, cy + size / 2 + geom[i].hw);
         }
     } else {
         // Left edge
-        for (let i = 0; i < pts.length; i++) {
-            vertex(cx + size / 2 - getHalfWidth(pts[i]), cy + pts[i]);
+        drawingContext.moveTo(cx + size / 2 - geom[0].hw, cy + geom[0].pt);
+        for (let i = 1; i < geom.length; i++) {
+            drawingContext.lineTo(cx + size / 2 - geom[i].hw, cy + geom[i].pt);
         }
         // Right edge
-        for (let i = pts.length - 1; i >= 0; i--) {
-            vertex(cx + size / 2 + getHalfWidth(pts[i]), cy + pts[i]);
+        for (let i = geom.length - 1; i >= 0; i--) {
+            drawingContext.lineTo(cx + size / 2 + geom[i].hw, cy + geom[i].pt);
         }
     }
-    endShape(CLOSE);
+    drawingContext.closePath();
+    drawingContext.fill();
 
     // Draw Drop Shadow
     if (isOnTop) {
-        fill(0, 40);
-        beginShape();
+        drawingContext.fillStyle = '#000000';
+        drawingContext.globalAlpha = 40 / 255.0;
+        drawingContext.beginPath();
         if (isHorizontal) {
-            for (let i = 0; i < pts.length; i++) {
-                vertex(cx + pts[i], cy + size / 2 + getHalfWidth(pts[i]));
+            drawingContext.moveTo(cx + geom[0].pt, cy + size / 2 + geom[0].hw);
+            for (let i = 1; i < geom.length; i++) {
+                drawingContext.lineTo(cx + geom[i].pt, cy + size / 2 + geom[i].hw);
             }
-            for (let i = pts.length - 1; i >= 0; i--) {
-                vertex(cx + pts[i], cy + size / 2 + getHalfWidth(pts[i]) + 2);
+            for (let i = geom.length - 1; i >= 0; i--) {
+                drawingContext.lineTo(cx + geom[i].pt, cy + size / 2 + geom[i].hw + 2);
             }
         } else {
-            for (let i = 0; i < pts.length; i++) {
-                vertex(cx + size / 2 + getHalfWidth(pts[i]), cy + pts[i]);
+            drawingContext.moveTo(cx + size / 2 + geom[0].hw, cy + geom[0].pt);
+            for (let i = 1; i < geom.length; i++) {
+                drawingContext.lineTo(cx + size / 2 + geom[i].hw, cy + geom[i].pt);
             }
-            for (let i = pts.length - 1; i >= 0; i--) {
-                vertex(cx + size / 2 + getHalfWidth(pts[i]) + 2, cy + pts[i]);
+            for (let i = geom.length - 1; i >= 0; i--) {
+                drawingContext.lineTo(cx + size / 2 + geom[i].hw + 2, cy + geom[i].pt);
             }
         }
-        endShape(CLOSE);
+        drawingContext.closePath();
+        drawingContext.fill();
+        drawingContext.globalAlpha = 1.0;
     }
 }
 
@@ -1650,7 +1684,7 @@ function drawPunchCards(startX, startY, cellSize, totalRowsWoven) {
                     let offx = 10;
                     let offy = -190;
                     line(holeX, holeY, holeX + offx, holeY + offy);
-                    line(holeX + offx, holeY + offy, loomX, loomY + 7);
+                    line(holeX + offx, holeY + offy, loomX, loomY);
 
                     // Structural Bar (Horizontal)
                     stroke(200, 150);
@@ -1661,7 +1695,7 @@ function drawPunchCards(startX, startY, cellSize, totalRowsWoven) {
                     noFill();
                     strokeWeight(3.5);
                     stroke(threadColor);
-                    bezier(holeX, holeY, holeX - 100, holeY + 100, loomX, loomY + 400, loomX + 50, loomY + 1000);
+                    bezier(holeX, holeY, holeX - 100, holeY + 100, loomX, loomY + 400, loomX + 50, loomY + 800);
                 }
             }
         }
@@ -1744,8 +1778,8 @@ function drawPunchCards(startX, startY, cellSize, totalRowsWoven) {
                     let threadColor = color(colorPalette[threadColIdx]);
                     threadColor.setAlpha(220); // Up threads are now softer opacity
 
-                    let offx = -160;
-                    let offy = -130;
+                    let offx = -60;
+                    let offy = -140;
 
                     // Structural Bar (Horizontal)
                     stroke(200, 150);
