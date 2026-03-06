@@ -68,6 +68,11 @@ const LAYOUT = {
         y: 100,
         cellSize: 45
     },
+    actionButtons: {
+        anchorX: 'left', anchorY: 'bottom',
+        x: 290, // Match Pattern Bank X for now
+        y: 620  // Moved upwards independently from Pattern Bank
+    },
     patternBank: {
         anchorX: 'left', anchorY: 'bottom',
         x: 150,
@@ -132,7 +137,7 @@ function setup() {
 
     // The p5 canvas MUST be scaled directly rather than placed inside a scaled parent div.
     // Otherwise, p5's internal `mouseX` tracking completely desynchronizes from the DOM.
-    canvas = createCanvas(2160, 1620); // Fixed resolution!
+    canvas = createCanvas(2160, 1620); // Width increased 10% (2160 * 1.1)
     canvas.class('punchkode-bg');
     canvas.style('position', 'absolute');
     canvas.style('transform-origin', 'top left');
@@ -141,7 +146,7 @@ function setup() {
 
     uiLayer = createDiv('');
     uiLayer.style('position', 'absolute');
-    uiLayer.style('width', '2160px');
+    uiLayer.style('width', '2376px'); // Match canvas width
     uiLayer.style('height', '1620px');
     uiLayer.style('transform-origin', 'top left');
     uiLayer.style('pointer-events', 'none'); // Pass clicks to canvas below
@@ -374,6 +379,11 @@ function positionUI() {
     let pCards = resolvePos(LAYOUT.punchcards, cardW, cardH);
     punchStartX = pCards.x;
     punchStartY = pCards.y;
+
+    // 7. Action Buttons layout
+    let pButtons = resolvePos(LAYOUT.actionButtons, 300, 70); // Appx bounds for the 2 rows of buttons
+    LAYOUT.actionButtons.resolvedX = pButtons.x;
+    LAYOUT.actionButtons.resolvedY = pButtons.y;
 }
 
 function applyGridClick(col, row, isClick) {
@@ -442,16 +452,16 @@ function applyGridClick(col, row, isClick) {
 
 function mousePressed() {
     // Check for [Copy], [Paste], [Clear], [Clear All], [Tutorial] button clicks
-    let btnStartY = bankStartY - 85;
+    let btnStartY = LAYOUT.actionButtons.resolvedY;
     let btnW = 70;
     let btnGap = 5;
     let btnH = 30;
 
-    let copyX = bankStartX + 80;
+    let copyX = LAYOUT.actionButtons.resolvedX;
     let pasteX = copyX + btnW + btnGap;
     let clearX = pasteX + btnW + btnGap;
 
-    let clearAllX = bankStartX + 80;
+    let clearAllX = LAYOUT.actionButtons.resolvedX;
     let tutorialX = clearAllX + btnW + btnGap + btnW + btnGap; // span 2 cols to right
 
     let isInBtn = (bx, by, bw = btnW) => mouseX >= bx && mouseX <= bx + bw && mouseY >= by && mouseY <= by + btnH;
@@ -949,16 +959,16 @@ function checkHoverState() {
     let isHoveringHitbox = false;
 
     // 1. Check Copy & Paste & Clear & Reset Buttons
-    let btnStartY = bankStartY - 85;
+    let btnStartY = LAYOUT.actionButtons.resolvedY;
     let btnW = 70;
     let btnGap = 5;
     let btnH = 30;
 
-    let copyX = bankStartX + 80;
+    let copyX = LAYOUT.actionButtons.resolvedX;
     let pasteX = copyX + btnW + btnGap;
     let clearX = pasteX + btnW + btnGap;
 
-    let clearAllX = bankStartX + 80;
+    let clearAllX = LAYOUT.actionButtons.resolvedX;
     let tutorialX = clearAllX + btnW + btnGap + btnW + btnGap;
 
     let isInBtn = (bx, by, bw = btnW) => mouseX >= bx && mouseX <= bx + bw && mouseY >= by && mouseY <= by + btnH;
@@ -1007,16 +1017,16 @@ function drawUI() {
     text("Pattern Bank", bankStartX, bankStartY - 10);
 
     // Draw Copy, Paste, Clear Pattern, Full Reset Buttons
-    let btnStartY = bankStartY - 85;
+    let btnStartY = LAYOUT.actionButtons.resolvedY;
     let btnW = 70;
     let btnGap = 5;
     let btnH = 30;
 
-    let copyX = bankStartX + 80;
+    let copyX = LAYOUT.actionButtons.resolvedX;
     let pasteX = copyX + btnW + btnGap;
     let clearX = pasteX + btnW + btnGap;
 
-    let clearAllX = bankStartX + 80;
+    let clearAllX = LAYOUT.actionButtons.resolvedX;
     let tutorialX = clearAllX + btnW + btnGap + btnW + btnGap; // span 2 cols to right
 
     fill(40); stroke('#555'); strokeWeight(1);
@@ -1122,19 +1132,21 @@ function drawUI() {
             strokeWeight(2);
             noFill();
             rect(bx + 3, by + 3, bankSize - 6, bankSize - 6, 4);
+            drawPatternMiniature(bx, by, bankSize, bankSize, i, 6, 255);
         } else if (isActive) {
             stroke('#fff');
             strokeWeight(3);
             fill(80);
             rect(bx, by, bankSize, bankSize, 6);
+            drawPatternMiniature(bx, by, bankSize, bankSize, i, 6, 255);
         } else if (isCopied) {
+            // It is copied but NOT active. We ONLY want an orange outline over the existing dimmed miniature.
+            // Pass 1 previously drew the dimmed background and miniature, so we don't redraw them here.
             stroke('#ffaa00');
             strokeWeight(2);
-            fill(60);
+            noFill();
             rect(bx, by, bankSize, bankSize, 6);
         }
-
-        drawPatternMiniature(bx, by, bankSize, bankSize, i, 6, 255);
     }
 
     // 1.5 Draw Connectivity Curves from Active Pattern to Cloth Layout Blocks
@@ -1297,6 +1309,40 @@ function drawUI() {
     textSize(40);
     textLeading(40); // tight vertical spacing for stacked look
     text("a tribute \nto the \nJacquard \nPunch Cards", centerX, centerY);
+    pop();
+
+    // 5. Annotate "Thread Color" row slider above the Pattern Editor
+    push();
+    fill(200);
+    noStroke();
+    textLeading(16);
+    textAlign(CENTER, BOTTOM);
+    textFont("monospace");
+    textSize(12);
+
+    // Anchor to the top-right corner of the left-hand Pattern Grid!
+    // The Right col UI (Row Colors) sits exactly at `col === GRID_SIZE`
+    let colorTextX = leftStartX + (GRID_SIZE + 1) * leftCellSize + 30;
+    let colorTextY = leftStartY - 10;
+
+    text("thread\ncolor", colorTextX, colorTextY - 15);
+
+    // Draw thick white arrow pointing down-left into the top right block
+    noFill();
+    stroke(255);
+    strokeWeight(3);
+    beginShape();
+    bezier(colorTextX, colorTextY - 5, colorTextX - 5, colorTextY + 10, colorTextX - 15, colorTextY + 20, colorTextX - 25, colorTextY + 25);
+    endShape();
+
+    // Arrowhead tip pointing directly into the top right thread color bar
+    fill(255);
+    noStroke();
+    beginShape();
+    vertex(colorTextX - 25, colorTextY + 30);
+    vertex(colorTextX - 30, colorTextY + 18);
+    vertex(colorTextX - 18, colorTextY + 18);
+    endShape(CLOSE);
     pop();
 }
 
@@ -1684,7 +1730,7 @@ function drawPunchCards(startX, startY, cellSize, totalRowsWoven) {
                     let offx = 10;
                     let offy = -190;
                     line(holeX, holeY, holeX + offx, holeY + offy);
-                    line(holeX + offx, holeY + offy, loomX, loomY);
+                    line(holeX + offx, holeY + offy, loomX, loomY + 8);
 
                     // Structural Bar (Horizontal)
                     stroke(200, 150);
